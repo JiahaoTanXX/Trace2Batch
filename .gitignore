@@ -1,0 +1,37 @@
+# 本地环境、缓存与编辑器状态
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.pyright/
+.coverage*
+htmlcov/
+.DS_Store
+.idea/
+.vscode/
+
+# 凭据、个人配置与私人材料
+.env*
+.envrc
+.aws/
+.ssh/
+.config/
+.codex/
+.agents/
+.claude/
+.pypirc
+.netrc
+*.pem
+*.key
+*credentials*
+*secrets*
+_private/
+
+# 运行输出，不作为源码发布
+logs/
+outputs/
+artifacts/
+*.log

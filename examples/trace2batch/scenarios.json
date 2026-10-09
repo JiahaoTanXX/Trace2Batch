@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "synthetic": true,
+  "description": "人工构造的已投影 token 事件；不是模型输出、公开训练集或真实训练结果。",
+  "scenarios": [
+    {
+      "id": "single_turn",
+      "description": "单轮有效模型事件",
+      "max_prompt_length": 16, "max_response_length": 16,
+      "events": [
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1, 2], "response_token_ids": [10, 11]}},
+        {"event_type": "reward", "data": {"value": 1}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 1, "policy_tokens": 2, "observation_tokens": 0, "has_reward": 1},
+        "trajectory": {"n_rows": 1, "policy_tokens": 2, "observation_tokens": 0, "has_reward": 1}
+      }
+    },
+    {
+      "id": "continuous_tool",
+      "description": "连续前缀与两枚工具观察 token",
+      "max_prompt_length": 16, "max_response_length": 16,
+      "events": [
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1], "response_token_ids": [10, 11]}},
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1, 10, 11, 90, 91], "response_token_ids": [12]}},
+        {"event_type": "reward", "data": {"value": 1}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 2, "policy_tokens": 3, "observation_tokens": 0, "merge_mismatches": 0},
+        "trajectory": {"n_rows": 1, "policy_tokens": 3, "observation_tokens": 2, "merge_mismatches": 0}
+      }
+    },
+    {
+      "id": "prefix_mismatch",
+      "description": "后续 prompt 前缀不连续，必须分行",
+      "max_prompt_length": 16, "max_response_length": 16,
+      "events": [
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1], "response_token_ids": [10, 11]}},
+        {"event_type": "model_request", "data": {"prompt_token_ids": [2, 90], "response_token_ids": [12]}},
+        {"event_type": "reward", "data": {"value": 1}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 2, "policy_tokens": 3, "merge_mismatches": 0},
+        "trajectory": {"n_rows": 2, "policy_tokens": 3, "merge_mismatches": 1}
+      }
+    },
+    {
+      "id": "three_turn_tool",
+      "description": "三轮连续轨迹与两段工具观察",
+      "max_prompt_length": 16, "max_response_length": 16,
+      "events": [
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1], "response_token_ids": [10]}},
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1, 10, 90], "response_token_ids": [11]}},
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1, 10, 90, 11, 91, 92], "response_token_ids": [12, 13]}},
+        {"event_type": "reward", "data": {"value": 1}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 3, "policy_tokens": 4, "observation_tokens": 0},
+        "trajectory": {"n_rows": 1, "policy_tokens": 4, "observation_tokens": 3}
+      }
+    },
+    {
+      "id": "response_truncated",
+      "description": "相同响应上限下整轨迹截断到工具观察，后续生成 token 被截断",
+      "max_prompt_length": 16, "max_response_length": 3,
+      "events": [
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1], "response_token_ids": [10, 11]}},
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1, 10, 11, 90, 91], "response_token_ids": [12]}},
+        {"event_type": "reward", "data": {"value": 1}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 2, "policy_tokens": 3, "observation_tokens": 0, "truncated_response_rows": 0},
+        "trajectory": {"n_rows": 1, "policy_tokens": 2, "observation_tokens": 1, "truncated_response_rows": 1}
+      }
+    },
+    {
+      "id": "prompt_marked_drop",
+      "description": "过长 prompt 标记丢弃，区分输出行与参考可用行",
+      "max_prompt_length": 2, "max_response_length": 16,
+      "events": [
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1, 2, 3], "response_token_ids": [10]}},
+        {"event_type": "reward", "data": {"value": 1}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 1, "marked_drop_rows": 1, "usable_rows": 0, "usable_policy_tokens": 0},
+        "trajectory": {"n_rows": 1, "marked_drop_rows": 1, "usable_rows": 0, "usable_policy_tokens": 0}
+      },
+      "expected_reason": {"transition": "all_rows_marked_drop", "trajectory": "all_rows_marked_drop"}
+    },
+    {
+      "id": "zero_response_budget",
+      "description": "响应上限为零的边界实验，无 policy token",
+      "max_prompt_length": 16, "max_response_length": 0,
+      "events": [
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1], "response_token_ids": [10]}},
+        {"event_type": "reward", "data": {"value": 1}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 0, "skipped_zero_policy_rows": 1, "truncated_response_rows": 1},
+        "trajectory": {"n_rows": 0, "skipped_zero_policy_rows": 1, "truncated_response_rows": 1}
+      },
+      "expected_reason": {"transition": "no_policy_tokens_after_truncation", "trajectory": "no_policy_tokens_after_truncation"}
+    },
+    {
+      "id": "mixed_requests",
+      "description": "多重错误只计一次，另有一条有效模型事件",
+      "max_prompt_length": 16, "max_response_length": 16,
+      "events": [
+        {"event_type": "model_request", "data": {"status": "error", "http_status": 500, "response_token_ids": []}},
+        {"event_type": "model_request", "data": {"http_status": 503, "response_token_ids": [10]}},
+        {"event_type": "model_request", "data": {"http_status": 200, "response_token_ids": []}},
+        {"event_type": "model_request", "data": {"prompt_token_ids": [2], "response_token_ids": [20, 21]}},
+        {"event_type": "reward", "data": {"value": 0}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 1, "model_requests": 4, "kept_requests": 1, "skipped_status_error": 1, "skipped_http_error": 1, "skipped_empty_response": 1},
+        "trajectory": {"n_rows": 1, "model_requests": 4, "kept_requests": 1, "skipped_status_error": 1, "skipped_http_error": 1, "skipped_empty_response": 1}
+      }
+    },
+    {
+      "id": "all_filtered",
+      "description": "全部模型事件被已有条件过滤，不是响应截断问题",
+      "max_prompt_length": 16, "max_response_length": 16,
+      "events": [
+        {"event_type": "model_request", "data": {"status": "error", "http_status": 500, "response_token_ids": []}},
+        {"event_type": "model_request", "data": {"http_status": 503, "response_token_ids": [10]}},
+        {"event_type": "model_request", "data": {"response_token_ids": []}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 0, "model_requests": 3, "kept_requests": 0, "skipped_zero_policy_rows": 0},
+        "trajectory": {"n_rows": 0, "model_requests": 3, "kept_requests": 0, "skipped_zero_policy_rows": 0}
+      },
+      "expected_reason": {"transition": "all_model_requests_filtered", "trajectory": "all_model_requests_filtered"}
+    },
+    {
+      "id": "missing_reward",
+      "description": "缺失 reward，填零但保持缺失证据",
+      "max_prompt_length": 16, "max_response_length": 16,
+      "events": [
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1], "response_token_ids": [10]}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 1, "has_reward": 0},
+        "trajectory": {"n_rows": 1, "has_reward": 0}
+      }
+    },
+    {
+      "id": "zero_reward",
+      "description": "真实零 reward，不能当作缺失",
+      "max_prompt_length": 16, "max_response_length": 16,
+      "events": [
+        {"event_type": "model_request", "data": {"prompt_token_ids": [1], "response_token_ids": [10]}},
+        {"event_type": "reward", "data": {"value": 0}}
+      ],
+      "expected": {
+        "transition": {"n_rows": 1, "has_reward": 1},
+        "trajectory": {"n_rows": 1, "has_reward": 1}
+      }
+    },
+    {
+      "id": "empty_events",
+      "description": "合成事件列表为空，只报告无模型事件，不推断真实 Agent 行为",
+      "max_prompt_length": 16, "max_response_length": 16,
+      "events": [],
+      "expected": {
+        "transition": {"n_rows": 0, "model_requests": 0, "policy_tokens": 0},
+        "trajectory": {"n_rows": 0, "model_requests": 0, "policy_tokens": 0}
+      },
+      "expected_reason": {"transition": "no_model_requests", "trajectory": "no_model_requests"}
+    }
+  ]
+}
