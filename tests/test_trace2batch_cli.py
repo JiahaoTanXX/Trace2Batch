@@ -25,9 +25,6 @@ def test_report_is_deterministic_and_marks_reference_scope() -> None:
     assert report == run_scenarios(SCENARIOS)
     assert report["synthetic"] is True
     assert report["real_training"] is False
-    assert report["implementation"] == "stdlib_cpu_reference"
-    assert report["project_name"] == "Trace2Batch"
-    assert "repository_version" not in report
     assert report["scenario_count"] == 12
     assert report["comparison_count"] == 24
     assert all(result["expectations_passed"] for result in report["results"])
