@@ -2,14 +2,28 @@
 
 多轮 Agent 轨迹的数据表示与样本构建实验。
 
-这是一个聚焦训练数据语义的个人技术项目：将模型响应、工具观察和奖励事件转换为可检查的样本行，对比逐轮与连续轨迹两种表示，并用固定输入、手算期望和自动化测试验证边界行为。运行仅使用 Python 标准库，不需要 GPU 或外部模型服务。
+Trace2Batch 把模型响应、工具观察和奖励事件转换为可检查的 RL 样本行（prompt / response / policy mask / reward），对比逐轮 `transition` 与连续轨迹 `trajectory` 两种表示。核心逻辑参考 [microsoft/agent-lightning](https://github.com/microsoft/agent-lightning) 的轨迹聚合实现（见下文"与上游的关系"），用 Python 标准库重写为可独立测试的参考实现，不需要 GPU 或外部模型服务。
 
-## 项目工作
+## 与上游的关系
 
-- 实现样本构建模块，将请求过滤、奖励提取、轨迹分组、policy mask 和长度截断组织为可独立运行的数据处理流程。
-- 设计 12 个合成场景，覆盖连续工具调用、前缀不匹配、错误请求、响应截断、过长 prompt、零响应预算及缺失奖励。
-- 实现互斥过滤计数和四类无可用行诊断，区分输出行、标记丢弃行与参考可用行。
-- 编写 51 项自动化测试，验证精确 token/mask 序列、输入不变性、错误期望失败、断网执行和跨进程结果一致性。
+核心算法**不是原创**，参考自 agent-lightning 的 [`agentlightning/verl/rollout_adapter.py`](https://github.com/microsoft/agent-lightning/blob/69f5a40/agentlightning/verl/rollout_adapter.py)（MIT，commit `69f5a40`，2026-10-09）。派生文件保留了 Microsoft 的版权声明并注明来源，见 `LICENSE` 与各文件头。
+
+| Trace2Batch（`trace2batch/core.py`） | 上游 `rollout_adapter.py`（@69f5a40） | 差异 |
+|---|---|---|
+| `build_samples` 内的 `emit()` | `append_training_row()`（约第 455 行） | 上游还处理 log_probs 对齐、padding、routed experts、多模态输入 |
+| `trajectory` 前缀合并 | 第 540–650 行的合并循环，`ids_startswith`（第 46 行） | 逻辑基本一致 |
+| `merge_mismatches` 计数 | `merge_mismatch_rows`（约第 595 行） | 上游会把不匹配样本上传到 wandb；两者都不区分不匹配原因 |
+| 响应与 mask 同步截断 | `response_mask[:response_limit]` | 上游本来就这样做 |
+| `max_total_length` | 同名参数（第 477–478 行） | 语义一致：响应上限取 `min(max_response_length, max_total_length - 截断后 prompt 长度)` |
+| `is_drop` 标记过长 prompt | 同名逻辑 | 一致 |
+| `reward_fillna_value`、零奖励 / 缺失奖励区分 | `_fillna_reward()`（第 896 行）、`sample_with_reward_count` | 语义一致 |
+| `build_batch` 的 rollout 级汇总 | `n_rollouts_w_reward`、`n_unmerged_rollouts` 等指标 | 上游按 `(step, sample_idx)` 排序；这里保持输入顺序 |
+
+**Trace2Batch 自己新增的部分：**
+
+- 请求过滤的互斥计数（状态错误 / HTTP 错误 / 空响应）。上游在更早的 triplet 提取阶段处理这一步，这里把它整理进同一个流程。
+- 四类"无可用行"原因诊断，区分输出行、标记丢弃行与参考可用行。
+- 12 个带手算期望的合成场景，以及输入不变性、断网执行、跨进程确定性等测试。
 
 ## 核心功能
 
@@ -18,9 +32,10 @@
 | 逐轮表示 `transition` | 每次有效模型响应形成一行，生成 token 的 mask 为 1 |
 | 连续轨迹表示 `trajectory` | 按完整 token 前缀合并；前缀不连续时分行 |
 | 工具观察处理 | 保留观察作为上下文，合并响应中的观察 mask 为 0 |
-| 长度边界 | 响应与 mask 同步截断；过长 prompt 截断并标记丢弃 |
+| 长度边界 | 响应与 mask 同步截断；可选 `max_total_length` 总长预算；过长 prompt 截断并标记丢弃 |
+| 批处理 `build_batch` | 多个 rollout 逐个构建，行带 `rollout_id`，rollout 之间不合并，汇总诊断 |
 | 请求过滤 | 按状态错误、HTTP 错误、空响应的优先级互斥计数 |
-| 奖励与诊断 | 提取最后 reward，保留零奖励与缺失奖励的区别，解释无可用行原因 |
+| 奖励与诊断 | 提取最后 reward，保留零奖励与缺失奖励的区别，缺失时按 `reward_fillna_value` 填充 |
 
 ## 实验结果
 
@@ -42,11 +57,12 @@ mask:     [ 1,  0,  1,  0,  0,  1,  1]
 
 实验数据为人工构造的 token 符号，不对应真实 tokenizer 词表。上述结果用于验证数据表示，不作为模型训练效果或性能提升的证据。
 
-## 快速运行
+## 安装与运行
 
-需要 Python >=3.12，在项目根目录执行：
+需要 Python >=3.12。核心模块没有运行时依赖：
 
 ```bash
+pip install -e ".[dev]"
 python -m examples.trace2batch.run
 ```
 
@@ -55,31 +71,26 @@ python -m examples.trace2batch.run
 核心接口：
 
 ```python
-from trace2batch.core import build_samples
+from trace2batch.core import build_batch, build_samples
 
-result = build_samples(
-    [{"event_type": "model_request", "data": {"prompt_token_ids": [1], "response_token_ids": [10, 11]}}],
-    mode="trajectory",
-    max_prompt_length=16,
-    max_response_length=16,
-)
+events = [{"event_type": "model_request", "data": {"prompt_token_ids": [1], "response_token_ids": [10, 11]}}]
+result = build_samples(events, mode="trajectory", max_prompt_length=16, max_response_length=16)
 print(result.summary())
+
+batch = build_batch({"r1": events, "r2": events}, mode="trajectory", max_prompt_length=16, max_response_length=16)
+print([item.rollout_id for item in batch.rows], batch.summary()["n_rollouts"])
 ```
 
-## 测试与技术栈
-
-运行：Python 标准库。开发验证：pytest、Ruff、Pyright。
-
-在已有对应开发工具的环境中执行：
+## 测试
 
 ```bash
-python -m pytest tests -q
+python -m pytest -q
 ruff check .
 ruff format --check .
 pyright
 ```
 
-本地验证：51 项测试通过，格式与类型检查通过；关闭第三方包加载后，固定实验仍可运行。
+需要联网的测试用 `@pytest.mark.network` 标记，默认跳过，`python -m pytest --run-network` 启用。GitHub Actions 在 Python 3.12 / 3.13 上运行上述检查。
 
 ## 目录结构
 
@@ -87,18 +98,24 @@ pyright
 Trace2Batch/
 ├── trace2batch/
 │   ├── __init__.py
-│   └── core.py                 # 样本构建与诊断
+│   └── core.py                 # 样本构建、批处理与诊断
 ├── examples/trace2batch/
 │   ├── run.py                  # 固定实验入口
 │   ├── scenarios.json          # 合成事件与手算期望
 │   └── README.md               # 输入、输出与字段说明
 ├── tests/
 │   ├── test_trace2batch.py      # 核心逻辑与边界测试
+│   ├── test_build_batch.py      # 批处理测试
 │   └── test_trace2batch_cli.py  # 入口、断网与确定性测试
-├── pyproject.toml              # 开发检查配置
-└── LICENSE                     # MIT 许可证
+├── .github/workflows/ci.yml
+├── pyproject.toml
+└── LICENSE                     # MIT
 ```
 
 ## 实现边界
 
-项目实现的是未填充样本的数据处理与参考验证，不包括模型调用、优势/loss 计算、参数更新或部署。现有许可证与源码版权声明予以保留。
+项目实现的是未填充样本的数据处理与参考验证，不包括模型调用、log_probs、padding、优势/loss 计算、参数更新或部署。
+
+## English summary
+
+Trace2Batch is a dependency-free, testable reference reimplementation of the trajectory aggregation logic in microsoft/agent-lightning (`agentlightning/verl/rollout_adapter.py` @ `69f5a40`, MIT). It turns multi-turn agent events into RL sample rows (prompt / response / policy mask / reward) in `transition` or `trajectory` mode, with upstream-compatible `max_total_length` and `reward_fillna_value`, multi-rollout batching, and filter / zero-usable-row diagnostics. The core algorithm is derived from upstream; see the mapping table above for what is new.
