@@ -15,6 +15,7 @@ template_mismatch / retoken_mismatch 恒为 False, others_mismatch 恒为 True�
 from __future__ import annotations
 
 import json
+import re
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from difflib import SequenceMatcher
@@ -72,15 +73,41 @@ def _common_prefix_length(left: str, right: str) -> int:
     return index
 
 
-def _changed_spans(prev_tail: str, next_window: str) -> list[tuple[int, int, int, int]]:
-    """prev 尾部与 next 对应窗口之间的差异区间 (i1, i2, j1, j2)。"""
-    matcher = SequenceMatcher(None, prev_tail, next_window, autojunk=False)
+def _units(text: str, markers: Sequence[str]) -> list[str]:
+    """按模板标记、空白串、单词和单个其他字符切分; 逐字符对齐会把被删的标记拆成碎片错配。"""
+    escaped = "|".join(re.escape(marker) for marker in sorted(markers, key=len, reverse=True))
+    pattern = (f"{escaped}|" if escaped else "") + r"\s+|\w+|."
+    return re.findall(pattern, text, flags=re.DOTALL)
+
+
+def _align_to_unit_start(text: str, index: int, markers: Sequence[str]) -> int:
+    """把分歧字符位置退回到所在模板标记或单词的开头, 例如 "<t|hink>" 退到 "<"。"""
+    for marker in markers:
+        start = text.rfind(marker, max(0, index - len(marker) + 1), index + len(marker) - 1)
+        if start != -1 and start < index < start + len(marker):
+            return start
+    while 0 < index < len(text) and text[index - 1].isalnum() and text[index].isalnum():
+        index -= 1
+    return index
+
+
+def _changed_spans(prev_tail: str, next_window: str, markers: Sequence[str]) -> list[tuple[int, int, int, int]]:
+    """prev 尾部与 next 对应窗口之间的差异区间 (i1, i2, j1, j2), 以字符偏移表示。"""
+    prev_units = _units(prev_tail, markers)
+    next_units = _units(next_window, markers)
+    prev_offsets = [0]
+    for unit in prev_units:
+        prev_offsets.append(prev_offsets[-1] + len(unit))
+    next_offsets = [0]
+    for unit in next_units:
+        next_offsets.append(next_offsets[-1] + len(unit))
+    matcher = SequenceMatcher(None, prev_units, next_units, autojunk=False)
     spans: list[tuple[int, int, int, int]] = []
     for tag, i1, i2, j1, j2 in matcher.get_opcodes():
         # prev 尾部被完全覆盖之后的插入是正常延续(观察 / 生成提示), 不算差异。
-        if tag == "equal" or (tag == "insert" and i1 == len(prev_tail)):
+        if tag == "equal" or (tag == "insert" and i1 == len(prev_units)):
             continue
-        spans.append((i1, i2, j1, j2))
+        spans.append((prev_offsets[i1], prev_offsets[i2], next_offsets[j1], next_offsets[j2]))
     return spans
 
 
@@ -153,15 +180,19 @@ def explain_mismatch(
         return None
     prev_text = decode(prev_ids)
     next_text = decode(next_ids)
-    char_index = _common_prefix_length(prev_text, next_text)
+    common = _common_prefix_length(prev_text, next_text)
 
-    if char_index == len(prev_text):
+    if common == len(prev_text):
+        char_index = common
         kind: MismatchKind = "retoken_mismatch"
         segments: list[tuple[str, str]] = []
     else:
+        char_index = min(
+            _align_to_unit_start(prev_text, common, markers), _align_to_unit_start(next_text, common, markers)
+        )
         prev_tail = prev_text[char_index:]
         next_window = _next_window(prev_tail, next_text, char_index)
-        spans = _changed_spans(prev_tail, next_window)
+        spans = _changed_spans(prev_tail, next_window, markers)
         segments = [(prev_tail[i1:i2], next_window[j1:j2]) for i1, i2, j1, j2 in spans]
         template = all(
             (

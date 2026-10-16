@@ -130,3 +130,13 @@ def test_classifier_attributes_build_samples_mismatch() -> None:
     result = build_samples(events, mode="trajectory", max_prompt_length=64, max_response_length=64)
     assert result.diagnostics["merge_mismatches"] == 1
     assert classify_mismatch(first_prompt + first_response, second_prompt, decode) == "template_mismatch"
+
+
+def test_dropped_think_block_before_tool_call_has_single_segment() -> None:
+    # 逐字符对齐会把 "<think>..." 与后面的 "<tool_call>" 错配成多个碎片, 误判为 others。
+    prev = [*USER, 1, 4, 5, 14, 16, 15, 2]
+    nxt = [*USER, 1, 4, 14, 16, 15, 2, 6, 20, 6, 1, 4, 5, 14]
+    report = explain_mismatch(prev, nxt, decode)
+    assert report is not None
+    assert report.kind == "template_mismatch"
+    assert report.changed_segments == [("<think>\n\n</think>\n\n", "")]
