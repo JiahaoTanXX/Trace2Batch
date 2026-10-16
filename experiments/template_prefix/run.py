@@ -30,20 +30,23 @@ import time
 from collections import Counter
 from collections.abc import Callable, Iterator, Sequence
 from dataclasses import dataclass, field
+from datetime import date
 from pathlib import Path
 from typing import Any
 
 from trace2batch.core import build_samples
-from trace2batch.mismatch import MismatchKind, explain_mismatch
+from trace2batch.mismatch import DEFAULT_TEMPLATE_MARKERS, MismatchKind, explain_mismatch
 
 RESULTS_DIR = Path(__file__).with_name("results")
 # 下载的 tokenizer / 数据分片属于不可信数据, 默认放在独立缓存目录; 必须在导入 huggingface_hub 前设置。
 os.environ.setdefault("HF_HOME", str(Path.home() / ".cache" / "trace2batch-hf"))
 KINDS: tuple[MismatchKind, ...] = ("template_mismatch", "retoken_mismatch", "others_mismatch")
 MODES = ("A_passthrough", "B_vllm_token_ids", "C_retokenized_text")
-# 合成思考内容: 数据集没有独立的思考字段, 只在标注为 synthetic 的 Qwen3 配置中注入。
+# 合成思考内容: 数据集没有独立的思考字段, 只在配置名带 [synthetic] 的配置中注入。
 SYNTHETIC_REASONING = "Let me reason about the next step before acting."
 EXAMPLES_PER_KIND = 3
+# gpt-oss 模板把 strftime_now() 的当前日期写进 system 消息; 固定日期保证结果可复现。
+FIXED_TEMPLATE_DATE = date(2026, 10, 16)
 
 
 @dataclass(frozen=True)
@@ -60,9 +63,16 @@ class TokenizerConfig:
     name: str
     repo: str
     revision: str
+    family: str
+    # 生成在这些标记处停止(包含标记本身); 空表示模板不在助手消息末尾写结束标记。
+    end_markers: tuple[str, ...]
     template_kwargs: dict[str, Any] = field(default_factory=dict)
     synthetic_reasoning: bool = False
     keep_reasoning_in_history: bool = False
+    # DeepSeek-V3.1 模板用字符串拼接工具参数, 需要 JSON 字符串而不是 vLLM 解析出的对象。
+    string_tool_arguments: bool = False
+    # A 直通依赖"每条助手消息渲染一个 <|im_start|>assistant"的 Qwen 结构, 只对 Qwen 计算。
+    passthrough: bool = False
 
 
 DATASETS: tuple[DatasetSpec, ...] = (
@@ -89,13 +99,39 @@ DATASETS: tuple[DatasetSpec, ...] = (
     ),
 )
 
-QWEN25 = ("Qwen/Qwen2.5-7B-Instruct", "a09a35458c702b33eeacc393d103063234e8bc28")
-QWEN3 = ("Qwen/Qwen3-8B", "b968826d9c46dd6066d109eabc6255188de91218")
+QWEN25 = ("Qwen/Qwen2.5-7B-Instruct", "a09a35458c702b33eeacc393d103063234e8bc28", "Qwen")
+QWEN3 = ("Qwen/Qwen3-8B", "b968826d9c46dd6066d109eabc6255188de91218", "Qwen")
+DEEPSEEK = ("deepseek-ai/DeepSeek-V3.1", "c0781d039fb7a1ba2abc4add0bdc293e92d2b8db", "DeepSeek")
+GLM = ("zai-org/GLM-4.5", "cbb2c7cfb52fa128a9660cb1a7a78e017899e115", "GLM")
+GPT_OSS = ("openai/gpt-oss-20b", "6cee5e81ee83917806bbde320786a8fb61efebee", "gpt-oss")
+QWEN_END = ("<|im_end|>",)
 TOKENIZER_CONFIGS: tuple[TokenizerConfig, ...] = (
-    TokenizerConfig("qwen2.5", *QWEN25),
-    TokenizerConfig("qwen3_no_think", *QWEN3, template_kwargs={"enable_thinking": False}),
-    TokenizerConfig("qwen3_think_keep[synthetic]", *QWEN3, synthetic_reasoning=True, keep_reasoning_in_history=True),
-    TokenizerConfig("qwen3_think_drop[synthetic]", *QWEN3, synthetic_reasoning=True, keep_reasoning_in_history=False),
+    TokenizerConfig("qwen2.5", *QWEN25, QWEN_END, passthrough=True),
+    TokenizerConfig("qwen3_no_think", *QWEN3, QWEN_END, template_kwargs={"enable_thinking": False}, passthrough=True),
+    TokenizerConfig(
+        "qwen3_think_keep[synthetic]",
+        *QWEN3,
+        QWEN_END,
+        synthetic_reasoning=True,
+        keep_reasoning_in_history=True,
+        passthrough=True,
+    ),
+    TokenizerConfig(
+        "qwen3_think_drop[synthetic]",
+        *QWEN3,
+        QWEN_END,
+        synthetic_reasoning=True,
+        keep_reasoning_in_history=False,
+        passthrough=True,
+    ),
+    # DeepSeek 的结束 token 本身由全角竖线组成。
+    TokenizerConfig("deepseek_v3.1", *DEEPSEEK, ("<｜end▁of▁sentence｜>",), string_tool_arguments=True),  # noqa: RUF001
+    TokenizerConfig("glm4.5_no_think", *GLM, (), template_kwargs={"enable_thinking": False}),
+    TokenizerConfig("glm4.5_think_keep[synthetic]", *GLM, (), synthetic_reasoning=True, keep_reasoning_in_history=True),
+    TokenizerConfig(
+        "glm4.5_think_drop[synthetic]", *GLM, (), synthetic_reasoning=True, keep_reasoning_in_history=False
+    ),
+    TokenizerConfig("gpt-oss", *GPT_OSS, ("<|return|>", "<|call|>")),
 )
 
 
@@ -238,14 +274,19 @@ class Renderer:
 
         self.config = config
         self.tokenizer = AutoTokenizer.from_pretrained(config.repo, revision=config.revision, trust_remote_code=False)
-        self.eos_id: int = self.tokenizer.convert_tokens_to_ids("<|im_end|>")
+        # 分类器的模板标记: 通用标记 + 该 tokenizer 自己的特殊 / 新增 token。
+        added = [token.content for token in self.tokenizer.added_tokens_decoder.values()]
+        self.markers: tuple[str, ...] = tuple(dict.fromkeys([*DEFAULT_TEMPLATE_MARKERS, *added]))
 
     def render(self, messages: list[dict[str, Any]], tools: Any, *, generation_prompt: bool) -> str:
+        if self.config.string_tool_arguments:
+            messages = [_stringify_tool_arguments(message) for message in messages]
         return self.tokenizer.apply_chat_template(
             messages,
             tools=tools,
             add_generation_prompt=generation_prompt,
             tokenize=False,
+            strftime_now=FIXED_TEMPLATE_DATE.strftime,
             **self.config.template_kwargs,
         )
 
@@ -257,10 +298,37 @@ class Renderer:
         return self.tokenizer.decode(list(ids), skip_special_tokens=False, clean_up_tokenization_spaces=False)
 
 
-def _trim_after_eos(text: str) -> str:
-    """生成在 <|im_end|> 处停止; 模板在其后追加的换行属于下一轮 prompt。"""
-    end = text.find("<|im_end|>")
-    return text if end == -1 else text[: end + len("<|im_end|>")]
+def _stringify_tool_arguments(message: dict[str, Any]) -> dict[str, Any]:
+    calls = message.get("tool_calls")
+    if not calls:
+        return message
+    converted = []
+    for call in calls:
+        arguments = call["function"]["arguments"]
+        if not isinstance(arguments, str):
+            arguments = json.dumps(arguments, ensure_ascii=False)
+        converted.append({**call, "function": {**call["function"], "arguments": arguments}})
+    return {**message, "tool_calls": converted}
+
+
+def _trim_after_end(text: str, end_markers: tuple[str, ...]) -> str:
+    """生成在最早出现的结束标记处停止; 模板在其后追加的内容属于下一轮 prompt。"""
+    ends = [text.find(marker) + len(marker) for marker in end_markers if marker in text]
+    return text[: min(ends)] if ends else text
+
+
+def _generation_text(prompt_text: str, full_text: str, history_text: str) -> str | None:
+    """该助手消息作为最后一条消息时, 模板渲染出的生成部分。
+
+    通常 full_text 以 prompt_text 开头, 生成就是剩余部分。若追加这条消息会改写更早的历史
+    (例如 gpt-oss 在出现最终回答后删除之前工具调用的 analysis), 就用生成提示串最后一次出现的
+    位置定位; 仍无法定位时返回 None。
+    """
+    if full_text.startswith(prompt_text):
+        return full_text[len(prompt_text) :]
+    generation_prompt = prompt_text[len(history_text) :] if prompt_text.startswith(history_text) else ""
+    position = full_text.rfind(generation_prompt) if generation_prompt else -1
+    return full_text[position + len(generation_prompt) :] if position != -1 else None
 
 
 def _text_after_assistant(prompt_text: str, position: int, messages: list[dict[str, Any]]) -> str:
@@ -281,6 +349,7 @@ class TurnBuild:
     events: list[dict[str, Any]]
     generation_not_token_prefix: int = 0
     generation_not_text_prefix: int = 0
+    generation_unresolved: int = 0
 
 
 def build_turn_events(conversation: Conversation, renderer: Renderer, max_turns: int) -> dict[str, TurnBuild]:
@@ -297,7 +366,8 @@ def build_turn_events(conversation: Conversation, renderer: Renderer, max_turns:
         keep = config.synthetic_reasoning and config.keep_reasoning_in_history
         return [with_reasoning(m) if keep and m["role"] == "assistant" else m for m in messages[:end]]
 
-    builds = {mode: TurnBuild(events=[]) for mode in MODES}
+    modes = MODES if config.passthrough else tuple(mode for mode in MODES if mode != "A_passthrough")
+    builds = {mode: TurnBuild(events=[]) for mode in modes}
     passthrough_context: list[int] = []
     for turn, position in enumerate(assistant_positions):
         prompt_text = renderer.render(history(position), conversation.tools, generation_prompt=True)
@@ -305,26 +375,33 @@ def build_turn_events(conversation: Conversation, renderer: Renderer, max_turns:
             [*history(position), with_reasoning(messages[position])], conversation.tools, generation_prompt=False
         )
         not_text_prefix = int(not full_text.startswith(prompt_text))
-        generation_text = _trim_after_eos(full_text[len(prompt_text) :])
+        located = _generation_text(
+            prompt_text,
+            full_text,
+            renderer.render(history(position), conversation.tools, generation_prompt=False) if not_text_prefix else "",
+        )
+        unresolved = int(located is None)
+        generation_text = _trim_after_end(located if located is not None else "", config.end_markers)
 
         prompt_ids = renderer.encode(prompt_text)
         joint = renderer.encode(prompt_text + generation_text)
         not_token_prefix = int(joint[: len(prompt_ids)] != prompt_ids)
         canonical_response = joint[len(prompt_ids) :]
-        if turn == 0:
-            passthrough_prompt = prompt_ids
-        else:
-            # 只对新增消息(上一条助手消息之后的文本)分词, 接在已有 token 后面。
-            passthrough_prompt = passthrough_context + renderer.encode(
-                _text_after_assistant(prompt_text, position, messages)
-            )
-        passthrough_context = passthrough_prompt + canonical_response
-
         per_mode = {
-            "A_passthrough": (passthrough_prompt, canonical_response),
             "B_vllm_token_ids": (prompt_ids, canonical_response),
             "C_retokenized_text": (prompt_ids, renderer.encode(generation_text)),
         }
+        if config.passthrough:
+            if turn == 0:
+                passthrough_prompt = prompt_ids
+            else:
+                # 只对新增消息(上一条助手消息之后的文本)分词, 接在已有 token 后面。
+                passthrough_prompt = passthrough_context + renderer.encode(
+                    _text_after_assistant(prompt_text, position, messages)
+                )
+            passthrough_context = passthrough_prompt + canonical_response
+            per_mode["A_passthrough"] = (passthrough_prompt, canonical_response)
+
         for mode, (prompt, response) in per_mode.items():
             build = builds[mode]
             build.events.append(
@@ -332,6 +409,7 @@ def build_turn_events(conversation: Conversation, renderer: Renderer, max_turns:
             )
             build.generation_not_text_prefix += not_text_prefix
             build.generation_not_token_prefix += not_token_prefix
+            build.generation_unresolved += unresolved
     return builds
 
 
@@ -339,7 +417,9 @@ def build_turn_events(conversation: Conversation, renderer: Renderer, max_turns:
 
 
 def attribute_mismatches(
-    events: list[dict[str, Any]], decode: Callable[[Sequence[int]], str]
+    events: list[dict[str, Any]],
+    decode: Callable[[Sequence[int]], str],
+    markers: Sequence[str] = DEFAULT_TEMPLATE_MARKERS,
 ) -> Iterator[dict[str, Any]]:
     """复现 build_samples 的合并循环, 对每次前缀失败给出原因报告。"""
     context: list[int] | None = None
@@ -347,7 +427,7 @@ def attribute_mismatches(
         prompt = event["data"]["prompt_token_ids"]
         response = event["data"]["response_token_ids"]
         if context is not None and prompt[: len(context)] != context:
-            report = explain_mismatch(context, prompt, decode)
+            report = explain_mismatch(context, prompt, decode, markers=markers)
             assert report is not None
             yield {"turn": turn, **report.__dict__}
         context = prompt + response
@@ -356,17 +436,28 @@ def attribute_mismatches(
 def run_config(
     conversations: list[Conversation], renderer: Renderer, max_turns: int
 ) -> dict[str, tuple[dict[str, Any], dict[str, list[dict[str, Any]]]]]:
-    """对一个 tokenizer 配置跑完所有对话, 返回每种采集方式的汇总与典型案例。"""
-    kinds = {mode: Counter[str]() for mode in MODES}
-    totals = {mode: Counter[str]() for mode in MODES}
-    examples: dict[str, dict[str, list[dict[str, Any]]]] = {mode: {kind: [] for kind in KINDS} for mode in MODES}
+    """对一个 tokenizer 配置跑完所有对话, 返回每种采集方式的汇总与典型案例。
+
+    模板对某条对话渲染报错时(例如工具参数类型不符合模板预期), 该对话计入 render_errors 并跳过。
+    """
+    kinds: dict[str, Counter[str]] = {}
+    totals: dict[str, Counter[str]] = {}
+    examples: dict[str, dict[str, list[dict[str, Any]]]] = {}
+    render_errors: Counter[str] = Counter()
     for conversation in conversations:
-        for mode, built in build_turn_events(conversation, renderer, max_turns).items():
+        try:
+            builds = build_turn_events(conversation, renderer, max_turns)
+        except Exception as error:  # 模板内的 raise_exception / 类型错误
+            render_errors[f"{type(error).__name__}: {str(error)[:120]}"] += 1
+            continue
+        for mode, built in builds.items():
+            kinds.setdefault(mode, Counter())
+            total = totals.setdefault(mode, Counter())
+            mode_examples = examples.setdefault(mode, {kind: [] for kind in KINDS})
             result = build_samples(built.events, mode="trajectory", max_prompt_length=10**9, max_response_length=10**9)
-            reports = list(attribute_mismatches(built.events, renderer.decode))
+            reports = list(attribute_mismatches(built.events, renderer.decode, renderer.markers))
             if len(reports) != result.diagnostics["merge_mismatches"]:
                 raise RuntimeError(f"{conversation.sample_id}: 归因次数与 build_samples 不一致")
-            total = totals[mode]
             total["trajectories"] += 1
             total["turns"] += len(built.events)
             total["merge_attempts"] += max(len(built.events) - 1, 0)
@@ -378,14 +469,17 @@ def run_config(
             total["policy_tokens"] += sum(sum(r.response_mask) for r in result.rows)
             total["generation_not_token_prefix"] += built.generation_not_token_prefix
             total["generation_not_text_prefix"] += built.generation_not_text_prefix
+            total["generation_unresolved"] += built.generation_unresolved
             for report in reports:
                 kinds[mode][report["kind"]] += 1
-                if len(examples[mode][report["kind"]]) < EXAMPLES_PER_KIND:
-                    examples[mode][report["kind"]].append({"sample_id": conversation.sample_id, **report})
+                if len(mode_examples[report["kind"]]) < EXAMPLES_PER_KIND:
+                    mode_examples[report["kind"]].append({"sample_id": conversation.sample_id, **report})
     output: dict[str, tuple[dict[str, Any], dict[str, list[dict[str, Any]]]]] = {}
-    for mode in MODES:
+    for mode in totals:
         summary: dict[str, Any] = dict(totals[mode])
         summary.update({kind: kinds[mode][kind] for kind in KINDS})
+        summary["render_errors"] = sum(render_errors.values())
+        summary["render_error_types"] = dict(render_errors)
         output[mode] = (summary, examples[mode])
     return output
 
