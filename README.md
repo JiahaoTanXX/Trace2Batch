@@ -20,13 +20,26 @@
 
 据此向 microsoft/agent-lightning 提交了 Issue [#645](https://github.com/microsoft/agent-lightning/issues/645)，提议在训练指标中按原因归因合并失败。完整报告见 [REPORT.md](experiments/template_prefix/REPORT.md)。
 
+## 发现二：默认截断会系统性丢掉轨迹尾部
+
+同一批真实轨迹的合并 response 中，**约 80% 是工具观察**，长度预算主要被观察占用。超出预算时，默认的尾部截断恰好丢掉最接近奖励的后期生成。为此新增 `truncation_strategy` 参数（`truncate` / `split_on_budget` / `drop`），并在 72 组长度配置下做了对比（prompt 预算 32,768）：
+
+| 数据集 | response 预算 | policy token 保留率（truncate → split） | 最后一次生成丢失的轨迹（truncate → split） | 代价：行 token 总量 |
+|---|---:|---|---|---:|
+| SWE-smith | 4,096 | 9.4% → **84.7%** | 95.7% → **13.3%** | 8.82× |
+| SWE-smith | 16,384 | 57.2% → **85.3%** | 36.7% → **11.7%** | 1.75× |
+| SWE-agent | 4,096 | 34.9% → **99.6%** | 83.7% → **1.7%** | 7.77× |
+| SWE-agent | 16,384 | 77.8% → **99.7%** | 31.7% → **1.3%** | 1.71× |
+
+`split_on_budget` 基本消除了尾部丢失，但只有在 prompt 预算能容纳轨迹后段完整上下文时才有效：prompt 预算为 8,192 时，它在 response 预算 ≥ 8,192 的设置下与 truncate 持平。`drop` 在所有设置下最差，还会整条丢弃长轨迹。这些只是数据层面的对比，没有做训练验证。详见 [截断实验报告](experiments/truncation/REPORT.md)。
+
 ## 项目亮点
 
 - **不匹配归因器**（`trace2batch/mismatch.py`）：定位第一个分歧 token，把失败归为 `template_mismatch` / `retoken_mismatch` / `others_mismatch` 三类，并输出分歧点前后的文本片段供人工核查。只用 Python 标准库，解码函数以回调注入，可以接入任何 tokenizer。
 - **可复现的实证研究**（`experiments/template_prefix/`）：数据集和 tokenizer 的 revision 全部固定，抽样种子固定，样本 id 落盘，一条命令即可重跑。两次完整运行的合并与归因结果完全一致。归因次数与样本构建的不匹配计数逐条交叉校验。
 - **三种采集方式对照**：token 直通（对照组）、vLLM token id（每轮服务端重渲染）、文本重分词，可以分离模板改写与分词边界两类因素。
-- **样本构建引擎**（`trace2batch/core.py`）：把模型请求、工具观察、奖励事件转成 RL 样本行（prompt / response / policy mask / reward），支持 `transition` 与 `trajectory` 两种表示、多 rollout 批处理、总长预算、缺失奖励填充、请求过滤计数和"无可用行"原因诊断。零运行时依赖。
-- **工程质量**：81 个默认离线测试，加上 2 个使用真实 tokenizer 的联网测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
+- **样本构建引擎**（`trace2batch/core.py`）：把模型请求、工具观察、奖励事件转成 RL 样本行（prompt / response / policy mask / reward），支持 `transition` 与 `trajectory` 两种表示、三种截断策略、多 rollout 批处理、总长预算、缺失奖励填充、请求过滤计数和"无可用行"原因诊断。零运行时依赖。
+- **工程质量**：98 个默认离线测试，加上 2 个使用真实 tokenizer 的联网测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
 
 ## 研究设置一览
 
@@ -57,7 +70,8 @@ pip install -e ".[dev]"
 python -m examples.trace2batch.run            # 12 个带手算期望的合成场景
 
 pip install -e ".[real]"
-python -m experiments.template_prefix.run     # 真实 tokenizer 研究（首次运行会下载 tokenizer 与数据分片）
+python -m experiments.template_prefix.run     # 前缀一致性研究（首次运行会下载 tokenizer 与数据分片）
+python -m experiments.truncation.run          # 截断策略对比
 ```
 
 样本构建：
@@ -92,6 +106,7 @@ print(report.kind, report.changed_segments)
 | 连续轨迹表示 `trajectory` | 按完整 token 前缀合并；前缀不连续时分行 |
 | 工具观察 | 作为上下文保留在合并响应中，mask 为 0 |
 | 长度边界 | 响应与 mask 同步截断；可选 `max_total_length` 总长预算；过长 prompt 截断并标记丢弃 |
+| 截断策略 | `truncate`（默认）/ `split_on_budget`（按轮次边界另起一行）/ `drop`（整行丢弃） |
 | 批处理 `build_batch` | 每行带 `rollout_id`，rollout 之间不合并，汇总 rollout 级诊断 |
 | 奖励 | 取最后一个 reward，区分零奖励与缺失奖励，缺失时按 `reward_fillna_value` 填充 |
 
@@ -121,6 +136,10 @@ Trace2Batch/
 │   ├── run.py                  # 真实 tokenizer 前缀一致性实验
 │   ├── DATA.md / REPORT.md     # 数据说明与研究报告
 │   └── results/                # 结果 JSON、汇总表与样本 id
+├── experiments/truncation/
+│   ├── run.py                  # 截断策略对比实验
+│   ├── REPORT.md               # 截断实验报告
+│   └── results/
 ├── examples/trace2batch/       # 合成场景与手算期望
 ├── tests/                      # 离线测试 + network 测试
 ├── drafts/upstream_issue.md    # 已提交上游 Issue 的原文
@@ -129,7 +148,7 @@ Trace2Batch/
 
 ## English summary
 
-Trace2Batch is a diagnostic toolkit and empirical study of multi-turn agent trajectory data for agentic RL. Using real Qwen2.5 / Qwen3 tokenizers and 900 public agent trajectories, it simulates the OpenAI-compatible proxy + vLLM `return_token_ids` collection path. It shows that with Qwen3 and `enable_thinking=False`, all 11,984 trajectory merge attempts fail, because the chat template drops the empty `<think>` block from history. Training rows then degrade to one per turn, and uncapped token volume grows up to 15.75×. Qwen2.5 merges 100%. The project ships a dependency-free mismatch classifier (template / retoken / others), a reproducible experiment pipeline, and a zero-dependency sample builder. The findings were reported upstream as microsoft/agent-lightning#645.
+Trace2Batch is a diagnostic toolkit and empirical study of multi-turn agent trajectory data for agentic RL. Using real Qwen2.5 / Qwen3 tokenizers and 900 public agent trajectories, it simulates the OpenAI-compatible proxy + vLLM `return_token_ids` collection path. It shows that with Qwen3 and `enable_thinking=False`, all 11,984 trajectory merge attempts fail, because the chat template drops the empty `<think>` block from history. Training rows then degrade to one per turn, and uncapped token volume grows up to 15.75×. Qwen2.5 merges 100%. A second study shows that about 80% of the merged response budget is spent on tool observations, so default tail truncation drops late generations: on SWE-smith at a 4,096-token response budget, policy-token retention is 9.4% and 95.7% of trajectories lose their final generation. A new `split_on_budget` strategy raises retention to 84.7% (99.6% on SWE-agent), at the cost of up to 8.82× row tokens, as long as the prompt budget can hold the late-turn context. The project ships a dependency-free mismatch classifier (template / retoken / others), a reproducible experiment pipeline, and a zero-dependency sample builder. The findings were reported upstream as microsoft/agent-lightning#645.
 
 ## 许可证
 
