@@ -12,10 +12,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 904497,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 5688949,
     "rows": 300,
@@ -37,10 +40,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 904497,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 5688949,
     "rows": 300,
@@ -62,10 +68,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 904497,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 5688949,
     "rows": 300,
@@ -87,10 +96,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 904497,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 5684733,
     "rows": 300,
@@ -158,10 +170,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 5416,
     "others_mismatch": 0,
     "policy_tokens": 904497,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 89554881,
     "rows": 5716,
@@ -229,10 +244,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 5416,
     "others_mismatch": 0,
     "policy_tokens": 904497,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 89554881,
     "rows": 5716,
@@ -254,10 +272,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 984521,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 5741893,
     "rows": 300,
@@ -279,10 +300,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 984521,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 5741893,
     "rows": 300,
@@ -304,10 +328,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 984521,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 5741893,
     "rows": 300,
@@ -329,10 +356,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 984521,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 5741893,
     "rows": 300,
@@ -400,10 +430,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 5416,
     "others_mismatch": 0,
     "policy_tokens": 984521,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 89612041,
     "rows": 5716,
@@ -471,10 +504,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 5416,
     "merge_mismatches": 5416,
     "others_mismatch": 0,
     "policy_tokens": 984521,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 89612041,
     "rows": 5716,
@@ -483,6 +519,378 @@
     "turns": 5716
    },
    "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 917905,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 5733732,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "deepseek_v3.1"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 917905,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 5733732,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "deepseek_v3.1"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 815703,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 5166665,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "glm4.5_no_think"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 815703,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 5166665,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "glm4.5_no_think"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 890011,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 5223525,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "glm4.5_think_keep[synthetic]"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 890011,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 5223525,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "glm4.5_think_keep[synthetic]"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 10155,
+      "kind": "template_mismatch",
+      "next_snippet": "king should be thorough and so it's fine if it's very long.<|assistant|>\n<think></think>\nI'll help you implement the necessary changes to fix the issue with IoT",
+      "prev_snippet": "king should be thorough and so it's fine if it's very long.<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nI'll help you implement",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 1883,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 21742,
+      "kind": "template_mismatch",
+      "next_snippet": "ORMATION_COVERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|assistant|>\n<think></think>\nBased on the PR description, we need to look at the IoT data shadow han",
+      "prev_snippet": "ORMATION_COVERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|assistant|>\n<think>Let me reason about the next step before acting.</think>\nBased on the PR descrip",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 4996,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 33395,
+      "kind": "template_mismatch",
+      "next_snippet": "ckendDict(IoTDataPlaneBackend, \"iot-data\")\n</tool_response><|assistant|>\n<think></think>\nI notice that we're missing an import for `jsondiff` which is used in t",
+      "prev_snippet": "ckendDict(IoTDataPlaneBackend, \"iot-data\")\n</tool_response><|assistant|>\n<think>Let me reason about the next step before acting.</think>\nI notice that we're mis",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 7878,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 5416,
+    "others_mismatch": 0,
+    "policy_tokens": 890011,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 81858276,
+    "rows": 5716,
+    "template_mismatch": 5416,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "glm4.5_think_drop[synthetic]"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 10155,
+      "kind": "template_mismatch",
+      "next_snippet": "king should be thorough and so it's fine if it's very long.<|assistant|>\n<think></think>\nI'll help you implement the necessary changes to fix the issue with IoT",
+      "prev_snippet": "king should be thorough and so it's fine if it's very long.<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nI'll help you implement",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 1883,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 21742,
+      "kind": "template_mismatch",
+      "next_snippet": "ORMATION_COVERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|assistant|>\n<think></think>\nBased on the PR description, we need to look at the IoT data shadow han",
+      "prev_snippet": "ORMATION_COVERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|assistant|>\n<think>Let me reason about the next step before acting.</think>\nBased on the PR descrip",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 4996,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 33395,
+      "kind": "template_mismatch",
+      "next_snippet": "ckendDict(IoTDataPlaneBackend, \"iot-data\")\n</tool_response><|assistant|>\n<think></think>\nI notice that we're missing an import for `jsondiff` which is used in t",
+      "prev_snippet": "ckendDict(IoTDataPlaneBackend, \"iot-data\")\n</tool_response><|assistant|>\n<think>Let me reason about the next step before acting.</think>\nI notice that we're mis",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 7878,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 5416,
+    "others_mismatch": 0,
+    "policy_tokens": 890011,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 81858276,
+    "rows": 5716,
+    "template_mismatch": 5416,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "glm4.5_think_drop[synthetic]"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 13,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 910949,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 5969839,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "gpt-oss"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 13,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 910949,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 5969839,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "gpt-oss"
   },
   {
    "dataset": "toucan_qwen3",
@@ -496,10 +904,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 115073,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 860099,
     "rows": 300,
@@ -521,10 +932,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 115073,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 860099,
     "rows": 300,
@@ -546,10 +960,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 115073,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 860099,
     "rows": 300,
@@ -571,10 +988,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 115072,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 856045,
     "rows": 300,
@@ -642,10 +1062,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 421,
     "others_mismatch": 0,
     "policy_tokens": 115072,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 1497643,
     "rows": 721,
@@ -713,10 +1136,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 421,
     "others_mismatch": 0,
     "policy_tokens": 115072,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 1497643,
     "rows": 721,
@@ -738,10 +1164,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 125166,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 863255,
     "rows": 300,
@@ -763,10 +1192,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 125166,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 863255,
     "rows": 300,
@@ -788,10 +1220,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 125166,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 863255,
     "rows": 300,
@@ -813,10 +1248,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 125166,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 863255,
     "rows": 300,
@@ -884,10 +1322,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 421,
     "others_mismatch": 0,
     "policy_tokens": 125166,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 1504853,
     "rows": 721,
@@ -955,10 +1396,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 421,
     "merge_mismatches": 421,
     "others_mismatch": 0,
     "policy_tokens": 125166,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 1504853,
     "rows": 721,
@@ -967,6 +1411,394 @@
     "turns": 721
    },
    "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 108625,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 518473,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "deepseek_v3.1"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 108625,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 518473,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "deepseek_v3.1"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 299,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 419,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 109652,
+    "render_error_types": {
+     "UndefinedError: 'str object' has no attribute 'items'": 1
+    },
+    "render_errors": 1,
+    "retoken_mismatch": 0,
+    "row_tokens": 780629,
+    "rows": 299,
+    "template_mismatch": 0,
+    "trajectories": 299,
+    "turns": 718
+   },
+   "tokenizer": "glm4.5_no_think"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 299,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 419,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 109652,
+    "render_error_types": {
+     "UndefinedError: 'str object' has no attribute 'items'": 1
+    },
+    "render_errors": 1,
+    "retoken_mismatch": 0,
+    "row_tokens": 780629,
+    "rows": 299,
+    "template_mismatch": 0,
+    "trajectories": 299,
+    "turns": 718
+   },
+   "tokenizer": "glm4.5_no_think"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 299,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 419,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 118986,
+    "render_error_types": {
+     "UndefinedError: 'str object' has no attribute 'items'": 1
+    },
+    "render_errors": 1,
+    "retoken_mismatch": 0,
+    "row_tokens": 787510,
+    "rows": 299,
+    "template_mismatch": 0,
+    "trajectories": 299,
+    "turns": 718
+   },
+   "tokenizer": "glm4.5_think_keep[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 299,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 419,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 118986,
+    "render_error_types": {
+     "UndefinedError: 'str object' has no attribute 'items'": 1
+    },
+    "render_errors": 1,
+    "retoken_mismatch": 0,
+    "row_tokens": 787510,
+    "rows": 299,
+    "template_mismatch": 0,
+    "trajectories": 299,
+    "turns": 718
+   },
+   "tokenizer": "glm4.5_think_keep[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 1606,
+      "kind": "template_mismatch",
+      "next_snippet": "e staying at is near 37.7620 latitude, -119.531 longitude.)<|assistant|>\n<think></think>\n<tool_call>weather-query-server-get_forecast\n<arg_key>latitude</arg_key",
+      "prev_snippet": "e staying at is near 37.7620 latitude, -119.531 longitude.)<|assistant|>\n<think>Let me reason about the next step before acting.</think>\n<tool_call>weather-quer",
+      "sample_id": "5e4b21a0-885b-5cf0-9697-05b24116a47c",
+      "token_index": 377,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 1496,
+      "kind": "template_mismatch",
+      "next_snippet": "rature and wind speed, so I can decide if it's safe to fly?<|assistant|>\n<think></think>\n<tool_call>weather-query-server-get_forecast\n<arg_key>latitude</arg_key",
+      "prev_snippet": "rature and wind speed, so I can decide if it's safe to fly?<|assistant|>\n<think>Let me reason about the next step before acting.</think>\n<tool_call>weather-quer",
+      "sample_id": "c4f19755-79ef-59dc-aa6d-350a03e6a18e",
+      "token_index": 350,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 1129,
+      "kind": "template_mismatch",
+      "next_snippet": "40.7128° N, 74.0060° W) in New York City to show in my app?<|assistant|>\n<think></think>\n<tool_call>weather-forecast-service-get_live_temp\n<arg_key>latitude</ar",
+      "prev_snippet": "40.7128° N, 74.0060° W) in New York City to show in my app?<|assistant|>\n<think>Let me reason about the next step before acting.</think>\n<tool_call>weather-fore",
+      "sample_id": "d0772e91-cc09-510d-a996-4aa59baf633b",
+      "token_index": 267,
+      "turn": 1
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 419,
+    "merge_mismatches": 419,
+    "others_mismatch": 0,
+    "policy_tokens": 118986,
+    "render_error_types": {
+     "UndefinedError: 'str object' has no attribute 'items'": 1
+    },
+    "render_errors": 1,
+    "retoken_mismatch": 0,
+    "row_tokens": 1425708,
+    "rows": 718,
+    "template_mismatch": 419,
+    "trajectories": 299,
+    "turns": 718
+   },
+   "tokenizer": "glm4.5_think_drop[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 1606,
+      "kind": "template_mismatch",
+      "next_snippet": "e staying at is near 37.7620 latitude, -119.531 longitude.)<|assistant|>\n<think></think>\n<tool_call>weather-query-server-get_forecast\n<arg_key>latitude</arg_key",
+      "prev_snippet": "e staying at is near 37.7620 latitude, -119.531 longitude.)<|assistant|>\n<think>Let me reason about the next step before acting.</think>\n<tool_call>weather-quer",
+      "sample_id": "5e4b21a0-885b-5cf0-9697-05b24116a47c",
+      "token_index": 377,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 1496,
+      "kind": "template_mismatch",
+      "next_snippet": "rature and wind speed, so I can decide if it's safe to fly?<|assistant|>\n<think></think>\n<tool_call>weather-query-server-get_forecast\n<arg_key>latitude</arg_key",
+      "prev_snippet": "rature and wind speed, so I can decide if it's safe to fly?<|assistant|>\n<think>Let me reason about the next step before acting.</think>\n<tool_call>weather-quer",
+      "sample_id": "c4f19755-79ef-59dc-aa6d-350a03e6a18e",
+      "token_index": 350,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 1129,
+      "kind": "template_mismatch",
+      "next_snippet": "40.7128° N, 74.0060° W) in New York City to show in my app?<|assistant|>\n<think></think>\n<tool_call>weather-forecast-service-get_live_temp\n<arg_key>latitude</ar",
+      "prev_snippet": "40.7128° N, 74.0060° W) in New York City to show in my app?<|assistant|>\n<think>Let me reason about the next step before acting.</think>\n<tool_call>weather-fore",
+      "sample_id": "d0772e91-cc09-510d-a996-4aa59baf633b",
+      "token_index": 267,
+      "turn": 1
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 419,
+    "merge_mismatches": 419,
+    "others_mismatch": 0,
+    "policy_tokens": 118986,
+    "render_error_types": {
+     "UndefinedError: 'str object' has no attribute 'items'": 1
+    },
+    "render_errors": 1,
+    "retoken_mismatch": 0,
+    "row_tokens": 1425708,
+    "rows": 718,
+    "template_mismatch": 419,
+    "trajectories": 299,
+    "turns": 718
+   },
+   "tokenizer": "glm4.5_think_drop[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 298,
+    "generation_not_text_prefix": 11,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 419,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 109062,
+    "render_error_types": {
+     "TypeError: can only concatenate str (not \"NoneType\") to str": 2
+    },
+    "render_errors": 2,
+    "retoken_mismatch": 0,
+    "row_tokens": 715220,
+    "rows": 298,
+    "template_mismatch": 0,
+    "trajectories": 298,
+    "turns": 717
+   },
+   "tokenizer": "gpt-oss"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 298,
+    "generation_not_text_prefix": 11,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 419,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 109062,
+    "render_error_types": {
+     "TypeError: can only concatenate str (not \"NoneType\") to str": 2
+    },
+    "render_errors": 2,
+    "retoken_mismatch": 0,
+    "row_tokens": 715220,
+    "rows": 298,
+    "template_mismatch": 0,
+    "trajectories": 298,
+    "turns": 717
+   },
+   "tokenizer": "gpt-oss"
   },
   {
    "dataset": "nebius_swe_agent",
@@ -980,10 +1812,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 697126,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 4531698,
     "rows": 300,
@@ -1005,10 +1840,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 697126,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 4531698,
     "rows": 300,
@@ -1030,10 +1868,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 697126,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 4531698,
     "rows": 300,
@@ -1055,10 +1896,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 697126,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 4557486,
     "rows": 300,
@@ -1126,10 +1970,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 6147,
     "others_mismatch": 0,
     "policy_tokens": 697126,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 67229517,
     "rows": 6447,
@@ -1197,10 +2044,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 6147,
     "others_mismatch": 0,
     "policy_tokens": 697126,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 67229517,
     "rows": 6447,
@@ -1222,10 +2072,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 787384,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 4621956,
     "rows": 300,
@@ -1293,10 +2146,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 6147,
     "others_mismatch": 0,
     "policy_tokens": 787384,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 67293987,
     "rows": 6447,
@@ -1364,10 +2220,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 6147,
     "others_mismatch": 0,
     "policy_tokens": 787384,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 67293987,
     "rows": 6447,
@@ -1389,10 +2248,13 @@
     "fully_merged_trajectories": 300,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 0,
     "others_mismatch": 0,
     "policy_tokens": 787384,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 4621956,
     "rows": 300,
@@ -1460,10 +2322,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 6147,
     "others_mismatch": 0,
     "policy_tokens": 787384,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 67293987,
     "rows": 6447,
@@ -1531,10 +2396,13 @@
     "fully_merged_trajectories": 0,
     "generation_not_text_prefix": 0,
     "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
     "merge_attempts": 6147,
     "merge_mismatches": 6147,
     "others_mismatch": 0,
     "policy_tokens": 787384,
+    "render_error_types": {},
+    "render_errors": 0,
     "retoken_mismatch": 0,
     "row_tokens": 67293987,
     "rows": 6447,
@@ -1543,6 +2411,562 @@
     "turns": 6447
    },
    "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 710747,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 4373044,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "deepseek_v3.1"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 710747,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 4373044,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "deepseek_v3.1"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 688564,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 4221992,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "glm4.5_no_think"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 688564,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 4221992,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "glm4.5_no_think"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 9542,
+      "kind": "template_mismatch",
+      "next_snippet": "it.\n\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nTo start addressing the issue, we need to replicate the error described",
+      "prev_snippet": "it.\n\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nTo start addressing the",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2211,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 10226,
+      "kind": "template_mismatch",
+      "next_snippet": "sion\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nSince the `--version` option is not available, we'll need to find anoth",
+      "prev_snippet": "sion\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nSince the `--version` o",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2371,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 12523,
+      "kind": "template_mismatch",
+      "next_snippet": "Type\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nThe error we received is a `TypeError` indicating that `NoneType` was p",
+      "prev_snippet": "Type\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nThe error we received i",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3019,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 772375,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 63077439,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "glm4.5_think_keep[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 9542,
+      "kind": "template_mismatch",
+      "next_snippet": "it.\n\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nTo start addressing the issue, we need to replicate the error described",
+      "prev_snippet": "it.\n\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nTo start addressing the",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2211,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 10226,
+      "kind": "template_mismatch",
+      "next_snippet": "sion\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nSince the `--version` option is not available, we'll need to find anoth",
+      "prev_snippet": "sion\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nSince the `--version` o",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2371,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 12523,
+      "kind": "template_mismatch",
+      "next_snippet": "Type\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nThe error we received is a `TypeError` indicating that `NoneType` was p",
+      "prev_snippet": "Type\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nThe error we received i",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3019,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 772375,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 63077439,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "glm4.5_think_keep[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 9542,
+      "kind": "template_mismatch",
+      "next_snippet": "it.\n\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nTo start addressing the issue, we need to replicate the error described",
+      "prev_snippet": "it.\n\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nTo start addressing the",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2211,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 10226,
+      "kind": "template_mismatch",
+      "next_snippet": "sion\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nSince the `--version` option is not available, we'll need to find anoth",
+      "prev_snippet": "sion\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nSince the `--version` o",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2371,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 12523,
+      "kind": "template_mismatch",
+      "next_snippet": "Type\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nThe error we received is a `TypeError` indicating that `NoneType` was p",
+      "prev_snippet": "Type\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nThe error we received i",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3019,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 772375,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 63077439,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "glm4.5_think_drop[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 9542,
+      "kind": "template_mismatch",
+      "next_snippet": "it.\n\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nTo start addressing the issue, we need to replicate the error described",
+      "prev_snippet": "it.\n\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nTo start addressing the",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2211,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 10226,
+      "kind": "template_mismatch",
+      "next_snippet": "sion\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nSince the `--version` option is not available, we'll need to find anoth",
+      "prev_snippet": "sion\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nSince the `--version` o",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2371,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "Let me reason about the next step before acting.",
+        ""
+       ]
+      ],
+      "char_index": 12523,
+      "kind": "template_mismatch",
+      "next_snippet": "Type\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think></think>\nThe error we received is a `TypeError` indicating that `NoneType` was p",
+      "prev_snippet": "Type\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|assistant|>\n<think>Let me reason about the next step before acting.</think>\nThe error we received i",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3019,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 772375,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 63077439,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "glm4.5_think_drop[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<|return|>",
+        "<|end|><|start|>user<|message|>Error: no such option: --version\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|end|><|start|>assistant"
+       ]
+      ],
+      "char_index": 10430,
+      "kind": "template_mismatch",
+      "next_snippet": "he available versions of `skipper` in our environment.\n```\nskipper --version\n```<|end|><|start|>user<|message|>Error: no such option: --version\n\n(Open file: n/a",
+      "prev_snippet": "he available versions of `skipper` in our environment.\n```\nskipper --version\n```<|return|>",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2387,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<|return|>",
+        "<|end|><|start|>user<|message|>Traceback (most recent call last):\n  File \"/opt/conda/envs/skipper/bin/skipper\", line 10, in <module>\n    sys.exit(main())\n  File \"/skipper/skipper/main.py\", line 12, in main\n    return_code = cli.cli(\n  File \"/opt/conda/envs/skipper/l"
+       ]
+      ],
+      "char_index": 11069,
+      "kind": "template_mismatch",
+      "next_snippet": "nd see if we get the same error as described in the issue.\n```\nskipper build\n```<|end|><|start|>user<|message|>Traceback (most recent call last):\n  File \"/opt/c",
+      "prev_snippet": "nd see if we get the same error as described in the issue.\n```\nskipper build\n```<|return|>",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2525,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<|return|>",
+        "<|end|><|start|>user<|message|>[File: /skipper/skipper/cli.py (485 lines total)]\n(81 more lines above)\n82:    ctx.obj['container_context'] = ctx.default_map.get('container_context')\n83:    utils.set_remote_registry_login_info(registry, ctx.obj)\n84:\n85:\n86:@cli.comma"
+       ]
+      ],
+      "char_index": 13676,
+      "kind": "template_mismatch",
+      "next_snippet": "navigate to line 97, where the error originates.\n\n```\nopen skipper/cli.py 97\n```<|end|><|start|>user<|message|>[File: /skipper/skipper/cli.py (485 lines total)]",
+      "prev_snippet": "navigate to line 97, where the error originates.\n\n```\nopen skipper/cli.py 97\n```<|return|>",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3243,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 700527,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 62957314,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "gpt-oss"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<|return|>",
+        "<|end|><|start|>user<|message|>Error: no such option: --version\n\n(Open file: n/a)\n(Current directory: /skipper)\nbash-$<|end|><|start|>assistant"
+       ]
+      ],
+      "char_index": 10430,
+      "kind": "template_mismatch",
+      "next_snippet": "he available versions of `skipper` in our environment.\n```\nskipper --version\n```<|end|><|start|>user<|message|>Error: no such option: --version\n\n(Open file: n/a",
+      "prev_snippet": "he available versions of `skipper` in our environment.\n```\nskipper --version\n```<|return|>",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2387,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<|return|>",
+        "<|end|><|start|>user<|message|>Traceback (most recent call last):\n  File \"/opt/conda/envs/skipper/bin/skipper\", line 10, in <module>\n    sys.exit(main())\n  File \"/skipper/skipper/main.py\", line 12, in main\n    return_code = cli.cli(\n  File \"/opt/conda/envs/skipper/l"
+       ]
+      ],
+      "char_index": 11069,
+      "kind": "template_mismatch",
+      "next_snippet": "nd see if we get the same error as described in the issue.\n```\nskipper build\n```<|end|><|start|>user<|message|>Traceback (most recent call last):\n  File \"/opt/c",
+      "prev_snippet": "nd see if we get the same error as described in the issue.\n```\nskipper build\n```<|return|>",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2525,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<|return|>",
+        "<|end|><|start|>user<|message|>[File: /skipper/skipper/cli.py (485 lines total)]\n(81 more lines above)\n82:    ctx.obj['container_context'] = ctx.default_map.get('container_context')\n83:    utils.set_remote_registry_login_info(registry, ctx.obj)\n84:\n85:\n86:@cli.comma"
+       ]
+      ],
+      "char_index": 13676,
+      "kind": "template_mismatch",
+      "next_snippet": "navigate to line 97, where the error originates.\n\n```\nopen skipper/cli.py 97\n```<|end|><|start|>user<|message|>[File: /skipper/skipper/cli.py (485 lines total)]",
+      "prev_snippet": "navigate to line 97, where the error originates.\n\n```\nopen skipper/cli.py 97\n```<|return|>",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3243,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "generation_unresolved": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 700527,
+    "render_error_types": {},
+    "render_errors": 0,
+    "retoken_mismatch": 0,
+    "row_tokens": 62957314,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "gpt-oss"
   }
  ],
  "schema_version": 1,
@@ -1576,37 +3000,128 @@
   "synthetic_reasoning": "Let me reason about the next step before acting.",
   "tokenizers": [
    {
+    "end_markers": [
+     "<|im_end|>"
+    ],
+    "family": "Qwen",
     "keep_reasoning_in_history": false,
     "name": "qwen2.5",
+    "passthrough": true,
     "repo": "Qwen/Qwen2.5-7B-Instruct",
     "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "string_tool_arguments": false,
     "synthetic_reasoning": false,
     "template_kwargs": {}
    },
    {
+    "end_markers": [
+     "<|im_end|>"
+    ],
+    "family": "Qwen",
     "keep_reasoning_in_history": false,
     "name": "qwen3_no_think",
+    "passthrough": true,
     "repo": "Qwen/Qwen3-8B",
     "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "string_tool_arguments": false,
     "synthetic_reasoning": false,
     "template_kwargs": {
      "enable_thinking": false
     }
    },
    {
+    "end_markers": [
+     "<|im_end|>"
+    ],
+    "family": "Qwen",
     "keep_reasoning_in_history": true,
     "name": "qwen3_think_keep[synthetic]",
+    "passthrough": true,
     "repo": "Qwen/Qwen3-8B",
     "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "string_tool_arguments": false,
     "synthetic_reasoning": true,
     "template_kwargs": {}
    },
    {
+    "end_markers": [
+     "<|im_end|>"
+    ],
+    "family": "Qwen",
     "keep_reasoning_in_history": false,
     "name": "qwen3_think_drop[synthetic]",
+    "passthrough": true,
     "repo": "Qwen/Qwen3-8B",
     "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "string_tool_arguments": false,
     "synthetic_reasoning": true,
+    "template_kwargs": {}
+   },
+   {
+    "end_markers": [
+     "<｜end▁of▁sentence｜>"
+    ],
+    "family": "DeepSeek",
+    "keep_reasoning_in_history": false,
+    "name": "deepseek_v3.1",
+    "passthrough": false,
+    "repo": "deepseek-ai/DeepSeek-V3.1",
+    "revision": "c0781d039fb7a1ba2abc4add0bdc293e92d2b8db",
+    "string_tool_arguments": true,
+    "synthetic_reasoning": false,
+    "template_kwargs": {}
+   },
+   {
+    "end_markers": [],
+    "family": "GLM",
+    "keep_reasoning_in_history": false,
+    "name": "glm4.5_no_think",
+    "passthrough": false,
+    "repo": "zai-org/GLM-4.5",
+    "revision": "cbb2c7cfb52fa128a9660cb1a7a78e017899e115",
+    "string_tool_arguments": false,
+    "synthetic_reasoning": false,
+    "template_kwargs": {
+     "enable_thinking": false
+    }
+   },
+   {
+    "end_markers": [],
+    "family": "GLM",
+    "keep_reasoning_in_history": true,
+    "name": "glm4.5_think_keep[synthetic]",
+    "passthrough": false,
+    "repo": "zai-org/GLM-4.5",
+    "revision": "cbb2c7cfb52fa128a9660cb1a7a78e017899e115",
+    "string_tool_arguments": false,
+    "synthetic_reasoning": true,
+    "template_kwargs": {}
+   },
+   {
+    "end_markers": [],
+    "family": "GLM",
+    "keep_reasoning_in_history": false,
+    "name": "glm4.5_think_drop[synthetic]",
+    "passthrough": false,
+    "repo": "zai-org/GLM-4.5",
+    "revision": "cbb2c7cfb52fa128a9660cb1a7a78e017899e115",
+    "string_tool_arguments": false,
+    "synthetic_reasoning": true,
+    "template_kwargs": {}
+   },
+   {
+    "end_markers": [
+     "<|return|>",
+     "<|call|>"
+    ],
+    "family": "gpt-oss",
+    "keep_reasoning_in_history": false,
+    "name": "gpt-oss",
+    "passthrough": false,
+    "repo": "openai/gpt-oss-20b",
+    "revision": "6cee5e81ee83917806bbde320786a8fb61efebee",
+    "string_tool_arguments": false,
+    "synthetic_reasoning": false,
     "template_kwargs": {}
    }
   ],

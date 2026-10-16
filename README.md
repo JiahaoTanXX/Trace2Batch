@@ -6,17 +6,23 @@
 
 ## 核心发现
 
-用真实的 Qwen2.5 / Qwen3 tokenizer、3 个公开 Agent 轨迹数据集的 900 条轨迹，模拟"OpenAI 兼容代理 + vLLM `return_token_ids`"这条常见的采集链路，每种配置跑 11,984 次合并尝试：
+用 **4 个模型家族**（Qwen、DeepSeek、GLM、gpt-oss）的 5 个真实 tokenizer、9 种模板配置，以及 3 个公开 Agent 轨迹数据集的 900 条轨迹，模拟"OpenAI 兼容代理 + vLLM `return_token_ids`"这条常见的采集链路，共 107,848 次合并尝试：
 
-| 发现 | 数据 |
-|---|---|
-| Qwen3 关闭思考模式（`enable_thinking=False`），轨迹合并**全部失败** | 11,984 / 11,984 次失败，合并成功率 **0%** |
-| 失败根因定位到模板：历史轮次里的空 `<think>` 块被模板删除 | 全部失败归因为 `template_mismatch`，差异片段逐条可查 |
-| 合并失败后，每行都要重复携带完整历史 | 不截断时行内 token 总量膨胀 **15.75×**（SWE-smith）/ **14.75×**（SWE-agent）/ **1.75×**（Toucan） |
-| 即使回传 `reasoning_content`，工具观察以 `user` 角色返回时仍然全部失败 | nebius SWE-agent 数据集 6,147 / 6,147 次失败 |
-| 同样的数据换成 Qwen2.5 模板 | 3 个数据集 **100%** 合并 |
+| 配置 | SWE-smith | Toucan | SWE-agent（nebius） | 失败根因 |
+|---|---|---|---|---|
+| Qwen2.5 / DeepSeek-V3.1 / GLM-4.5 关闭思考 | 100% | 100% | 100% | —（前缀稳定的模板） |
+| **Qwen3 关闭思考** | **0%** | **0%** | **0%** | 历史中删除空 `<think>` 块 |
+| Qwen3 / GLM-4.5 思考，回传 reasoning [合成] | 100% | 100% | **0%** | 工具观察以 `user` 角色出现，历史思考仍被删除或清空 |
+| Qwen3 / GLM-4.5 思考，不回传 reasoning [合成] | **0%** | **0%** | **0%** | 历史中思考被删除或清空 |
+| **gpt-oss** | 100% | 100% | **0%** | 生成结束 token `<|return|>` 在历史中变为 `<|end|>` |
 
-结论：`trajectory` 聚合能否生效，取决于"模板配置 × 思考内容是否回传 × 工具观察的消息角色"这三者的组合，而不是数据本身。配置不对时，训练数据会退化成逐轮样本，而现有指标只记录失败次数，不给出原因。
+（表中为合并成功率。）
+
+- 54,391 次合并失败**全部被归因为 `template_mismatch`**，差异片段逐条可查。
+- 合并失败时，每一轮都失败，样本退化成逐轮，每行都要重复携带完整历史。不截断时，行内 token 总量膨胀 **15.75×**（SWE-smith）、**14.75×**（SWE-agent）、**1.75×**（Toucan）（Qwen3 关闭思考，对照组为 token 直通）。
+- 渲染时还发现模板对数据格式很脆弱：gpt-oss 模板遇到 `description` 为 `null` 的工具定义会报错，GLM-4.5 模板遇到不合法的 JSON 参数会报错；gpt-oss 每条消息只渲染第一个工具调用。
+
+结论：`trajectory` 聚合能否生效，取决于"模板 × 思考内容是否回传 × 工具观察的消息角色 × 是否出现最终回答"的组合，而不是数据本身。配置不对时，训练数据会退化成逐轮样本，而现有指标只记录失败次数，不给出原因。
 
 据此向 microsoft/agent-lightning 提交了 Issue [#645](https://github.com/microsoft/agent-lightning/issues/645)，提议在训练指标中按原因归因合并失败。完整报告见 [REPORT.md](experiments/template_prefix/REPORT.md)。
 
@@ -42,19 +48,19 @@
 ## 项目亮点
 
 - **不匹配归因器**（`trace2batch/mismatch.py`）：定位第一个分歧 token，把失败归为 `template_mismatch` / `retoken_mismatch` / `others_mismatch` 三类，并输出分歧点前后的文本片段供人工核查。只用 Python 标准库，解码函数以回调注入，可以接入任何 tokenizer。
-- **可复现的实证研究**（`experiments/template_prefix/`）：数据集和 tokenizer 的 revision 全部固定，抽样种子固定，样本 id 落盘，一条命令即可重跑。两次完整运行的合并与归因结果完全一致。归因次数与样本构建的不匹配计数逐条交叉校验。
+- **可复现的实证研究**（`experiments/template_prefix/`）：数据集和 tokenizer 的 revision 全部固定，抽样种子固定，样本 id 落盘，一条命令即可重跑。重复运行的合并与归因结果完全一致。归因次数与样本构建的不匹配计数逐条交叉校验。
 - **三种采集方式对照**：token 直通（对照组）、vLLM token id（每轮服务端重渲染）、文本重分词，可以分离模板改写与分词边界两类因素。
 - **样本构建引擎**（`trace2batch/core.py`）：把模型请求、工具观察、奖励事件转成 RL 样本行（prompt / response / policy mask / reward），支持 `transition` 与 `trajectory` 两种表示、三种截断策略、多 rollout 批处理、总长预算、缺失奖励填充、请求过滤计数和"无可用行"原因诊断。零运行时依赖。
-- **工程质量**：98 个默认离线测试，加上 2 个使用真实 tokenizer 的联网测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
+- **工程质量**：103 个默认离线测试，加上 3 个使用真实 tokenizer 的联网测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
 
 ## 研究设置一览
 
 | 维度 | 内容 |
 |---|---|
 | 数据 | SWE-smith（结构化工具调用）、Toucan-1.5M Qwen3 子集（MCP 工具调用）、nebius SWE-agent（文本动作），各 300 条 |
-| Tokenizer | Qwen2.5-7B-Instruct；Qwen3-8B 分 3 种思考配置（其中 2 种注入合成思考内容，已明确标注） |
+| Tokenizer | Qwen2.5-7B-Instruct、Qwen3-8B、DeepSeek-V3.1、GLM-4.5、gpt-oss-20b，共 9 种配置（含合成思考内容的配置已明确标注） |
 | 采集方式 | A token 直通 / B vLLM token id / C 文本重分词 |
-| 规模 | 36 个实验单元，每种 tokenizer 配置 11,984 次合并尝试 |
+| 规模 | 66 个实验单元，每种配置约 11,984 次合并尝试，共 107,848 次 |
 | 资源 | 纯 CPU，只下载 tokenizer 文件，不需要模型权重 |
 
 典型分歧片段（Qwen3，`enable_thinking=False`）：
@@ -65,7 +71,7 @@
 归因: template_mismatch，差异 = 删除 "<think>\n\n</think>\n\n"
 ```
 
-已知局限：没有真实模型采样，所以测不到非规范 token 切分引起的重分词问题；只覆盖 Qwen 系模板。详见报告第 6 节。
+已知局限：没有真实模型采样，所以测不到非规范 token 切分引起的重分词问题；没有覆盖 Llama、Mistral 等家族。详见报告第 6 节。
 
 ## 快速开始
 
@@ -154,7 +160,7 @@ Trace2Batch/
 
 ## English summary
 
-Trace2Batch is a diagnostic toolkit and empirical study of multi-turn agent trajectory data for agentic RL. Using real Qwen2.5 / Qwen3 tokenizers and 900 public agent trajectories, it simulates the OpenAI-compatible proxy + vLLM `return_token_ids` collection path. It shows that with Qwen3 and `enable_thinking=False`, all 11,984 trajectory merge attempts fail, because the chat template drops the empty `<think>` block from history. Training rows then degrade to one per turn, and uncapped token volume grows up to 15.75×. Qwen2.5 merges 100%. A second study shows that about 80% of the merged response budget is spent on tool observations, and that the binding constraint is the per-row total length. At the same total length, allocating the prompt/response budget dynamically instead of splitting it in half raises policy-token retention under default truncation from 26.3% to 54.6% on SWE-smith (16k total). Splitting at turn boundaries never retains more policy tokens at equal total length, and 62.6%–67.7% of its token overhead is shared prefix. The project ships a dependency-free mismatch classifier (template / retoken / others), a reproducible experiment pipeline, and a zero-dependency sample builder. The findings were reported upstream as microsoft/agent-lightning#645.
+Trace2Batch is a diagnostic toolkit and empirical study of multi-turn agent trajectory data for agentic RL. Using 5 real tokenizers from 4 model families (Qwen, DeepSeek, GLM, gpt-oss; 9 template configurations) and 900 public agent trajectories, it simulates the OpenAI-compatible proxy + vLLM `return_token_ids` collection path over 107,848 merge attempts. All 54,391 failures are attributed to chat-template rewrites: Qwen3 with `enable_thinking=False` drops the empty `<think>` block from history (0% merged), Qwen3/GLM-4.5 thinking modes lose history reasoning unless it is sent back and observations use the `tool` role, and gpt-oss rewrites `<|return|>` to `<|end|>` after a final answer. Qwen2.5, DeepSeek-V3.1 and GLM-4.5 without thinking merge 100%. When merging fails, rows degrade to one per turn and uncapped token volume grows up to 15.75×. A second study shows that about 80% of the merged response budget is spent on tool observations, and that the binding constraint is the per-row total length. At the same total length, allocating the prompt/response budget dynamically instead of splitting it in half raises policy-token retention under default truncation from 26.3% to 54.6% on SWE-smith (16k total). Splitting at turn boundaries never retains more policy tokens at equal total length, and 62.6%–67.7% of its token overhead is shared prefix. The project ships a dependency-free mismatch classifier (template / retoken / others), a reproducible experiment pipeline, and a zero-dependency sample builder. The findings were reported upstream as microsoft/agent-lightning#645.
 
 ## 许可证
 

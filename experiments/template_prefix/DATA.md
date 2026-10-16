@@ -29,6 +29,20 @@
 |---|---|---|---|
 | [Qwen/Qwen2.5-7B-Instruct](https://huggingface.co/Qwen/Qwen2.5-7B-Instruct) | `a09a35458c702b33eeacc393d103063234e8bc28` | Apache-2.0 | `qwen2.5` |
 | [Qwen/Qwen3-8B](https://huggingface.co/Qwen/Qwen3-8B) | `b968826d9c46dd6066d109eabc6255188de91218` | Apache-2.0 | `qwen3_no_think`（`enable_thinking=False`）、`qwen3_think_keep[synthetic]`、`qwen3_think_drop[synthetic]` |
+| [deepseek-ai/DeepSeek-V3.1](https://huggingface.co/deepseek-ai/DeepSeek-V3.1) | `c0781d039fb7a1ba2abc4add0bdc293e92d2b8db` | MIT | `deepseek_v3.1`（默认非思考模式） |
+| [zai-org/GLM-4.5](https://huggingface.co/zai-org/GLM-4.5) | `cbb2c7cfb52fa128a9660cb1a7a78e017899e115` | MIT | `glm4.5_no_think`（`enable_thinking=False`）、`glm4.5_think_keep[synthetic]`、`glm4.5_think_drop[synthetic]` |
+| [openai/gpt-oss-20b](https://huggingface.co/openai/gpt-oss-20b) | `6cee5e81ee83917806bbde320786a8fb61efebee` | Apache-2.0 | `gpt-oss`（默认 `reasoning_effort=medium`） |
+
+各家族的处理细节：
+
+- **结束标记**（生成在此停止，并包含该标记）：Qwen 为 `<|im_end|>`；DeepSeek 为 `<｜end▁of▁sentence｜>`；gpt-oss 为 `<|return|>` 或 `<|call|>`；GLM 的助手消息末尾没有结束标记。
+- **DeepSeek-V3.1**：模板用字符串拼接工具参数，所以对它传 JSON 字符串，其余家族传 vLLM 解析出的对象。该模板**不渲染 `tools` 定义**，所以 Toucan 上的 prompt 明显更短。
+- **gpt-oss**：模板会把 `strftime_now()` 的当前日期写进 system 消息，实验中固定为 2026-10-16。追加一条最终回答会让更早工具调用的 analysis 被删掉，此时按生成提示串 `<|start|>assistant` 定位生成部分。模板每条消息只渲染第一个工具调用，Toucan 中被合并的并行调用只保留第一个。这只影响数据完整性，不影响前缀一致性。
+- **A 直通**依赖 Qwen 模板"每条助手消息渲染一个 `<|im_start|>assistant`"的结构，只对 Qwen 计算；其余家族只计算 B 和 C。
+- **归因器的模板标记**：通用标记加上各 tokenizer 自己的全部特殊 / 新增 token。
+- **模板渲染报错的对话会被跳过**，计入 `render_errors`，本身也是模板兼容性问题：
+  - gpt-oss 有 2 条 Toucan 对话报错：工具定义的 `description` 为 `null`，模板拼接字符串时出错。
+  - GLM-4.5 有 1 条 Toucan 对话报错：工具参数不是合法 JSON（含 `24 * 30` 这样的表达式），无法解析成对象，而模板要求参数是对象。
 
 运行环境：Python 3.12.13、transformers 5.20.0、tokenizers 0.23.3，没有安装 PyTorch。
 
