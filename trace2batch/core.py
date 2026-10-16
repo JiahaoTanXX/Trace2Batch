@@ -192,3 +192,79 @@ def build_samples(
         else:
             reason = "all_rows_marked_drop"
     return BuildResult(mode, rows, counters, final_reward, reason)
+
+
+@dataclass(frozen=True)
+class BatchRow:
+    """带来源 rollout_id 的样本行。"""
+
+    rollout_id: str
+    row: SampleRow
+
+
+@dataclass(frozen=True)
+class BatchResult:
+    """多个 rollout 的行(按输入顺序)、逐 rollout 结果与汇总诊断。"""
+
+    mode: str
+    rows: list[BatchRow]
+    per_rollout: dict[str, BuildResult]
+
+    def summary(self) -> dict[str, int]:
+        """逐 rollout 的 summary 求和, 再加 rollout 级计数; 对应上游 n_rollouts_w_reward 等指标。"""
+        totals: dict[str, int] = {}
+        for result in self.per_rollout.values():
+            for key, value in result.summary().items():
+                totals[key] = totals.get(key, 0) + value
+        totals.pop("has_reward", None)
+        results = list(self.per_rollout.values())
+        return {
+            **totals,
+            "n_rollouts": len(results),
+            "rollouts_with_reward": sum(result.final_reward is not None for result in results),
+            "rollouts_without_usable_rows": sum(result.zero_usable_rows_reason is not None for result in results),
+            "unmerged_rollouts": sum(
+                result.mode == "trajectory" and result.diagnostics["merge_mismatches"] > 0 for result in results
+            ),
+        }
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "mode": self.mode,
+            "rows": [{"rollout_id": item.rollout_id, **asdict(item.row)} for item in self.rows],
+            "per_rollout": {rollout_id: result.to_dict() for rollout_id, result in self.per_rollout.items()},
+            "summary": self.summary(),
+        }
+
+
+def build_batch(
+    rollouts: Mapping[str, Sequence[Mapping[str, Any]]],
+    *,
+    mode: str,
+    max_prompt_length: int,
+    max_response_length: int,
+    max_total_length: int | None = None,
+    reward_fillna_value: float = 0.0,
+) -> BatchResult:
+    """对多个 rollout 逐个调用 build_samples, 行按输入映射顺序拼接并标注 rollout_id。
+
+    rollout 之间互不合并, 与上游按 rollout 分组聚合一致; 仍不做 padding。
+    """
+    if not isinstance(rollouts, Mapping):
+        raise ValueError("rollouts 必须是 rollout_id 到事件列表的映射。")
+    rows: list[BatchRow] = []
+    per_rollout: dict[str, BuildResult] = {}
+    for rollout_id, events in rollouts.items():
+        if not isinstance(rollout_id, str) or not rollout_id:
+            raise ValueError("rollout_id 必须是非空字符串。")
+        result = build_samples(
+            events,
+            mode=mode,
+            max_prompt_length=max_prompt_length,
+            max_response_length=max_response_length,
+            max_total_length=max_total_length,
+            reward_fillna_value=reward_fillna_value,
+        )
+        per_rollout[rollout_id] = result
+        rows.extend(BatchRow(rollout_id, row) for row in result.rows)
+    return BatchResult(mode, rows, per_rollout)
