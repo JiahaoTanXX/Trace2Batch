@@ -373,6 +373,9 @@ def run_config(
             total["merge_mismatches"] += len(reports)
             total["rows"] += len(result.rows)
             total["fully_merged_trajectories"] += int(len(result.rows) == 1)
+            # 行内 prompt + response token 总量: 合并失败时每行都重复携带历史前缀。
+            total["row_tokens"] += sum(len(r.prompt_token_ids) + len(r.response_token_ids) for r in result.rows)
+            total["policy_tokens"] += sum(sum(r.response_mask) for r in result.rows)
             total["generation_not_token_prefix"] += built.generation_not_token_prefix
             total["generation_not_text_prefix"] += built.generation_not_text_prefix
             for report in reports:
