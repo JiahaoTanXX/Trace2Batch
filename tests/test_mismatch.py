@@ -29,6 +29,9 @@ VOCAB = {
     19: "  ",
     20: "<tool_response>out</tool_response>",
     21: '{"cmd": "pwd"}',
+    22: "<think>",
+    23: "</think>",
+    24: "Plan first.",
 }
 
 
@@ -140,3 +143,19 @@ def test_dropped_think_block_before_tool_call_has_single_segment() -> None:
     assert report is not None
     assert report.kind == "template_mismatch"
     assert report.changed_segments == [("<think>\n\n</think>\n\n", "")]
+
+
+def test_emptied_reasoning_between_kept_think_tags_is_template() -> None:
+    # GLM-4.5: 历史中保留 <think></think> 标签, 只清空思考内容。
+    prev = [*USER, 1, 4, 22, 24, 23, 10, 2]
+    nxt = [*USER, 1, 4, 22, 23, 10, 2, 6]
+    report = explain_mismatch(prev, nxt, decode)
+    assert report is not None
+    assert report.kind == "template_mismatch"
+    assert report.changed_segments == [("Plan first.", "")]
+
+
+def test_text_change_outside_think_block_is_still_others() -> None:
+    prev = [*USER, 1, 4, 22, 24, 23, 10, 2]
+    nxt = [*USER, 1, 4, 22, 24, 23, 18, 2, 6]
+    assert classify_mismatch(prev, nxt, decode) == "others_mismatch"

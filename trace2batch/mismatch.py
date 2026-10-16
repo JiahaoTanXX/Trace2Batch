@@ -8,7 +8,8 @@ template_mismatch / retoken_mismatch 恒为 False, others_mismatch 恒为 True�
 
 - retoken_mismatch: 解码后的文本仍是前缀, 只有 token id 切分不同。
 - template_mismatch: 文本不同, 且每个差异片段都满足其一: 与模板标记(思考块、特殊 token、
-  工具调用标签)重叠; 只是空白字符增删; 落在工具调用块内且两侧 JSON 语义相同。
+  工具调用标签)重叠; 只是空白字符增删; 落在工具调用块内且两侧 JSON 语义相同;
+  两侧都落在 <think>...</think> 块内(思考内容被清空或改写, 标签本身保留)。
 - others_mismatch: 其余情况, 例如历史内容本身被改写。
 """
 
@@ -148,6 +149,25 @@ def _same_tool_call_json(prev_text: str, prev_pos: int, next_text: str, next_pos
         return False
 
 
+def _within_block(text: str, start: int, end: int, open_tag: str, close_tag: str) -> bool:
+    """[start, end) 完全位于某个 open_tag 与其后第一个 close_tag 之间。"""
+    block_start = text.rfind(open_tag, 0, start)
+    if block_start == -1:
+        return False
+    inner_start = block_start + len(open_tag)
+    block_end = text.find(close_tag, inner_start)
+    return block_end != -1 and inner_start <= start and end <= block_end
+
+
+def _inside_reasoning_blocks(
+    prev_text: str, prev_span: tuple[int, int], next_text: str, next_span: tuple[int, int]
+) -> bool:
+    """差异两侧都在思考块内, 例如 GLM-4.5 保留 <think></think> 标签、只清空历史中的思考内容。"""
+    return _within_block(prev_text, *prev_span, "<think>", "</think>") and _within_block(
+        next_text, *next_span, "<think>", "</think>"
+    )
+
+
 def _segment_is_template(segment: str, full_text: str, offset: int, markers: Sequence[str]) -> bool:
     """片段只含空白, 或与某个模板标记的出现位置重叠。"""
     if not segment.strip():
@@ -200,6 +220,9 @@ def explain_mismatch(
                 and _segment_is_template(next_window[j1:j2], next_text, char_index + j1, markers)
             )
             or _same_tool_call_json(prev_text, char_index + i1, next_text, char_index + j1)
+            or _inside_reasoning_blocks(
+                prev_text, (char_index + i1, char_index + i2), next_text, (char_index + j1, char_index + j2)
+            )
             for i1, i2, j1, j2 in spans
         )
         kind = "template_mismatch" if template and segments else "others_mismatch"
