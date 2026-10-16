@@ -221,6 +221,27 @@ def build_samples(
     return BuildResult(mode, rows, counters, final_reward, reason)
 
 
+def shared_prefix_lengths(rows: Sequence[SampleRow]) -> list[int]:
+    """每行完整序列(prompt + response)与上一行完整序列的最长公共前缀长度; 第一行为 0。
+
+    split_on_budget 从同一 rollout 切出的相邻行是"套娃"关系: 后一行的 prompt 以前一行的
+    prompt + response 开头。训练端若支持共享前缀计算, 这部分只需计算一次; 用总长度减去
+    这些长度, 即可得到去重后的 token 数。只比较相邻行, 不做跨 rollout 或树状共享。
+    """
+    lengths: list[int] = []
+    previous: list[int] = []
+    for row in rows:
+        current = row.prompt_token_ids + row.response_token_ids
+        shared = 0
+        for left, right in zip(previous, current, strict=False):
+            if left != right:
+                break
+            shared += 1
+        lengths.append(shared)
+        previous = current
+    return lengths
+
+
 @dataclass(frozen=True)
 class BatchRow:
     """带来源 rollout_id 的样本行。"""

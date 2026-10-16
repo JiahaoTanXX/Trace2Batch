@@ -110,3 +110,21 @@ def test_build_batch_passes_strategy() -> None:
 def test_unknown_strategy_is_rejected() -> None:
     with pytest.raises(ValueError, match="truncation_strategy"):
         _build("keep_head", 3)
+
+
+def test_shared_prefix_lengths_for_split_rows() -> None:
+    from trace2batch.core import shared_prefix_lengths
+
+    split = _build("split_on_budget", 3)
+    # 第 2 行 prompt [1, 10, 90, 11, 91, 92] 以第 1 行的 [1] + [10, 90, 11] 开头。
+    assert shared_prefix_lengths(split.rows) == [0, 4]
+    assert shared_prefix_lengths(_build("truncate", 3).rows) == [0]
+    assert shared_prefix_lengths([]) == []
+
+
+def test_shared_prefix_is_zero_after_prefix_mismatch() -> None:
+    from trace2batch.core import shared_prefix_lengths
+
+    scenario = next(item for item in SCENARIOS if item["id"] == "prefix_mismatch")
+    result = build_samples(scenario["events"], mode="trajectory", max_prompt_length=16, max_response_length=16)
+    assert shared_prefix_lengths(result.rows) == [0, 0]
