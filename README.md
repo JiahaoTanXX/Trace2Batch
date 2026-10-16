@@ -58,9 +58,7 @@ python -m examples.trace2batch.run
 from trace2batch.core import build_samples
 
 result = build_samples(
-    [{"event_type": "model_request", "data": {
-        "prompt_token_ids": [1], "response_token_ids": [10, 11]
-    }}],
+    [{"event_type": "model_request", "data": {"prompt_token_ids": [1], "response_token_ids": [10, 11]}}],
     mode="trajectory",
     max_prompt_length=16,
     max_response_length=16,
