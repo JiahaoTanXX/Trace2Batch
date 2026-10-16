@@ -1,4 +1,28 @@
-# 实验只使用标准库；以下配置用于开发检查，不安装依赖。
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "trace2batch"
+version = "0.2.0"
+description = "多轮 Agent 轨迹到 RL 训练样本行的参考实现与前缀一致性研究"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Jiahao Tan" }]
+# 核心模块 trace2batch.core 只使用标准库，没有运行时依赖。
+dependencies = []
+
+[project.optional-dependencies]
+# 真实 tokenizer / 数据集实验；只在实验脚本和 network 测试中按需导入。
+real = ["transformers>=4.56", "jinja2>=3.1", "datasets>=4.0"]
+# ruff 0.17 起检查 Markdown 代码块，固定版本保证本地与 CI 一致。
+dev = ["pytest>=8", "ruff==0.17.1", "pyright==1.1.414"]
+
+[tool.setuptools]
+packages = ["trace2batch"]
+
 [tool.ruff]
 line-length = 120
 target-version = "py312"
@@ -16,3 +40,4 @@ typeCheckingMode = "standard"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = ["network: 需要联网下载 tokenizer 或数据集，默认跳过（用 --run-network 启用）"]
