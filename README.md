@@ -20,18 +20,24 @@
 
 据此向 microsoft/agent-lightning 提交了 Issue [#645](https://github.com/microsoft/agent-lightning/issues/645)，提议在训练指标中按原因归因合并失败。完整报告见 [REPORT.md](experiments/template_prefix/REPORT.md)。
 
-## 发现二：默认截断会系统性丢掉轨迹尾部
+## 发现二：真正的约束是单行总长，而不是截断方式
 
-同一批真实轨迹的合并 response 中，**约 80% 是工具观察**，长度预算主要被观察占用。超出预算时，默认的尾部截断恰好丢掉最接近奖励的后期生成。为此新增 `truncation_strategy` 参数（`truncate` / `split_on_budget` / `drop`），并在 72 组长度配置下做了对比（prompt 预算 32,768）：
+同一批真实轨迹的合并 response 中，**约 80% 是工具观察**，长度预算主要被观察占用。超出预算时，默认的尾部截断会丢掉最接近奖励的后期生成。
 
-| 数据集 | response 预算 | policy token 保留率（truncate → split） | 最后一次生成丢失的轨迹（truncate → split） | 代价：行 token 总量 |
-|---|---:|---|---|---:|
-| SWE-smith | 4,096 | 9.4% → **84.7%** | 95.7% → **13.3%** | 8.82× |
-| SWE-smith | 16,384 | 57.2% → **85.3%** | 36.7% → **11.7%** | 1.75× |
-| SWE-agent | 4,096 | 34.9% → **99.6%** | 83.7% → **1.7%** | 7.77× |
-| SWE-agent | 16,384 | 77.8% → **99.7%** | 31.7% → **1.3%** | 1.71× |
+为此新增 `truncation_strategy` 参数（`truncate` / `split_on_budget` / `drop`），并做了两组对比：
 
-`split_on_budget` 基本消除了尾部丢失，但只有在 prompt 预算能容纳轨迹后段完整上下文时才有效：prompt 预算为 8,192 时，它在 response 预算 ≥ 8,192 的设置下与 truncate 持平。`drop` 在所有设置下最差，还会整条丢弃长轨迹。这些只是数据层面的对比，没有做训练验证。详见 [截断实验报告](experiments/truncation/REPORT.md)。
+**1. 在相同的单行总长下，把 prompt / response 固定对半分改成动态分配，默认截断的保留率显著提高**（`max_total_length`）：
+
+| 数据集 | 单行总长 | policy token 保留率（固定对半 → 动态分配） | 最后一次生成丢失的轨迹（固定 → 动态） |
+|---|---:|---|---|
+| SWE-smith | 16,384 | 26.3% → **54.6%** | 75.0% → **41.3%** |
+| SWE-smith | 32,768 | 57.2% → **83.0%** | 36.7% → **14.3%** |
+| SWE-agent | 16,384 | 55.0% → **73.5%** | 54.0% → **36.3%** |
+| SWE-agent | 32,768 | 77.8% → **99.4%** | 31.7% → **2.0%** |
+
+**2. 在相同总长下，按轮次切分（split）保留的 policy token 从不多于截断。** 这与推导一致：位置超过单行总长的 token，任何一行都装不下。split 的价值是行在轮次边界结束（"行尾只剩观察"的比例为 0%）。它在更大单行总长下的 token 膨胀中，62.6%–67.7% 是重复前缀；按共享前缀只算一次计算，每个保留的 policy token 需要 6.4–6.5 个 token，低于或接近截断的 6.6–17.4。
+
+这些都是数据层面的对比，没有做训练验证。详见 [截断实验报告](experiments/truncation/REPORT.md)。
 
 ## 项目亮点
 
@@ -71,7 +77,7 @@ python -m examples.trace2batch.run            # 12 个带手算期望的合成�
 
 pip install -e ".[real]"
 python -m experiments.template_prefix.run     # 前缀一致性研究（首次运行会下载 tokenizer 与数据分片）
-python -m experiments.truncation.run          # 截断策略对比
+python -m experiments.truncation.run          # 截断策略、预算分配与共享前缀成本
 ```
 
 样本构建：
@@ -148,7 +154,7 @@ Trace2Batch/
 
 ## English summary
 
-Trace2Batch is a diagnostic toolkit and empirical study of multi-turn agent trajectory data for agentic RL. Using real Qwen2.5 / Qwen3 tokenizers and 900 public agent trajectories, it simulates the OpenAI-compatible proxy + vLLM `return_token_ids` collection path. It shows that with Qwen3 and `enable_thinking=False`, all 11,984 trajectory merge attempts fail, because the chat template drops the empty `<think>` block from history. Training rows then degrade to one per turn, and uncapped token volume grows up to 15.75×. Qwen2.5 merges 100%. A second study shows that about 80% of the merged response budget is spent on tool observations, so default tail truncation drops late generations: on SWE-smith at a 4,096-token response budget, policy-token retention is 9.4% and 95.7% of trajectories lose their final generation. A new `split_on_budget` strategy raises retention to 84.7% (99.6% on SWE-agent), at the cost of up to 8.82× row tokens, as long as the prompt budget can hold the late-turn context. The project ships a dependency-free mismatch classifier (template / retoken / others), a reproducible experiment pipeline, and a zero-dependency sample builder. The findings were reported upstream as microsoft/agent-lightning#645.
+Trace2Batch is a diagnostic toolkit and empirical study of multi-turn agent trajectory data for agentic RL. Using real Qwen2.5 / Qwen3 tokenizers and 900 public agent trajectories, it simulates the OpenAI-compatible proxy + vLLM `return_token_ids` collection path. It shows that with Qwen3 and `enable_thinking=False`, all 11,984 trajectory merge attempts fail, because the chat template drops the empty `<think>` block from history. Training rows then degrade to one per turn, and uncapped token volume grows up to 15.75×. Qwen2.5 merges 100%. A second study shows that about 80% of the merged response budget is spent on tool observations, and that the binding constraint is the per-row total length. At the same total length, allocating the prompt/response budget dynamically instead of splitting it in half raises policy-token retention under default truncation from 26.3% to 54.6% on SWE-smith (16k total). Splitting at turn boundaries never retains more policy tokens at equal total length, and 62.6%–67.7% of its token overhead is shared prefix. The project ships a dependency-free mismatch classifier (template / retoken / others), a reproducible experiment pipeline, and a zero-dependency sample builder. The findings were reported upstream as microsoft/agent-lightning#645.
 
 ## 许可证
 
