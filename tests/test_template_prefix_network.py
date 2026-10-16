@@ -51,3 +51,27 @@ def test_qwen25_same_conversation_merges() -> None:
     diagnostics, reports = _run("qwen2.5")
     assert diagnostics["merge_mismatches"] == 0
     assert reports == []
+
+
+def test_gpt_oss_final_answer_end_token_changes_in_history() -> None:
+    # gpt-oss: 生成以 <|return|> 结束, 进入历史后被渲染为 <|end|>。
+    pytest.importorskip("transformers")
+    from experiments.template_prefix.run import (
+        TOKENIZER_CONFIGS,
+        Conversation,
+        Renderer,
+        attribute_mismatches,
+        build_turn_events,
+    )
+
+    messages = [
+        {"role": "user", "content": "What is 2 + 2?"},
+        {"role": "assistant", "content": "4"},
+        {"role": "user", "content": "And 3 + 3?"},
+        {"role": "assistant", "content": "6"},
+    ]
+    renderer = Renderer(next(item for item in TOKENIZER_CONFIGS if item.name == "gpt-oss"))
+    built = build_turn_events(Conversation("gpt-oss-fixture", messages, None), renderer, max_turns=10)
+    reports = list(attribute_mismatches(built["B_vllm_token_ids"].events, renderer.decode, renderer.markers))
+    assert [report["kind"] for report in reports] == ["template_mismatch"]
+    assert reports[0]["changed_segments"][0][0] == "<|return|>"

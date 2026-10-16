@@ -38,8 +38,9 @@ from trace2batch.core import build_samples
 from trace2batch.mismatch import DEFAULT_TEMPLATE_MARKERS, MismatchKind, explain_mismatch
 
 RESULTS_DIR = Path(__file__).with_name("results")
-# 下载的 tokenizer / 数据分片属于不可信数据, 默认放在独立缓存目录; 必须在导入 huggingface_hub 前设置。
-os.environ.setdefault("HF_HOME", str(Path.home() / ".cache" / "trace2batch-hf"))
+# 下载的 tokenizer / 数据分片属于不可信数据, 放在独立缓存目录。显式传 cache_dir,
+# 不依赖 HF_HOME: 测试等场景可能在本模块之前就导入了 huggingface_hub。
+CACHE_DIR = Path(os.environ.get("TRACE2BATCH_HF_CACHE", Path.home() / ".cache" / "trace2batch-hf" / "hub"))
 KINDS: tuple[MismatchKind, ...] = ("template_mismatch", "retoken_mismatch", "others_mismatch")
 MODES = ("A_passthrough", "B_vllm_token_ids", "C_retokenized_text")
 # 合成思考内容: 数据集没有独立的思考字段, 只在配置名带 [synthetic] 的配置中注入。
@@ -237,7 +238,7 @@ def _merge_consecutive_assistants(messages: list[dict[str, Any]]) -> list[dict[s
 def _shard_path(spec: DatasetSpec) -> str:
     from huggingface_hub import hf_hub_download
 
-    return hf_hub_download(spec.repo, spec.shard, repo_type="dataset", revision=spec.revision)
+    return hf_hub_download(spec.repo, spec.shard, repo_type="dataset", revision=spec.revision, cache_dir=CACHE_DIR)
 
 
 def load_conversations(spec: DatasetSpec, samples: int, seed: int) -> tuple[list[Conversation], int]:
@@ -273,7 +274,9 @@ class Renderer:
         from transformers import AutoTokenizer
 
         self.config = config
-        self.tokenizer = AutoTokenizer.from_pretrained(config.repo, revision=config.revision, trust_remote_code=False)
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            config.repo, revision=config.revision, trust_remote_code=False, cache_dir=CACHE_DIR
+        )
         # 分类器的模板标记: 通用标记 + 该 tokenizer 自己的特殊 / 新增 token。
         added = [token.content for token in self.tokenizer.added_tokens_decoder.values()]
         self.markers: tuple[str, ...] = tuple(dict.fromkeys([*DEFAULT_TEMPLATE_MARKERS, *added]))
