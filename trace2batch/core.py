@@ -10,6 +10,8 @@ from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
 from typing import Any
 
+TRUNCATION_STRATEGIES = ("truncate", "split_on_budget", "drop")
+
 
 @dataclass(frozen=True)
 class SampleRow:
@@ -78,6 +80,7 @@ def build_samples(
     max_response_length: int,
     max_total_length: int | None = None,
     reward_fillna_value: float = 0.0,
+    truncation_strategy: str = "truncate",
 ) -> BuildResult:
     """从单个合成 rollout 的已投影 token 事件构建 transition/trajectory 行。
 
@@ -88,6 +91,13 @@ def build_samples(
     max_total_length 与上游 RolloutAdapter 一致: 响应上限取
     min(max_response_length, max_total_length - 截断后 prompt 长度), 不小于 0。
     reward_fillna_value 只用于缺失奖励行的 reward; final_reward 仍为 None。
+
+    truncation_strategy 决定行的 response 超出上限时的处理:
+    - "truncate"(默认, 原有行为): 截掉尾部, mask 同步截断。
+    - "split_on_budget": trajectory 合并时, 若并入下一轮会超出上限, 就在轮次边界结束当前行,
+      下一轮另起一行, prompt 为到此为止的完整上下文; 单轮生成本身超限时仍截断。
+      transition 模式下每行只有一轮, 等同 truncate。
+    - "drop": 超出上限的行整行丢弃。
     """
     if mode not in {"transition", "trajectory"}:
         raise ValueError("mode 只支持 transition 或 trajectory。")
@@ -98,6 +108,8 @@ def build_samples(
         raise ValueError("max_total_length 必须是非负整数或 None。")
     if isinstance(reward_fillna_value, bool) or not isinstance(reward_fillna_value, int | float):
         raise ValueError("reward_fillna_value 必须是数值。")
+    if truncation_strategy not in TRUNCATION_STRATEGIES:
+        raise ValueError(f"truncation_strategy 只支持 {', '.join(TRUNCATION_STRATEGIES)}。")
 
     counters: dict[str, int] = dict.fromkeys(
         (
@@ -109,6 +121,8 @@ def build_samples(
             "truncated_response_rows",
             "skipped_zero_policy_rows",
             "merge_mismatches",
+            "budget_splits",
+            "dropped_over_budget_rows",
         ),
         0,
     )
@@ -132,12 +146,19 @@ def build_samples(
 
     rows: list[SampleRow] = []
 
+    def response_limit_for(prompt: list[int]) -> int:
+        limit = max_response_length
+        if max_total_length is not None:
+            limit = min(limit, max(max_total_length - len(prompt[:max_prompt_length]), 0))
+        return limit
+
     def emit(prompt: list[int], response: list[int], mask: list[int], indices: list[int]) -> None:
         truncated_prompt = prompt[:max_prompt_length]
-        response_limit = max_response_length
-        if max_total_length is not None:
-            response_limit = min(response_limit, max(max_total_length - len(truncated_prompt), 0))
+        response_limit = response_limit_for(prompt)
         if len(response) > response_limit:
+            if truncation_strategy == "drop":
+                counters["dropped_over_budget_rows"] += 1
+                return
             counters["truncated_response_rows"] += 1
         truncated_response = response[:response_limit]
         truncated_mask = mask[:response_limit]
@@ -164,15 +185,19 @@ def build_samples(
         mask = [1] * len(response)
         indices = [0]
         for index, (next_prompt, next_response) in enumerate(turns[1:], start=1):
-            if next_prompt[: len(context)] == context:
-                observation = next_prompt[len(context) :]
+            observation = next_prompt[len(context) :]
+            prefix_ok = next_prompt[: len(context)] == context
+            over_budget = truncation_strategy == "split_on_budget" and len(response) + len(observation) + len(
+                next_response
+            ) > response_limit_for(prompt)
+            if prefix_ok and not over_budget:
                 response.extend(observation)
                 response.extend(next_response)
                 mask.extend([0] * len(observation))
                 mask.extend([1] * len(next_response))
                 indices.append(index)
             else:
-                counters["merge_mismatches"] += 1
+                counters["merge_mismatches" if not prefix_ok else "budget_splits"] += 1
                 emit(prompt, response, mask, indices)
                 prompt, response = list(next_prompt), list(next_response)
                 mask = [1] * len(response)
@@ -187,6 +212,8 @@ def build_samples(
             reason = "no_model_requests"
         elif not turns:
             reason = "all_model_requests_filtered"
+        elif not rows and counters["dropped_over_budget_rows"]:
+            reason = "all_rows_dropped_over_budget"
         elif not rows:
             reason = "no_policy_tokens_after_truncation"
         else:
@@ -245,6 +272,7 @@ def build_batch(
     max_response_length: int,
     max_total_length: int | None = None,
     reward_fillna_value: float = 0.0,
+    truncation_strategy: str = "truncate",
 ) -> BatchResult:
     """对多个 rollout 逐个调用 build_samples, 行按输入映射顺序拼接并标注 rollout_id。
 
@@ -264,6 +292,7 @@ def build_batch(
             max_response_length=max_response_length,
             max_total_length=max_total_length,
             reward_fillna_value=reward_fillna_value,
+            truncation_strategy=truncation_strategy,
         )
         per_rollout[rollout_id] = result
         rows.extend(BatchRow(rollout_id, row) for row in result.rows)
