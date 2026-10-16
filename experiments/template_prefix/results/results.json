@@ -1,0 +1,1615 @@
+{
+ "cells": [
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 904497,
+    "retoken_mismatch": 0,
+    "row_tokens": 5688949,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen2.5"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 904497,
+    "retoken_mismatch": 0,
+    "row_tokens": 5688949,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen2.5"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 904497,
+    "retoken_mismatch": 0,
+    "row_tokens": 5688949,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen2.5"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 904497,
+    "retoken_mismatch": 0,
+    "row_tokens": 5684733,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen3_no_think"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 10182,
+      "kind": "template_mismatch",
+      "next_snippet": "be thorough and so it's fine if it's very long.<|im_end|>\n<|im_start|>assistant\nI'll help you implement the necessary changes to fix the issue with IoT Data Sha",
+      "prev_snippet": "be thorough and so it's fine if it's very long.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nI'll help you implement the necessary changes to fix the issu",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 1991,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 21740,
+      "kind": "template_mismatch",
+      "next_snippet": "ERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|im_end|>\n<|im_start|>assistant\nBased on the PR description, we need to look at the IoT data shadow handling cod",
+      "prev_snippet": "ERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nBased on the PR description, we need to look at the IoT data ",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 5127,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 33364,
+      "kind": "template_mismatch",
+      "next_snippet": "TDataPlaneBackend, \"iot-data\")\n</tool_response><|im_end|>\n<|im_start|>assistant\nI notice that we're missing an import for `jsondiff` which is used in the code. ",
+      "prev_snippet": "TDataPlaneBackend, \"iot-data\")\n</tool_response><|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nI notice that we're missing an import for `jsondiff` which is",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 8382,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 5416,
+    "others_mismatch": 0,
+    "policy_tokens": 904497,
+    "retoken_mismatch": 0,
+    "row_tokens": 89554881,
+    "rows": 5716,
+    "template_mismatch": 5416,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen3_no_think"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 10182,
+      "kind": "template_mismatch",
+      "next_snippet": "be thorough and so it's fine if it's very long.<|im_end|>\n<|im_start|>assistant\nI'll help you implement the necessary changes to fix the issue with IoT Data Sha",
+      "prev_snippet": "be thorough and so it's fine if it's very long.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nI'll help you implement the necessary changes to fix the issu",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 1991,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 21740,
+      "kind": "template_mismatch",
+      "next_snippet": "ERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|im_end|>\n<|im_start|>assistant\nBased on the PR description, we need to look at the IoT data shadow handling cod",
+      "prev_snippet": "ERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nBased on the PR description, we need to look at the IoT data ",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 5127,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 33364,
+      "kind": "template_mismatch",
+      "next_snippet": "TDataPlaneBackend, \"iot-data\")\n</tool_response><|im_end|>\n<|im_start|>assistant\nI notice that we're missing an import for `jsondiff` which is used in the code. ",
+      "prev_snippet": "TDataPlaneBackend, \"iot-data\")\n</tool_response><|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nI notice that we're missing an import for `jsondiff` which is",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 8382,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 5416,
+    "others_mismatch": 0,
+    "policy_tokens": 904497,
+    "retoken_mismatch": 0,
+    "row_tokens": 89554881,
+    "rows": 5716,
+    "template_mismatch": 5416,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen3_no_think"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 984521,
+    "retoken_mismatch": 0,
+    "row_tokens": 5741893,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen3_think_keep[synthetic]"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 984521,
+    "retoken_mismatch": 0,
+    "row_tokens": 5741893,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen3_think_keep[synthetic]"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 984521,
+    "retoken_mismatch": 0,
+    "row_tokens": 5741893,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen3_think_keep[synthetic]"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 984521,
+    "retoken_mismatch": 0,
+    "row_tokens": 5741893,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 10182,
+      "kind": "template_mismatch",
+      "next_snippet": "be thorough and so it's fine if it's very long.<|im_end|>\n<|im_start|>assistant\nI'll help you implement the necessary changes to fix the issue with IoT Data Sha",
+      "prev_snippet": "be thorough and so it's fine if it's very long.<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nI'll help you",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 1991,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 21740,
+      "kind": "template_mismatch",
+      "next_snippet": "ERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|im_end|>\n<|im_start|>assistant\nBased on the PR description, we need to look at the IoT data shadow handling cod",
+      "prev_snippet": "ERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nBased on the ",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 5127,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 33364,
+      "kind": "template_mismatch",
+      "next_snippet": "TDataPlaneBackend, \"iot-data\")\n</tool_response><|im_end|>\n<|im_start|>assistant\nI notice that we're missing an import for `jsondiff` which is used in the code. ",
+      "prev_snippet": "TDataPlaneBackend, \"iot-data\")\n</tool_response><|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nI notice that",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 8382,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 5416,
+    "others_mismatch": 0,
+    "policy_tokens": 984521,
+    "retoken_mismatch": 0,
+    "row_tokens": 89612041,
+    "rows": 5716,
+    "template_mismatch": 5416,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "swe_smith_tool",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 10182,
+      "kind": "template_mismatch",
+      "next_snippet": "be thorough and so it's fine if it's very long.<|im_end|>\n<|im_start|>assistant\nI'll help you implement the necessary changes to fix the issue with IoT Data Sha",
+      "prev_snippet": "be thorough and so it's fine if it's very long.<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nI'll help you",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 1991,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 21740,
+      "kind": "template_mismatch",
+      "next_snippet": "ERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|im_end|>\n<|im_start|>assistant\nBased on the PR description, we need to look at the IoT data shadow handling cod",
+      "prev_snippet": "ERAGE.md\r\n/testbed/codecov.yml\n</tool_response><|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nBased on the ",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 5127,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 33364,
+      "kind": "template_mismatch",
+      "next_snippet": "TDataPlaneBackend, \"iot-data\")\n</tool_response><|im_end|>\n<|im_start|>assistant\nI notice that we're missing an import for `jsondiff` which is used in the code. ",
+      "prev_snippet": "TDataPlaneBackend, \"iot-data\")\n</tool_response><|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nI notice that",
+      "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+      "token_index": 8382,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 5416,
+    "merge_mismatches": 5416,
+    "others_mismatch": 0,
+    "policy_tokens": 984521,
+    "retoken_mismatch": 0,
+    "row_tokens": 89612041,
+    "rows": 5716,
+    "template_mismatch": 5416,
+    "trajectories": 300,
+    "turns": 5716
+   },
+   "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 115073,
+    "retoken_mismatch": 0,
+    "row_tokens": 860099,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen2.5"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 115073,
+    "retoken_mismatch": 0,
+    "row_tokens": 860099,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen2.5"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 115073,
+    "retoken_mismatch": 0,
+    "row_tokens": 860099,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen2.5"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 115072,
+    "retoken_mismatch": 0,
+    "row_tokens": 856045,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen3_no_think"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1560,
+      "kind": "template_mismatch",
+      "next_snippet": " is near 37.7620 latitude, -119.531 longitude.)<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"arguments\": {\"latitud",
+      "prev_snippet": " is near 37.7620 latitude, -119.531 longitude.)<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"ar",
+      "sample_id": "5e4b21a0-885b-5cf0-9697-05b24116a47c",
+      "token_index": 366,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1450,
+      "kind": "template_mismatch",
+      "next_snippet": "ind speed, so I can decide if it's safe to fly?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"arguments\": {\"latitud",
+      "prev_snippet": "ind speed, so I can decide if it's safe to fly?<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"ar",
+      "sample_id": "c4f19755-79ef-59dc-aa6d-350a03e6a18e",
+      "token_index": 333,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1083,
+      "kind": "template_mismatch",
+      "next_snippet": "74.0060° W) in New York City to show in my app?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-forecast-service-get_live_temp\", \"arguments\": {\"la",
+      "prev_snippet": "74.0060° W) in New York City to show in my app?<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"weather-forecast-service-get_live_temp\"",
+      "sample_id": "d0772e91-cc09-510d-a996-4aa59baf633b",
+      "token_index": 254,
+      "turn": 1
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 421,
+    "others_mismatch": 0,
+    "policy_tokens": 115072,
+    "retoken_mismatch": 0,
+    "row_tokens": 1497643,
+    "rows": 721,
+    "template_mismatch": 421,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen3_no_think"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1560,
+      "kind": "template_mismatch",
+      "next_snippet": " is near 37.7620 latitude, -119.531 longitude.)<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"arguments\": {\"latitud",
+      "prev_snippet": " is near 37.7620 latitude, -119.531 longitude.)<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"ar",
+      "sample_id": "5e4b21a0-885b-5cf0-9697-05b24116a47c",
+      "token_index": 366,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1450,
+      "kind": "template_mismatch",
+      "next_snippet": "ind speed, so I can decide if it's safe to fly?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"arguments\": {\"latitud",
+      "prev_snippet": "ind speed, so I can decide if it's safe to fly?<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"ar",
+      "sample_id": "c4f19755-79ef-59dc-aa6d-350a03e6a18e",
+      "token_index": 333,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1083,
+      "kind": "template_mismatch",
+      "next_snippet": "74.0060° W) in New York City to show in my app?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-forecast-service-get_live_temp\", \"arguments\": {\"la",
+      "prev_snippet": "74.0060° W) in New York City to show in my app?<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n<tool_call>\n{\"name\": \"weather-forecast-service-get_live_temp\"",
+      "sample_id": "d0772e91-cc09-510d-a996-4aa59baf633b",
+      "token_index": 254,
+      "turn": 1
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 421,
+    "others_mismatch": 0,
+    "policy_tokens": 115072,
+    "retoken_mismatch": 0,
+    "row_tokens": 1497643,
+    "rows": 721,
+    "template_mismatch": 421,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen3_no_think"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 125166,
+    "retoken_mismatch": 0,
+    "row_tokens": 863255,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen3_think_keep[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 125166,
+    "retoken_mismatch": 0,
+    "row_tokens": 863255,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen3_think_keep[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 125166,
+    "retoken_mismatch": 0,
+    "row_tokens": 863255,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen3_think_keep[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 125166,
+    "retoken_mismatch": 0,
+    "row_tokens": 863255,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1560,
+      "kind": "template_mismatch",
+      "next_snippet": " is near 37.7620 latitude, -119.531 longitude.)<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"arguments\": {\"latitud",
+      "prev_snippet": " is near 37.7620 latitude, -119.531 longitude.)<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\n<tool_call>\n{",
+      "sample_id": "5e4b21a0-885b-5cf0-9697-05b24116a47c",
+      "token_index": 366,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1450,
+      "kind": "template_mismatch",
+      "next_snippet": "ind speed, so I can decide if it's safe to fly?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"arguments\": {\"latitud",
+      "prev_snippet": "ind speed, so I can decide if it's safe to fly?<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\n<tool_call>\n{",
+      "sample_id": "c4f19755-79ef-59dc-aa6d-350a03e6a18e",
+      "token_index": 333,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1083,
+      "kind": "template_mismatch",
+      "next_snippet": "74.0060° W) in New York City to show in my app?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-forecast-service-get_live_temp\", \"arguments\": {\"la",
+      "prev_snippet": "74.0060° W) in New York City to show in my app?<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\n<tool_call>\n{",
+      "sample_id": "d0772e91-cc09-510d-a996-4aa59baf633b",
+      "token_index": 254,
+      "turn": 1
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 421,
+    "others_mismatch": 0,
+    "policy_tokens": 125166,
+    "retoken_mismatch": 0,
+    "row_tokens": 1504853,
+    "rows": 721,
+    "template_mismatch": 421,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "toucan_qwen3",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1560,
+      "kind": "template_mismatch",
+      "next_snippet": " is near 37.7620 latitude, -119.531 longitude.)<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"arguments\": {\"latitud",
+      "prev_snippet": " is near 37.7620 latitude, -119.531 longitude.)<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\n<tool_call>\n{",
+      "sample_id": "5e4b21a0-885b-5cf0-9697-05b24116a47c",
+      "token_index": 366,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1450,
+      "kind": "template_mismatch",
+      "next_snippet": "ind speed, so I can decide if it's safe to fly?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-query-server-get_forecast\", \"arguments\": {\"latitud",
+      "prev_snippet": "ind speed, so I can decide if it's safe to fly?<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\n<tool_call>\n{",
+      "sample_id": "c4f19755-79ef-59dc-aa6d-350a03e6a18e",
+      "token_index": 333,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 1083,
+      "kind": "template_mismatch",
+      "next_snippet": "74.0060° W) in New York City to show in my app?<|im_end|>\n<|im_start|>assistant\n<tool_call>\n{\"name\": \"weather-forecast-service-get_live_temp\", \"arguments\": {\"la",
+      "prev_snippet": "74.0060° W) in New York City to show in my app?<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\n<tool_call>\n{",
+      "sample_id": "d0772e91-cc09-510d-a996-4aa59baf633b",
+      "token_index": 254,
+      "turn": 1
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 421,
+    "merge_mismatches": 421,
+    "others_mismatch": 0,
+    "policy_tokens": 125166,
+    "retoken_mismatch": 0,
+    "row_tokens": 1504853,
+    "rows": 721,
+    "template_mismatch": 421,
+    "trajectories": 300,
+    "turns": 721
+   },
+   "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 697126,
+    "retoken_mismatch": 0,
+    "row_tokens": 4531698,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen2.5"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 697126,
+    "retoken_mismatch": 0,
+    "row_tokens": 4531698,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen2.5"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 697126,
+    "retoken_mismatch": 0,
+    "row_tokens": 4531698,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen2.5"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 697126,
+    "retoken_mismatch": 0,
+    "row_tokens": 4557486,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen3_no_think"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 9569,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nTo start addressing the issue, we need to replicate the error described in the i",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nTo start addressing the issue, we need to replicate the error",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2234,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 10275,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nSince the `--version` option is not available, we'll need to find another way to",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nSince the `--version` option is not available, we'll need to ",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2397,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 12594,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nThe error we received is a `TypeError` indicating that `NoneType` was passed to ",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nThe error we received is a `TypeError` indicating that `NoneT",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3063,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 697126,
+    "retoken_mismatch": 0,
+    "row_tokens": 67229517,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen3_no_think"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 9569,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nTo start addressing the issue, we need to replicate the error described in the i",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nTo start addressing the issue, we need to replicate the error",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2234,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 10275,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nSince the `--version` option is not available, we'll need to find another way to",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nSince the `--version` option is not available, we'll need to ",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2397,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 12594,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nThe error we received is a `TypeError` indicating that `NoneType` was passed to ",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\nThe error we received is a `TypeError` indicating that `NoneT",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3063,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 697126,
+    "retoken_mismatch": 0,
+    "row_tokens": 67229517,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen3_no_think"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 787384,
+    "retoken_mismatch": 0,
+    "row_tokens": 4621956,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen3_think_keep[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 9569,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nTo start addressing the issue, we need to replicate the error described in the i",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nTo start addr",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2234,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 10275,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nSince the `--version` option is not available, we'll need to find another way to",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nSince the `--",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2397,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 12594,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nThe error we received is a `TypeError` indicating that `NoneType` was passed to ",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nThe error we ",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3063,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 787384,
+    "retoken_mismatch": 0,
+    "row_tokens": 67293987,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen3_think_keep[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 9569,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nTo start addressing the issue, we need to replicate the error described in the i",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nTo start addr",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2234,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 10275,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nSince the `--version` option is not available, we'll need to find another way to",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nSince the `--",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2397,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 12594,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nThe error we received is a `TypeError` indicating that `NoneType` was passed to ",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nThe error we ",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3063,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 787384,
+    "retoken_mismatch": 0,
+    "row_tokens": 67293987,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen3_think_keep[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": []
+   },
+   "mode": "A_passthrough",
+   "summary": {
+    "fully_merged_trajectories": 300,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 0,
+    "others_mismatch": 0,
+    "policy_tokens": 787384,
+    "retoken_mismatch": 0,
+    "row_tokens": 4621956,
+    "rows": 300,
+    "template_mismatch": 0,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 9569,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nTo start addressing the issue, we need to replicate the error described in the i",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nTo start addr",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2234,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 10275,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nSince the `--version` option is not available, we'll need to find another way to",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nSince the `--",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2397,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 12594,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nThe error we received is a `TypeError` indicating that `NoneType` was passed to ",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nThe error we ",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3063,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "B_vllm_token_ids",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 787384,
+    "retoken_mismatch": 0,
+    "row_tokens": 67293987,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen3_think_drop[synthetic]"
+  },
+  {
+   "dataset": "nebius_swe_agent",
+   "examples": {
+    "others_mismatch": [],
+    "retoken_mismatch": [],
+    "template_mismatch": [
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 9569,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nTo start addressing the issue, we need to replicate the error described in the i",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nTo start addr",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2234,
+      "turn": 1
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 10275,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nSince the `--version` option is not available, we'll need to find another way to",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nSince the `--",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 2397,
+      "turn": 2
+     },
+     {
+      "changed_segments": [
+       [
+        "<think>\nLet me reason about the next step before acting.\n</think>\n\n",
+        ""
+       ]
+      ],
+      "char_index": 12594,
+      "kind": "template_mismatch",
+      "next_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\nThe error we received is a `TypeError` indicating that `NoneType` was passed to ",
+      "prev_snippet": "file: n/a)\n(Current directory: /skipper)\nbash-$<|im_end|>\n<|im_start|>assistant\n<think>\nLet me reason about the next step before acting.\n</think>\n\nThe error we ",
+      "sample_id": "9:Stratoscale__skipper-164",
+      "token_index": 3063,
+      "turn": 3
+     }
+    ]
+   },
+   "mode": "C_retokenized_text",
+   "summary": {
+    "fully_merged_trajectories": 0,
+    "generation_not_text_prefix": 0,
+    "generation_not_token_prefix": 0,
+    "merge_attempts": 6147,
+    "merge_mismatches": 6147,
+    "others_mismatch": 0,
+    "policy_tokens": 787384,
+    "retoken_mismatch": 0,
+    "row_tokens": 67293987,
+    "rows": 6447,
+    "template_mismatch": 6147,
+    "trajectories": 300,
+    "turns": 6447
+   },
+   "tokenizer": "qwen3_think_drop[synthetic]"
+  }
+ ],
+ "schema_version": 1,
+ "settings": {
+  "datasets": [
+   {
+    "license": "MIT",
+    "name": "swe_smith_tool",
+    "repo": "SWE-bench/SWE-smith-trajectories",
+    "revision": "08e109b4a59eaeebf80e4675cd125d42e7ac99a4",
+    "shard": "data/tool-00004-of-00008.parquet"
+   },
+   {
+    "license": "Apache-2.0",
+    "name": "toucan_qwen3",
+    "repo": "Agent-Ark/Toucan-1.5M",
+    "revision": "0df3cf37f2abefb380370cfb02eabea2a35ae782",
+    "shard": "Qwen3/train-00009-of-00044.parquet"
+   },
+   {
+    "license": "CC-BY-4.0",
+    "name": "nebius_swe_agent",
+    "repo": "nebius/SWE-agent-trajectories",
+    "revision": "68195a1450865274106246d0d0296a1d6807b88e",
+    "shard": "data/train-00006-of-00012.parquet"
+   }
+  ],
+  "max_turns": 50,
+  "samples_per_dataset": 300,
+  "seed": 0,
+  "synthetic_reasoning": "Let me reason about the next step before acting.",
+  "tokenizers": [
+   {
+    "keep_reasoning_in_history": false,
+    "name": "qwen2.5",
+    "repo": "Qwen/Qwen2.5-7B-Instruct",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28",
+    "synthetic_reasoning": false,
+    "template_kwargs": {}
+   },
+   {
+    "keep_reasoning_in_history": false,
+    "name": "qwen3_no_think",
+    "repo": "Qwen/Qwen3-8B",
+    "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "synthetic_reasoning": false,
+    "template_kwargs": {
+     "enable_thinking": false
+    }
+   },
+   {
+    "keep_reasoning_in_history": true,
+    "name": "qwen3_think_keep[synthetic]",
+    "repo": "Qwen/Qwen3-8B",
+    "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "synthetic_reasoning": true,
+    "template_kwargs": {}
+   },
+   {
+    "keep_reasoning_in_history": false,
+    "name": "qwen3_think_drop[synthetic]",
+    "repo": "Qwen/Qwen3-8B",
+    "revision": "b968826d9c46dd6066d109eabc6255188de91218",
+    "synthetic_reasoning": true,
+    "template_kwargs": {}
+   }
+  ],
+  "transformers": "5.20.0"
+ }
+}
