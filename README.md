@@ -66,7 +66,7 @@ mask:     [ 1,  0,  1,  0,  0,  1,  1]
 - Qwen3 思考模式（思考内容为合成注入）：客户端不回传 `reasoning_content` 时全部失败；回传时，工具观察用 `tool` 角色的数据集能合并，用 `user` 角色的 nebius 数据集仍然全部失败。
 - 局限：没有真实模型采样，测不到非规范切分导致的 `retoken_mismatch`；只覆盖 Qwen 系模板。
 
-详见 [REPORT.md](experiments/template_prefix/REPORT.md) 和 [DATA.md](experiments/template_prefix/DATA.md)。复现：`pip install -e ".[real]" && python -m experiments.template_prefix.run`。
+详见 [REPORT.md](experiments/template_prefix/REPORT.md) 和 [DATA.md](experiments/template_prefix/DATA.md)。已向上游提交 Issue [microsoft/agent-lightning#645](https://github.com/microsoft/agent-lightning/issues/645)，等待维护者回应。复现：`pip install -e ".[real]" && python -m experiments.template_prefix.run`。
 
 ## 安装与运行
 

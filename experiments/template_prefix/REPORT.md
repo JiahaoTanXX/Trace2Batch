@@ -116,6 +116,8 @@ next: …bash-$<|im_end|>\n<|im_start|>assistant\nTo start addressing the issue�
 
 ## 7. 对上游的建议
 
+以下建议已整理为上游 Issue [microsoft/agent-lightning#645](https://github.com/microsoft/agent-lightning/issues/645)（原文见 [`drafts/upstream_issue.md`](../../drafts/upstream_issue.md)）。
+
 1. **填上归因字段。** 在 `merge_mismatch_rows` 里，用"分歧点 + 解码文本比较"判定 `retoken_mismatch`（文本仍是前缀，只有 id 不同）和 `template_mismatch`（差异只落在模板标记、空白或等价的工具调用 JSON 上）。上游已经在调用 `_decode_trace_text`，额外开销只是一次差异比对，并且只对最多 100 条上传到 wandb 的样本进行。
 2. **在文档中说明 Qwen3 的合并前提。** 要让 `trajectory` 聚合真正合并，需要同时满足：开启思考模式、客户端回传 `reasoning_content`、工具观察使用 `tool` 角色。否则 `trajectory` 会悄悄退化成逐轮行，并带来上面那样的 token 量膨胀。
 3. **拆行本身是正确的保守行为。** 不匹配时，模型在下一轮实际看到的就是被删掉思考块的 prompt。强行合并会让训练上下文与推理时的上下文不一致。所以建议是"让不匹配可见、可归因"，而不是放宽前缀检查。
