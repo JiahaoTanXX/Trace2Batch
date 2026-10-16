@@ -113,16 +113,23 @@ def _changed_spans(prev_tail: str, next_window: str, markers: Sequence[str]) -> 
 
 
 def _next_window(prev_tail: str, next_text: str, start: int) -> str:
-    """next 中与 prev 尾部对应的区间: 截到 prev 尾部结尾片段第一次出现的位置。
+    """next 中与 prev 尾部对应的区间: 截到 prev 尾部结尾片段在 next 中的对应位置。
 
     窗口过长时, 差异对齐可能把被删的模板片段错配到后面的生成提示上。
-    结尾片段从长到短尝试, 因为最后几个字符之前也可能被改写。
+    结尾片段从长到短尝试, 因为最后几个字符之前也可能被改写。结尾片段在 next 中出现多次时
+    (例如同一段代码在一条消息里出现两次), 取结束位置最接近 start + len(prev_tail) 的那一次。
     """
+    expected_end = start + len(prev_tail)
     for length in _ANCHOR_LENGTHS:
         anchor = prev_tail[-length:]
+        candidates: list[int] = []
         position = next_text.find(anchor, start)
-        if position != -1:
-            return next_text[start : position + len(anchor)]
+        while position != -1 and position <= expected_end + _NEXT_WINDOW_SLACK:
+            candidates.append(position)
+            position = next_text.find(anchor, position + 1)
+        if candidates:
+            best = min(candidates, key=lambda candidate: abs(candidate + len(anchor) - expected_end))
+            return next_text[start : best + len(anchor)]
     return next_text[start : start + len(prev_tail) + _NEXT_WINDOW_SLACK]
 
 

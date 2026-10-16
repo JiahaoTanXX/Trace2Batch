@@ -159,3 +159,12 @@ def test_text_change_outside_think_block_is_still_others() -> None:
     prev = [*USER, 1, 4, 22, 24, 23, 10, 2]
     nxt = [*USER, 1, 4, 22, 24, 23, 18, 2, 6]
     assert classify_mismatch(prev, nxt, decode) == "others_mismatch"
+
+
+def test_next_window_prefers_anchor_near_expected_end() -> None:
+    # 结尾片段在 next 中出现两次时, 取与 prev 尾部长度对应的那一次, 而不是第一次。
+    from trace2batch.mismatch import _next_window
+
+    prev_tail = "Q" * 40 + "12345678"
+    next_text = "12345678" + "R" * 40 + "12345678" + "zz"
+    assert _next_window(prev_tail, next_text, 0) == next_text[:56]
