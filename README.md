@@ -57,6 +57,17 @@ mask:     [ 1,  0,  1,  0,  0,  1,  1]
 
 实验数据为人工构造的 token 符号，不对应真实 tokenizer 词表。上述结果用于验证数据表示，不作为模型训练效果或性能提升的证据。
 
+## 研究：真实 chat template 下的前缀一致性
+
+上游在 trajectory 合并失败时，`template_mismatch` / `retoken_mismatch` 恒为 `False`，不区分原因。`trace2batch/mismatch.py` 提供一个零依赖的归因器（retoken / template / others）。`experiments/template_prefix/` 用真实 tokenizer（Qwen2.5-7B-Instruct、Qwen3-8B，只下载 tokenizer 文件）和 3 个公开 Agent 轨迹数据集（各 300 条，共 900 条），模拟上游"代理 + vLLM `return_token_ids`"的采集链路：
+
+- Qwen2.5：三个数据集都 100% 合并。
+- Qwen3 `enable_thinking=False`：11,984 次合并尝试**全部失败**，全部归因为 `template_mismatch`（历史中的空思考块被模板删除）；行数退化为轮数，不截断时行内 token 总量为对照组的 1.75×–15.75×。
+- Qwen3 思考模式（思考内容为合成注入）：客户端不回传 `reasoning_content` 时全部失败；回传时，工具观察用 `tool` 角色的数据集能合并，用 `user` 角色的 nebius 数据集仍然全部失败。
+- 局限：没有真实模型采样，测不到非规范切分导致的 `retoken_mismatch`；只覆盖 Qwen 系模板。
+
+详见 [REPORT.md](experiments/template_prefix/REPORT.md) 和 [DATA.md](experiments/template_prefix/DATA.md)。复现：`pip install -e ".[real]" && python -m experiments.template_prefix.run`。
+
 ## 安装与运行
 
 需要 Python >=3.12。核心模块没有运行时依赖：
@@ -98,14 +109,21 @@ pyright
 Trace2Batch/
 ├── trace2batch/
 │   ├── __init__.py
-│   └── core.py                 # 样本构建、批处理与诊断
+│   ├── core.py                 # 样本构建、批处理与诊断
+│   └── mismatch.py             # 前缀不匹配定位与原因归因
 ├── examples/trace2batch/
 │   ├── run.py                  # 固定实验入口
 │   ├── scenarios.json          # 合成事件与手算期望
 │   └── README.md               # 输入、输出与字段说明
+├── experiments/template_prefix/
+│   ├── run.py                  # 真实 tokenizer 前缀一致性实验
+│   ├── DATA.md / REPORT.md     # 数据说明与研究报告
+│   └── results/                # 结果 JSON、汇总表与样本 id
 ├── tests/
 │   ├── test_trace2batch.py      # 核心逻辑与边界测试
 │   ├── test_build_batch.py      # 批处理测试
+│   ├── test_mismatch.py         # 归因器测试（手工 decode 夹具）
+│   ├── test_template_prefix_network.py  # 真实 tokenizer 复现（network，默认跳过）
 │   └── test_trace2batch_cli.py  # 入口、断网与确定性测试
 ├── .github/workflows/ci.yml
 ├── pyproject.toml
@@ -114,8 +132,8 @@ Trace2Batch/
 
 ## 实现边界
 
-项目实现的是未填充样本的数据处理与参考验证，不包括模型调用、log_probs、padding、优势/loss 计算、参数更新或部署。
+核心模块实现的是未填充样本的数据处理与参考验证，不包括模型调用、log_probs、padding、优势/loss 计算、参数更新或部署。
 
 ## English summary
 
-Trace2Batch is a dependency-free, testable reference reimplementation of the trajectory aggregation logic in microsoft/agent-lightning (`agentlightning/verl/rollout_adapter.py` @ `69f5a40`, MIT). It turns multi-turn agent events into RL sample rows (prompt / response / policy mask / reward) in `transition` or `trajectory` mode, with upstream-compatible `max_total_length` and `reward_fillna_value`, multi-rollout batching, and filter / zero-usable-row diagnostics. The core algorithm is derived from upstream; see the mapping table above for what is new.
+Trace2Batch is a dependency-free, testable reference reimplementation of the trajectory aggregation logic in microsoft/agent-lightning (`agentlightning/verl/rollout_adapter.py` @ `69f5a40`, MIT). It turns multi-turn agent events into RL sample rows (prompt / response / policy mask / reward) in `transition` or `trajectory` mode, with upstream-compatible `max_total_length` and `reward_fillna_value`, multi-rollout batching, and filter / zero-usable-row diagnostics. The core algorithm is derived from upstream; see the mapping table above for what is new. It also adds a dependency-free prefix-mismatch classifier (retoken / template / others) and a study with real Qwen2.5 / Qwen3 tokenizers on 900 public agent trajectories: under Qwen3 with `enable_thinking=False`, all 11,984 merge attempts fail as template mismatches (the empty think block is dropped from history), while Qwen2.5 merges 100%. See `experiments/template_prefix/REPORT.md`.
