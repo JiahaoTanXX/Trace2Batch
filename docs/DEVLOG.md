@@ -1,0 +1,84 @@
+# 开发日志
+
+每次改动记录**做了什么、为什么、怎么做**，以及对应的实验结果，方便以后回溯和寻找新的优化点。所有数字都来自真实运行，并给出结果文件路径。按时间倒序排列，最新的在最上面。
+
+条目格式：
+
+```text
+## 日期 · 标题
+- 提交：<commit>
+- 是什么 / 为什么 / 怎么做
+- 结果：真实数字 + 结果文件
+- 待跟进：发现的新问题或后续可以优化的点
+```
+
+---
+
+## 2026-10-16 · 前缀实验扩展到 4 个模型家族（进行中）
+
+- **提交**：`88fb8e3`、`c590fa2`、`2a37f3d`
+- **是什么**：在 Qwen2.5 / Qwen3 之外，新增 DeepSeek-V3.1、GLM-4.5、gpt-oss-20b 三个家族的 tokenizer，共 9 种模板配置。
+- **为什么**：P1 只覆盖 Qwen 系，是报告里最大的局限。不同家族的模板对历史的处理差别很大，需要验证结论是否普遍成立。
+- **怎么做**：
+  - 每个配置声明自己的结束标记：Qwen `<|im_end|>`，DeepSeek `<｜end▁of▁sentence｜>`，gpt-oss `<|return|>` / `<|call|>`，GLM 没有。
+  - 追加一条助手消息会改写更早的历史时（gpt-oss 在出现最终回答后会删掉之前工具调用的 analysis），改为按生成提示串定位生成部分。
+  - DeepSeek-V3.1 模板用字符串拼接工具参数，所以传 JSON 字符串。gpt-oss 模板会写入当前日期，固定为 2026-10-16，保证可复现。
+  - 归因器的模板标记加入各 tokenizer 自己的特殊 token。新增规则：差异落在 `<think>…</think>` 块内时归为模板改写。起因是 GLM 在历史中保留标签、只清空思考内容，旧规则会把它归为 others。
+  - 修复缓存目录 bug：原先依赖 `HF_HOME`，如果 huggingface_hub 已被提前导入，设置就不生效；改为显式传入 `cache_dir`。
+- **冒烟结果**（每个数据集 5 条，**不是最终数字**）：DeepSeek-V3.1 和 GLM-4.5（关闭思考）在 3 个数据集上都 100% 合并；GLM-4.5 开启思考时的表现与 Qwen3 相同；gpt-oss 只在 nebius 上全部失败，原因是最终回答的 `<|return|>` 进入历史后变成 `<|end|>`。
+- **待跟进**：等完整运行结束后，补全最终数字，并更新报告、README 和简历。
+- **其他观察**：
+  - DeepSeek-V3.1 的 HF 模板不渲染 `tools` 定义。
+  - gpt-oss 模板每条消息只渲染第一个工具调用，并行调用会被静默丢掉。这会造成数据丢失，但不会造成前缀不匹配。
+
+## 2026-10-15 · P2：截断策略量化
+
+- **提交**：`c2aafde`、`5672657`、`63ecb9b`、`739de2f`
+- **是什么**：`build_samples` / `build_batch` 新增 `truncation_strategy`，取值 `truncate`（默认）、`split_on_budget`、`drop`，并做了 72 组对比实验。
+- **为什么**：合并后的 response 超出预算时，默认截掉尾部，而尾部正好是最接近奖励的后期生成，存在信用分配错位。
+- **怎么做**：
+  - `split_on_budget`：并入下一轮会超限时，在轮次边界另起一行，新行的 prompt 是完整上下文；单轮生成本身超限时仍截断。
+  - 实验复用 P1 的样本，使用 Qwen2.5 + B 方式（这个组合 100% 合并），网格为 prompt {8k, 32k} × response {4k, 8k, 16k, 32k} × 3 种策略。
+- **结果**（`experiments/truncation/results/`）：
+  - 合并 response 中约 80% 是工具观察：生成 token 的占比分别为 SWE-smith 16.7%、nebius 17.9%、Toucan 20.7%。
+  - SWE-smith，response 4k：truncate 只保留 9.4% 的生成 token，95.7% 的轨迹丢失最后一次生成，86.7% 的行结尾只剩观察。
+  - prompt 32k 时，split 的保留率：SWE-smith 84.7%–86.0%，nebius ≥ 99.6%；最终生成丢失 SWE-smith ≤ 13.3%、nebius ≤ 1.7%。代价是行 token 总量为 truncate 的 1.71–8.82 倍（response ≤ 16k）。
+  - prompt 8k 时，split 产生大量 `is_drop` 行；response ≥ 8k 时保留率与 truncate 持平。
+  - drop 在所有设置下最差，SWE-smith 在 4k 时 95.7% 的轨迹没有可用行。
+- **待跟进**（据此提出方案 1、2）：split 的两个代价，一是 prompt 预算紧时失效，二是计算量膨胀。问题 A（观察挤占预算）的根源可以考虑压缩观察，但存在 off-policy 风险。问题 D（信用分配）需要训练验证。
+
+## 2026-10-15 · 上游 Issue 与 README 重写
+
+- **提交**：`46f4ec7`、`ba148c2`
+- **是什么**：审核后原文提交 [microsoft/agent-lightning#645](https://github.com/microsoft/agent-lightning/issues/645)；README 改为以研究发现为主线。
+- **为什么**：把 P1 的发现反馈给上游，同时提升项目首页的表达力度。
+- **结果**：Issue 已提交，截至 2026-10-16 尚无维护者回复。
+
+## 2026-10-15 · P1：真实 chat template 前缀一致性研究
+
+- **提交**：`0b7ef32`、`8a86a1b`、`5200a8d`、`f1a076e`、`c50ab9c`、`7e7b68a`、`2871fa1`
+- **是什么**：新增零依赖归因器 `trace2batch/mismatch.py`（template / retoken / others 三类）和实验 `experiments/template_prefix/`。
+- **为什么**：上游 `rollout_adapter.py` 第 602–605 行把 `template_mismatch` / `retoken_mismatch` 固定写成 False，合并失败的原因无从得知。
+- **怎么做**：
+  - 3 个公开数据集各 300 条轨迹，Qwen2.5 和 Qwen3（3 种思考配置）。
+  - 三种采集方式：A token 直通（对照组）、B 模拟 vLLM `return_token_ids`、C 文本重分词。
+  - 归因次数与 `build_samples` 的不匹配计数逐条交叉校验。
+  - 修过一个 bug：按字符对齐时，被删的思考块会和后面的 `<tool_call>` 错配成碎片，改为按标记 / 单词粒度对齐。
+- **结果**（`experiments/template_prefix/results/`）：
+  - Qwen2.5 100% 合并。
+  - Qwen3 `enable_thinking=False` 时，11,984 次合并全部失败，全部归为 template；不截断时行 token 总量膨胀 15.75×（SWE-smith）、14.75×（nebius）、1.75×（Toucan）。
+  - 思考模式下不回传 reasoning 时全部失败；回传时，nebius（观察用 `user` 角色）仍然全部失败。
+  - 两次完整运行的合并计数一致。
+- **待跟进**：retoken 类没有观测到，因为没有真实模型采样；P1 当时只覆盖 Qwen，已于 2026-10-16 扩展。
+
+## 2026-10-15 · P0：仓库整改
+
+- **提交**：`99017e4`、`84da424`、`e79e4d5`、`4d75a8d`、`df70da3`、`a1784f8`、`5a2ba3c`、`ac83c53`
+- **是什么**：
+  - 补 `[project]` 元数据和可选依赖。
+  - 新增 CI（3.12 / 3.13）。
+  - 补全版权和来源说明。
+  - 新增 `max_total_length`、`reward_fillna_value`、`build_batch`。
+  - 删除低价值断言。
+- **为什么**：让来源、许可证和工程规范站得住，为后续研究打基础。
+- **结果**：测试从 51 项增加到 69 项，原有的行为测试不变；CI 在 GitHub 上通过。
