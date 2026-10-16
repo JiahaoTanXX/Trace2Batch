@@ -144,3 +144,72 @@ def test_synthetic_token_schema_is_explicit(tokens: Any) -> None:
     events = [{"event_type": "model_request", "data": {"response_token_ids": tokens}}]
     with pytest.raises(ValueError, match="整数列表"):
         build_samples(events, mode="transition", max_prompt_length=16, max_response_length=16)
+
+
+def test_default_total_length_and_fillna_keep_existing_behavior() -> None:
+    events = [{"event_type": "model_request", "data": {"prompt_token_ids": [1, 2], "response_token_ids": [10, 11]}}]
+    default = build_samples(events, mode="transition", max_prompt_length=16, max_response_length=16)
+    explicit = build_samples(
+        events,
+        mode="transition",
+        max_prompt_length=16,
+        max_response_length=16,
+        max_total_length=None,
+        reward_fillna_value=0.0,
+    )
+    assert default == explicit
+
+
+@pytest.mark.parametrize(
+    "prompt,max_prompt,total,expected_response,truncated",
+    [
+        ([1, 2, 3], 16, 5, [10, 11], 1),  # 5 - 3 = 2
+        ([1, 2, 3], 16, 2, [], 1),  # 预算为负时取 0, 行因无 policy token 被跳过
+        ([1, 2, 3, 4], 2, 4, [10, 11], 1),  # 用截断后的 prompt 长度 2 计算预算
+        ([1], 16, 100, [10, 11, 12], 0),  # 总长足够时由 max_response_length 决定
+    ],
+)
+def test_max_total_length_matches_upstream_budget(
+    prompt: list[int], max_prompt: int, total: int, expected_response: list[int], truncated: int
+) -> None:
+    events = [{"event_type": "model_request", "data": {"prompt_token_ids": prompt, "response_token_ids": [10, 11, 12]}}]
+    result = build_samples(
+        events, mode="transition", max_prompt_length=max_prompt, max_response_length=16, max_total_length=total
+    )
+    assert [row.response_token_ids for row in result.rows] == ([expected_response] if expected_response else [])
+    assert result.diagnostics["truncated_response_rows"] == truncated
+    for row in result.rows:
+        assert len(row.response_mask) == len(row.response_token_ids)
+        assert len(row.prompt_token_ids) + len(row.response_token_ids) <= total
+
+
+def test_max_total_length_truncates_merged_trajectory_with_mask() -> None:
+    scenario = next(item for item in SCENARIOS if item["id"] == "three_turn_tool")
+    result = build_samples(
+        scenario["events"], mode="trajectory", max_prompt_length=16, max_response_length=16, max_total_length=4
+    )
+    assert result.rows[0].response_token_ids == [10, 90, 11]
+    assert result.rows[0].response_mask == [1, 0, 1]
+
+
+def test_reward_fillna_value_only_applies_to_missing_reward() -> None:
+    missing = build_samples(
+        _events(), mode="transition", max_prompt_length=16, max_response_length=16, reward_fillna_value=-1.0
+    )
+    assert missing.rows[0].reward == -1.0
+    assert missing.final_reward is None
+    assert missing.summary()["has_reward"] == 0
+    present = build_samples(
+        [*_events(), {"event_type": "reward", "data": {"value": 0}}],
+        mode="transition",
+        max_prompt_length=16,
+        max_response_length=16,
+        reward_fillna_value=-1.0,
+    )
+    assert present.rows[0].reward == 0.0
+
+
+@pytest.mark.parametrize("kwargs", [{"max_total_length": -1}, {"max_total_length": True}, {"reward_fillna_value": "0"}])
+def test_invalid_total_length_and_fillna_are_rejected(kwargs: dict[str, Any]) -> None:
+    with pytest.raises(ValueError):
+        build_samples(_events(), mode="transition", max_prompt_length=16, max_response_length=16, **kwargs)

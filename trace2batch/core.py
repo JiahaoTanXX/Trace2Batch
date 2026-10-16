@@ -76,18 +76,28 @@ def build_samples(
     mode: str,
     max_prompt_length: int,
     max_response_length: int,
+    max_total_length: int | None = None,
+    reward_fillna_value: float = 0.0,
 ) -> BuildResult:
     """从单个合成 rollout 的已投影 token 事件构建 transition/trajectory 行。
 
     文本轨迹处理: 互斥过滤、最后 reward、前缀合并、
     观察 token mask=0、响应截断、过长 prompt 标记。没有 Gateway 投影/去重、
     padding、图像、log_probs、优势/loss、PPO 行筛选或模型参数更新。
+
+    max_total_length 与上游 RolloutAdapter 一致: 响应上限取
+    min(max_response_length, max_total_length - 截断后 prompt 长度), 不小于 0。
+    reward_fillna_value 只用于缺失奖励行的 reward; final_reward 仍为 None。
     """
     if mode not in {"transition", "trajectory"}:
         raise ValueError("mode 只支持 transition 或 trajectory。")
     for name, limit in (("max_prompt_length", max_prompt_length), ("max_response_length", max_response_length)):
         if type(limit) is not int or limit < 0:
             raise ValueError(f"{name} 必须是非负整数。")
+    if max_total_length is not None and (type(max_total_length) is not int or max_total_length < 0):
+        raise ValueError("max_total_length 必须是非负整数或 None。")
+    if isinstance(reward_fillna_value, bool) or not isinstance(reward_fillna_value, int | float):
+        raise ValueError("reward_fillna_value 必须是数值。")
 
     counters: dict[str, int] = dict.fromkeys(
         (
@@ -123,20 +133,24 @@ def build_samples(
     rows: list[SampleRow] = []
 
     def emit(prompt: list[int], response: list[int], mask: list[int], indices: list[int]) -> None:
-        if len(response) > max_response_length:
+        truncated_prompt = prompt[:max_prompt_length]
+        response_limit = max_response_length
+        if max_total_length is not None:
+            response_limit = min(response_limit, max(max_total_length - len(truncated_prompt), 0))
+        if len(response) > response_limit:
             counters["truncated_response_rows"] += 1
-        truncated_response = response[:max_response_length]
-        truncated_mask = mask[:max_response_length]
+        truncated_response = response[:response_limit]
+        truncated_mask = mask[:response_limit]
         if sum(truncated_mask) == 0:
             counters["skipped_zero_policy_rows"] += 1
             return
         rows.append(
             SampleRow(
-                prompt_token_ids=prompt[:max_prompt_length],
+                prompt_token_ids=truncated_prompt,
                 response_token_ids=truncated_response,
                 response_mask=truncated_mask,
                 source_turn_indices=list(indices),
-                reward=final_reward if final_reward is not None else 0.0,
+                reward=final_reward if final_reward is not None else float(reward_fillna_value),
                 is_drop=len(prompt) > max_prompt_length,
             )
         )
