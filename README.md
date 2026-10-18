@@ -56,6 +56,22 @@
 
 这是 0.5B 小模型在 T=1.0 下的小规模结果，比例不能直接推广到大模型；GPU 上的大规模复现在计划中。详见 [真实采样报告](experiments/real_sampling/REPORT.md)。
 
+## 从诊断到修复：模板补丁与 token-in-token-out
+
+针对 Qwen3 和 gpt-oss，各编写了一个**前缀稳定的模板补丁**（`experiments/template_patch/templates/`）：历史消息按生成时的样子渲染。补丁都是官方模板的最小改动。
+
+| 验证 | 官方模板 | 补丁模板 |
+|---|---:|---:|
+| 规范输出：Qwen3 关闭思考，3 个数据集 | 0% | **100%** |
+| 规范输出：gpt-oss，SWE-agent | 0% | **100%** |
+| 真实采样：Qwen3-0.6B 关闭思考，150 个轮次 | 0% | **78.7%** |
+
+- 规范输出下，补丁后的训练行与 token-in-token-out **逐数据集完全一致**。
+- 真实采样下剩余的 21.3%，来自工具调用被重新格式化（例如 `-74.0060` 经 JSON 解析后变成 `-74.006`）和非规范 token 切分。这两类**只有 token-in-token-out 能消除**。
+- 补丁有意偏离了 Qwen3 官方"历史中不保留思考"的建议，对模型效果的影响尚未验证。
+
+详见 [模板补丁报告](experiments/template_patch/REPORT.md)。
+
 ## 项目亮点
 
 - **不匹配归因器**（`trace2batch/mismatch.py`）：定位第一个分歧 token，把失败归为 `template_mismatch` / `retoken_mismatch` / `others_mismatch` 三类，并输出分歧点前后的文本片段供人工核查。只用 Python 标准库，解码函数以回调注入，可以接入任何 tokenizer。
@@ -98,6 +114,7 @@ python -m experiments.truncation.run          # 截断策略、预算分配与�
 
 pip install -e ".[sampling]"
 python -m experiments.real_sampling.run       # 真实模型采样（下载约 1 GB 的 0.5B 模型）
+python -m experiments.template_patch.run      # 模板补丁验证
 ```
 
 样本构建：
@@ -163,6 +180,7 @@ Trace2Batch/
 │   ├── DATA.md / REPORT.md     # 数据说明与研究报告
 │   └── results/                # 结果 JSON、汇总表与样本 id
 ├── experiments/real_sampling/  # 真实模型采样实验与报告
+├── experiments/template_patch/ # 前缀稳定模板补丁、验证实验与报告
 ├── experiments/truncation/
 │   ├── run.py                  # 截断策略对比实验
 │   ├── REPORT.md               # 截断实验报告
@@ -175,7 +193,7 @@ Trace2Batch/
 
 ## English summary
 
-Trace2Batch is a diagnostic toolkit and empirical study of multi-turn agent trajectory data for agentic RL. Using 5 real tokenizers from 4 model families (Qwen, DeepSeek, GLM, gpt-oss; 9 template configurations) and 900 public agent trajectories, it simulates the OpenAI-compatible proxy + vLLM `return_token_ids` collection path over 107,848 merge attempts. All 54,391 failures are attributed to chat-template rewrites: Qwen3 with `enable_thinking=False` drops the empty `<think>` block from history (0% merged), Qwen3/GLM-4.5 thinking modes lose history reasoning unless it is sent back and observations use the `tool` role, and gpt-oss rewrites `<|return|>` to `<|end|>` after a final answer. Qwen2.5, DeepSeek-V3.1 and GLM-4.5 without thinking merge 100%. When merging fails, rows degrade to one per turn and uncapped token volume grows up to 15.75×. A follow-up with real sampling (Qwen2.5-0.5B-Instruct, T=1.0, 300 turns, vLLM Hermes parsing) shows that even a prefix-stable template breaks in practice: only 60.4% of finished turns keep the prefix, mainly because of non-canonical token splits (32.5%). A second study shows that about 80% of the merged response budget is spent on tool observations, and that the binding constraint is the per-row total length. At the same total length, allocating the prompt/response budget dynamically instead of splitting it in half raises policy-token retention under default truncation from 26.3% to 54.6% on SWE-smith (16k total). Splitting at turn boundaries never retains more policy tokens at equal total length, and 62.6%–67.7% of its token overhead is shared prefix. The project ships a dependency-free mismatch classifier (template / retoken / others), a reproducible experiment pipeline, and a zero-dependency sample builder. The findings were reported upstream as microsoft/agent-lightning#645.
+Trace2Batch is a diagnostic toolkit and empirical study of multi-turn agent trajectory data for agentic RL. Using 5 real tokenizers from 4 model families (Qwen, DeepSeek, GLM, gpt-oss; 9 template configurations) and 900 public agent trajectories, it simulates the OpenAI-compatible proxy + vLLM `return_token_ids` collection path over 107,848 merge attempts. All 54,391 failures are attributed to chat-template rewrites: Qwen3 with `enable_thinking=False` drops the empty `<think>` block from history (0% merged), Qwen3/GLM-4.5 thinking modes lose history reasoning unless it is sent back and observations use the `tool` role, and gpt-oss rewrites `<|return|>` to `<|end|>` after a final answer. Qwen2.5, DeepSeek-V3.1 and GLM-4.5 without thinking merge 100%. When merging fails, rows degrade to one per turn and uncapped token volume grows up to 15.75×. A follow-up with real sampling (Qwen2.5-0.5B-Instruct, T=1.0, 300 turns, vLLM Hermes parsing) shows that even a prefix-stable template breaks in practice: only 60.4% of finished turns keep the prefix, mainly because of non-canonical token splits (32.5%). Minimal prefix-stable template patches for Qwen3 and gpt-oss restore merging from 0% to 100% on canonical outputs, and from 0% to 78.7% under real Qwen3-0.6B sampling; the remainder (tool-call reformatting such as -74.0060 → -74.006, and non-canonical splits) can only be removed by token-in-token-out. A second study shows that about 80% of the merged response budget is spent on tool observations, and that the binding constraint is the per-row total length. At the same total length, allocating the prompt/response budget dynamically instead of splitting it in half raises policy-token retention under default truncation from 26.3% to 54.6% on SWE-smith (16k total). Splitting at turn boundaries never retains more policy tokens at equal total length, and 62.6%–67.7% of its token overhead is shared prefix. The project ships a dependency-free mismatch classifier (template / retoken / others), a reproducible experiment pipeline, and a zero-dependency sample builder. The findings were reported upstream as microsoft/agent-lightning#645.
 
 ## 许可证
 
