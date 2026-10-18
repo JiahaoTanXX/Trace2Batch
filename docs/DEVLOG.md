@@ -14,6 +14,28 @@
 
 ---
 
+## 2026-10-18 · token-in-token-out 参考实现（B）与采样温度消融（C）
+
+- **提交**：`8dc48b6`、`902bdb9`，以及本条目对应的结果与文档提交
+- **是什么**：
+  - B：`trace2batch/tito.py`，只用标准库的 TITO 轨迹记录器；`experiments/tito/encoder.py`，Qwen 系的新消息分词；`experiments/tito/run.py`，在规范输出上验证。
+  - C：真实采样新增 `--sampling recommended`（取模型的 generation_config）。
+- **为什么**：
+  - 模板补丁报告的结论是"只有 token-in-token-out 能消除所有失败"，需要一个可运行、经过验证的实现来支撑。
+  - 真实采样中 retoken 比例很高，需要回答"这是不是高温采样的产物"。
+- **怎么做**：
+  - 新消息分词：把新消息接在占位对话之后渲染，取占位 assistant 的 `<|im_end|>` 之后的文本。
+  - 真实采样中额外记录 TITO 上下文与重渲染是否逐 token、逐文本相同。
+  - 推荐设置在相同的轮次和种子上重跑：Qwen2.5-0.5B 300 个轮次，Qwen3-0.6B + 补丁 150 个轮次。
+- **结果**（`experiments/tito/results/`、`experiments/real_sampling/results/*@recommended/`）：
+  - TITO 规范输出验证：Qwen2.5 和 Qwen3 补丁下，12,884 / 12,884 个 prompt 与重渲染逐 token 相同；Qwen3 官方模板下只有 900 个相同（每条轨迹的第一轮）。TITO 合并失败在所有配置下都是 0。
+  - 温度消融（Qwen2.5-0.5B，正常结束口径）：T=1.0 时前缀成立 60.4%、retoken 32.5%、template 6.5%；推荐设置下分别为 88.7%、4.7%、6.6%。非规范切分对温度敏感，模板层面的失败与温度无关。
+  - Qwen3-0.6B + 补丁：T=1.0 时 78.3%，generation_config 默认设置下 83.2%；retoken 11 → 3，template 20 → 21。注意：这里用的是思考模式的默认值，不是非思考模式的建议。
+  - 交叉验证：TITO 与重渲染逐 token 相同的轮次，恰好等于前缀成立的轮次（188 和 119）；文本相同但 token 不同的轮次，恰好等于 retoken 的数量（10 和 3）。
+- **待跟进**：
+  - 生成被截断时，TITO 缺少 `<|im_end|>`，需要在框架里单独处理。
+  - 采样温度消融还没有覆盖 GPU 上的大模型，Kaggle 全量实验中会包含。
+
 ## 2026-10-18 · Kaggle T4 上的 vLLM 可行性检查
 
 - **提交**：本条目对应的提交

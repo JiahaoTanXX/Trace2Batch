@@ -54,7 +54,9 @@
 - 其次是模板层面的差异（6.5%）：模型把工具调用 JSON 写成带缩进的多行格式而模板重新渲染成紧凑格式、以 `<|endoftext|>` 而非 `<|im_end|>` 结束、正文与模板的换行叠加等。
 - 所以只要采用"服务端每轮重渲染 + 重分词"的链路，就算模板本身前缀稳定，trajectory 聚合也会频繁退化；要稳定合并，需要 token-in-token-out。
 
-这是 0.5B 小模型在 T=1.0 下的小规模结果，比例不能直接推广到大模型；GPU 上的大规模复现在计划中。详见 [真实采样报告](experiments/real_sampling/REPORT.md)。
+- **温度消融**：改用模型推荐的采样设置（T=0.7 等）后，前缀成立率升到 88.7%，retoken 降到 4.7%；但模板层面的失败基本不变，两种设置下都约为 6.5%。非规范切分主要是高温采样的问题，工具调用重新格式化则与温度无关。
+
+这是 0.5B 小模型的小规模结果，比例不能直接推广到大模型；GPU 上用真实 vLLM 的大规模复现正在进行。详见 [真实采样报告](experiments/real_sampling/REPORT.md)。
 
 ## 从诊断到修复：模板补丁与 token-in-token-out
 
@@ -67,6 +69,7 @@
 | 真实采样：Qwen3-0.6B 关闭思考，150 个轮次 | 0% | **78.7%** |
 
 - 规范输出下，补丁后的训练行与 token-in-token-out **逐数据集完全一致**。
+- 提供只用标准库的 **token-in-token-out 参考实现**（`trace2batch/tito.py`）。在 900 条轨迹上，它与服务端重渲染逐 token 相同（12,884 / 12,884 个 prompt），模板改写历史时依然 100% 合并。
 - 真实采样下剩余的 21.3%，来自工具调用被重新格式化（例如 `-74.0060` 经 JSON 解析后变成 `-74.006`）和非规范 token 切分。这两类**只有 token-in-token-out 能消除**。
 - 补丁有意偏离了 Qwen3 官方"历史中不保留思考"的建议，对模型效果的影响尚未验证。
 
@@ -78,7 +81,7 @@
 - **可复现的实证研究**（`experiments/template_prefix/`）：数据集和 tokenizer 的 revision 全部固定，抽样种子固定，样本 id 落盘，一条命令即可重跑。重复运行的合并与归因结果完全一致。归因次数与样本构建的不匹配计数逐条交叉校验。
 - **三种采集方式对照**：token 直通（对照组）、vLLM token id（每轮服务端重渲染）、文本重分词，可以分离模板改写与分词边界两类因素。
 - **样本构建引擎**（`trace2batch/core.py`）：把模型请求、工具观察、奖励事件转成 RL 样本行（prompt / response / policy mask / reward），支持 `transition` 与 `trajectory` 两种表示、三种截断策略、多 rollout 批处理、总长预算、缺失奖励填充、请求过滤计数和"无可用行"原因诊断。零运行时依赖。
-- **工程质量**：109 个默认离线测试，加上 3 个使用真实 tokenizer 的联网测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
+- **工程质量**：122 个默认离线测试，加上 3 个使用真实 tokenizer 的联网测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
 
 ## 研究设置一览
 
@@ -174,13 +177,16 @@ ruff check . && ruff format --check . && pyright
 Trace2Batch/
 ├── trace2batch/
 │   ├── core.py                 # 样本构建、批处理与诊断
-│   └── mismatch.py             # 前缀不匹配定位与原因归因
+│   ├── mismatch.py             # 前缀不匹配定位与原因归因
+│   └── tito.py                 # token-in-token-out 轨迹记录器
 ├── experiments/template_prefix/
 │   ├── run.py                  # 真实 tokenizer 前缀一致性实验
 │   ├── DATA.md / REPORT.md     # 数据说明与研究报告
 │   └── results/                # 结果 JSON、汇总表与样本 id
 ├── experiments/real_sampling/  # 真实模型采样实验与报告
 ├── experiments/template_patch/ # 前缀稳定模板补丁、验证实验与报告
+├── experiments/tito/           # TITO 观察分词与规范输出验证
+├── experiments/vllm_sampling/  # 真实 vLLM 服务端采样客户端（GPU）
 ├── experiments/truncation/
 │   ├── run.py                  # 截断策略对比实验
 │   ├── REPORT.md               # 截断实验报告
