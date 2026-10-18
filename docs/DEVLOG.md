@@ -17,14 +17,14 @@
 ## 2026-10-18 · Kaggle T4 上的 vLLM 可行性检查
 
 - **提交**：本条目对应的提交
-- **是什么**：`kaggle/vllm_feasibility.py` 在 Kaggle 免费的 T4 上安装 vLLM，启动带 Hermes 工具解析的 OpenAI 兼容服务，检查 `return_token_ids` 与下一轮前缀。这是 GPU 上大规模真实采样实验的前置检查。
+- **是什么**：本地脚本 `kaggle/vllm_feasibility.py`（不推送到 GitHub）在 Kaggle 免费的 T4 上安装 vLLM，启动带 Hermes 工具解析的 OpenAI 兼容服务，检查 `return_token_ids` 与下一轮前缀。这是 GPU 上大规模真实采样实验的前置检查。
 - **为什么**：本地 CPU 只能跑 0.5B 级模型、每个数据集 100 个轮次，还要跳过长 prompt。要真正复现上游链路（真实的 vLLM 服务端），需要 GPU。
 - **过程**（用户已同意提交私有 notebook，账号有 30 GPU 小时/周）：
   - 第 1 次失败：Kaggle 预装的 torchaudio 是按 CUDA 12.8 编译的，vLLM 自带的 PyTorch 是 CUDA 13.0，导致启动报错。
   - 第 2 次：我的修复脚本没有生效就推送了，结果同样失败，浪费约 5 分钟 GPU。
   - 第 3 次成功：把 vLLM 装进独立的 uv 虚拟环境。
   - 三次合计用了 0.23 GPU 小时。
-- **结果**（`kaggle/results/feasibility_v3.json`）：
+- **结果**（本地 `kaggle/results/feasibility_v3.json`；按用户要求，Kaggle 相关脚本与结果不推送到 GitHub）：
   - vLLM 0.32.0 在 T4（计算能力 7.5，fp16）上可用：安装 141 s，服务就绪 125 s。
   - 响应中包含 `prompt_token_ids` 和 `token_ids`，Hermes 解析出了结构化的 `tool_calls`，下一轮前缀成立。首个请求用时 0.79 s（172 个 prompt token、19 个生成 token）。
 - **修正与待跟进**：

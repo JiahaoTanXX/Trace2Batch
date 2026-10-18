@@ -36,7 +36,7 @@ select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
 quote-style = "double"
 
 [tool.pyright]
-include = ["trace2batch", "examples/trace2batch", "experiments", "kaggle", "tests"]
+include = ["trace2batch", "examples/trace2batch", "experiments", "tests"]
 pythonVersion = "3.12"
 typeCheckingMode = "standard"
 
