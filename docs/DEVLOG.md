@@ -25,7 +25,7 @@
   - 解析逻辑对照 vllm@`da9134b` 的 `hermes_tool_parser.py` 实现，有离线单元测试。
   - 新增可选依赖 `[sampling]`（torch）。
   - 总耗时：CPU 约 79 分钟。MPS 约快 1.7 倍，但不保证可复现，所以没有用。
-- **结果**（`experiments/real_sampling/results/`）：
+- **结果**（`experiments/real_sampling/results/qwen2.5-0.5b/`）：
   - 正常结束的 169 个轮次中，前缀成立 102 个（60.4%）；retoken 55 个（32.5%），template 11 个（6.5%），others 1 个。
   - 全部 300 个轮次中，前缀成立 111 个（37.0%）。被截断的 131 个轮次中，有 121 个出现 retoken（92.4%）。
   - retoken 实例（用相同种子重新采样复现）：采样得到 `-t` `xt`，规范分词是 `-txt`。

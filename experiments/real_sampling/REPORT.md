@@ -1,6 +1,6 @@
 # 真实模型采样下的前缀一致性（本地 CPU 小规模版）
 
-> 所有数字来自 `python -m experiments.real_sampling.run --turns-per-dataset 100` 的一次完整运行（CPU，可复现），原始结果在 `results/results.json` 和 `results/summary.md`。这是小规模先导实验，大规模版本计划在 GPU 上用 vLLM 复现。
+> 所有数字来自 `python -m experiments.real_sampling.run --model qwen2.5-0.5b --turns-per-dataset 100` 的一次完整运行（CPU，可复现），原始结果在 `results/qwen2.5-0.5b/results.json` 和 `results/qwen2.5-0.5b/summary.md`。这是小规模先导实验，大规模版本计划在 GPU 上用 vLLM 复现。
 
 ## 1. 为什么要做
 

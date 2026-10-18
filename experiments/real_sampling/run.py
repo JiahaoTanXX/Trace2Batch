@@ -16,7 +16,7 @@
 不需要工具执行环境: 下一轮观察直接取数据集原有内容, 只用于让该轮助手消息进入历史。
 本脚本在本地 CPU / MPS 上运行小模型; 大规模版本计划在 GPU 上用 vLLM 复现。
 
-    python -m experiments.real_sampling.run --turns-per-dataset 60
+    python -m experiments.real_sampling.run --model qwen2.5-0.5b --turns-per-dataset 100
 """
 
 from __future__ import annotations
@@ -45,13 +45,21 @@ from experiments.template_prefix.run import (
 from trace2batch.mismatch import explain_mismatch
 
 RESULTS_DIR = Path(__file__).with_name("results")
-MODEL = TokenizerConfig(
-    "qwen2.5-0.5b-instruct",
-    "Qwen/Qwen2.5-0.5B-Instruct",
-    "7ae557604adf67be50417f59c2c2f167def9a775",
-    "Qwen",
-    QWEN_END,
-)
+_QWEN25_05B = ("Qwen/Qwen2.5-0.5B-Instruct", "7ae557604adf67be50417f59c2c2f167def9a775", "Qwen")
+_QWEN3_06B = ("Qwen/Qwen3-0.6B", "c1899de289a04d12100db370d81485cdf75e47ca", "Qwen")
+_NO_THINK = {"enable_thinking": False}
+MODELS: dict[str, TokenizerConfig] = {
+    "qwen2.5-0.5b": TokenizerConfig("qwen2.5-0.5b-instruct", *_QWEN25_05B, QWEN_END),
+    # Qwen3 关闭思考: 官方模板 vs 前缀稳定补丁(experiments/template_patch)。
+    "qwen3-0.6b": TokenizerConfig("qwen3-0.6b_no_think", *_QWEN3_06B, QWEN_END, template_kwargs=_NO_THINK),
+    "qwen3-0.6b+patch": TokenizerConfig(
+        "qwen3-0.6b_no_think+patch",
+        *_QWEN3_06B,
+        QWEN_END,
+        template_kwargs=_NO_THINK,
+        chat_template="experiments/template_patch/templates/qwen3_prefix_stable.jinja",
+    ),
+}
 # vLLM Hermes 解析器(vllm@da9134b vllm/tool_parsers/hermes_tool_parser.py)使用的正则。
 _TOOL_CALL_RE = re.compile(r"<tool_call>(.*?)</tool_call>|<tool_call>(.*)", re.DOTALL)
 EXAMPLES_PER_KIND = 5
@@ -123,6 +131,7 @@ def candidate_turns(conversation: Conversation, max_turns: int) -> list[Turn]:
 
 class Sampler:
     def __init__(self, renderer: Renderer, device: str) -> None:
+        config = renderer.config
         import torch
         from transformers import AutoModelForCausalLM
 
@@ -130,7 +139,7 @@ class Sampler:
         self.renderer = renderer
         self.device = device
         self.model = AutoModelForCausalLM.from_pretrained(
-            MODEL.repo, revision=MODEL.revision, cache_dir=CACHE_DIR, dtype=torch.float32, trust_remote_code=False
+            config.repo, revision=config.revision, cache_dir=CACHE_DIR, dtype=torch.float32, trust_remote_code=False
         ).to(device)
         self.model.eval()
         tokenizer = renderer.tokenizer
@@ -236,15 +245,18 @@ def main(argv: Sequence[str] | None = None) -> None:
     parser.add_argument("--max-prompt-tokens", type=int, default=4096, help="CPU 上跳过更长的 prompt")
     parser.add_argument("--max-new-tokens", type=int, default=512)
     parser.add_argument("--device", default="cpu")
-    parser.add_argument("--out", type=Path, default=RESULTS_DIR)
+    parser.add_argument("--model", choices=sorted(MODELS), default="qwen2.5-0.5b")
+    parser.add_argument("--out", type=Path, default=None, help="默认 results/<model>/")
     args = parser.parse_args(argv)
+    model = MODELS[args.model]
+    out: Path = args.out or RESULTS_DIR / args.model
 
     import torch
     import transformers
 
-    renderer = Renderer(MODEL)
+    renderer = Renderer(model)
     sampler = Sampler(renderer, args.device)
-    args.out.mkdir(parents=True, exist_ok=True)
+    out.mkdir(parents=True, exist_ok=True)
     summaries: dict[str, dict[str, Any]] = {}
     all_records: dict[str, list[dict[str, Any]]] = {}
     for spec in DATASETS:
@@ -274,7 +286,7 @@ def main(argv: Sequence[str] | None = None) -> None:
     report = {
         "schema_version": 1,
         "settings": {
-            "model": MODEL.__dict__,
+            "model": model.__dict__,
             "device": args.device,
             "turns_per_dataset": args.turns_per_dataset,
             "seed": args.seed,
@@ -288,10 +300,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         "examples": examples,
         "records": all_records,
     }
-    (args.out / "results.json").write_text(
+    (out / "results.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8"
     )
-    (args.out / "summary.md").write_text(markdown_table(summaries), encoding="utf-8")
+    (out / "summary.md").write_text(markdown_table(summaries), encoding="utf-8")
     print(markdown_table(summaries))
 
 
