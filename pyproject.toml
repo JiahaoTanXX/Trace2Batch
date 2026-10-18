@@ -17,6 +17,8 @@ dependencies = []
 [project.optional-dependencies]
 # 真实 tokenizer / 数据集实验；只在实验脚本和 network 测试中按需导入。
 real = ["transformers>=4.56", "jinja2>=3.1", "datasets>=4.0"]
+# 真实采样实验: 本地 CPU / MPS 上运行 0.5B 级小模型。
+sampling = ["trace2batch[real]", "torch>=2.4"]
 # ruff 0.17 起检查 Markdown 代码块，固定版本保证本地与 CI 一致。
 dev = ["pytest>=8", "ruff==0.17.1", "pyright==1.1.414"]
 
