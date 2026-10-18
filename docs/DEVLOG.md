@@ -14,6 +14,25 @@
 
 ---
 
+## 2026-10-18 · Kaggle 真实 vLLM 采样 pilot 第 1 版（发现 3 个问题）
+
+- **提交**：`6157387`（客户端，Kaggle 上按这个 commit 克隆），以及本条目对应的修复提交
+- **是什么**：`experiments/vllm_sampling/run.py` 直接请求 `vllm serve`（Hermes 工具解析、`return_token_ids`）：把服务端返回的 assistant 消息写回历史、接上数据集观察后再请求一次，取服务端渲染的下一轮 prompt 做前缀检查。pilot 设置为 Qwen2.5-1.5B-Instruct、T=1.0、每个数据集 30 个轮次、单块 T4、并发 16。
+- **为什么**：用真实服务端链路、更大的模型和不跳过长 prompt 的设置，复现本地 CPU 的结论。
+- **结果**（Kaggle 输出保存在本地 `kaggle/results/pilot_v1/`，不推送）：
+  - 整条链路跑通。环境准备 71 s，服务就绪 160 s，客户端 1,252 s。本次 pilot 消耗约 0.42 GPU 小时，累计 0.65 h。
+  - nebius：30 个轮次全部正常结束，prompt 最长 32,137 token；前缀成立 26/30，4 次失败都是 retoken。
+  - **问题 1**：SWE-smith 有 449 次请求被拒（HTTP 400）。原因是发送的历史不符合 OpenAI 接口格式：工具参数是对象而不是 JSON 字符串，tool 消息没有 tool_call_id。只有历史中没有工具调用的前段轮次成功（prompt 最长只有 1,730 token）。
+  - **问题 2**：以工具调用结束时 `finish_reason` 为 `tool_calls`，被误算成未结束（Toucan 只显示 5/30 正常结束）。
+  - **问题 3**：SWE-smith 数据没有工具定义，vLLM 不解析工具调用（`with_tool_calls` 为 0）。
+  - **吞吐**：约 14 s/轮，nebius 的长 prompt 占了大部分时间（30 个轮次用 832 s）。之前估计的全量 1.5–3 GPU 小时明显偏低，按这个速度全量会超过 10 小时，需要缩小规模。
+- **修复**：
+  - `history_for_api` 把历史转成 OpenAI 格式（参数转字符串，补 id 和 tool_call_id）。
+  - `finish_reason` 为 `tool_calls` 时也算正常结束。
+  - `derive_tools` 用对话中出现过的工具名和参数名构造近似工具定义。
+  - 请求错误按"超长 / 其他"分类，并保存错误信息样例。
+- **待跟进**：用 pilot 第 2 版验证修复（两块 GPU 并行，同时验证 Qwen3 补丁模板在 vLLM `--chat-template` 下的表现），并据此确定全量规模。
+
 ## 2026-10-18 · token-in-token-out 参考实现（B）与采样温度消融（C）
 
 - **提交**：`8dc48b6`、`902bdb9`，以及本条目对应的结果与文档提交

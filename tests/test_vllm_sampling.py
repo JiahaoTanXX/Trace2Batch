@@ -12,6 +12,8 @@ from experiments.vllm_sampling.run import (
     MODELS,
     RL_SAMPLING,
     assistant_for_history,
+    derive_tools,
+    history_for_api,
     observations_for_history,
     process_turn,
     sample_dataset,
@@ -112,7 +114,58 @@ def test_sample_dataset_keeps_candidate_order_and_counts_errors() -> None:
             return {"error": {"status": 400}}
         return {"sample_id": turn.sample_id, "seed": seed}
 
-    records, errors = sample_dataset(turns, target=4, concurrency=3, seed=100, worker=worker)
+    records, errors, examples = sample_dataset(turns, target=4, concurrency=3, seed=100, worker=worker)
     assert [r["sample_id"] for r in records] == ["s1", "s2", "s4", "s5"]
     assert [r["seed"] for r in records] == [101, 102, 104, 105]
-    assert errors == {"400": 2}
+    assert errors == {"400:other": 2}
+    assert examples == ["", ""]
+
+
+def test_history_for_api_uses_openai_format() -> None:
+    history = [
+        {"role": "user", "content": "q"},
+        {
+            "role": "assistant",
+            "content": "",
+            "tool_calls": [{"type": "function", "function": {"name": "a", "arguments": {"x": 1}}}],
+        },
+        {"role": "tool", "content": "r"},
+    ]
+    converted = history_for_api(history)
+    call = converted[1]["tool_calls"][0]
+    assert call["function"]["arguments"] == '{"x": 1}'
+    assert converted[2]["tool_call_id"] == call["id"] == "call_1_0"
+
+
+def test_tool_calls_finish_reason_counts_as_finished() -> None:
+    def post(path: str, payload: dict[str, Any]) -> dict[str, Any]:
+        if payload["max_tokens"] == 1:
+            return {"prompt_token_ids": [*PROMPT, 7, 2, 6], "choices": [{"token_ids": [7], "message": {}}]}
+        message = {"role": "assistant", "content": "ok"}
+        return {
+            "prompt_token_ids": PROMPT,
+            "choices": [{"token_ids": [7, 2], "message": message, "finish_reason": "tool_calls"}],
+        }
+
+    record = process_turn(TURN, 0, post, MODELS["qwen2.5-1.5b"], RL_SAMPLING, 64, decode, encode, [])
+    assert record["finished"] is True
+
+
+def test_derive_tools_from_history() -> None:
+    messages = [
+        {
+            "role": "assistant",
+            "content": "",
+            "tool_calls": [{"function": {"name": "bash", "arguments": {"command": "ls"}}}],
+        },
+        {
+            "role": "assistant",
+            "content": "",
+            "tool_calls": [{"function": {"name": "edit", "arguments": {"path": "a", "new": "b"}}}],
+        },
+    ]
+    tools = derive_tools(messages)
+    assert tools is not None
+    assert [t["function"]["name"] for t in tools] == ["bash", "edit"]
+    assert sorted(tools[1]["function"]["parameters"]["properties"]) == ["new", "path"]
+    assert derive_tools([{"role": "user", "content": "hi"}]) is None

@@ -29,7 +29,7 @@ import urllib.request
 from collections import Counter
 from collections.abc import Callable, Sequence
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
@@ -122,6 +122,71 @@ def observations_for_history(observations: list[dict[str, Any]], assistant: dict
     return result
 
 
+def derive_tools(messages: list[dict[str, Any]]) -> list[dict[str, Any]] | None:
+    """数据集没有工具定义时(SWE-smith), 用对话中出现过的工具名和参数名构造近似定义。
+
+    没有工具定义时 vLLM 不会解析工具调用, 模型输出只会被当作普通文本; 近似定义让解析链路生效。
+    参数类型一律写成 string, 不标必填。
+    """
+    arguments: dict[str, dict[str, None]] = {}
+    for message in messages:
+        for call in message.get("tool_calls") or []:
+            names = arguments.setdefault(call["function"]["name"], {})
+            raw = call["function"]["arguments"]
+            if isinstance(raw, dict):
+                names.update(dict.fromkeys(raw))
+    if not arguments:
+        return None
+    return [
+        {
+            "type": "function",
+            "function": {
+                "name": name,
+                "description": f"Tool `{name}` (schema derived from the dataset trajectory).",
+                "parameters": {"type": "object", "properties": {arg: {"type": "string"} for arg in args}},
+            },
+        }
+        for name, args in arguments.items()
+    ]
+
+
+def history_for_api(history: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """把数据集历史转成 OpenAI 接口要求的格式, 与真实 agent 客户端回传给服务端的一致。
+
+    规范化后的数据集里, 工具参数是对象、工具调用没有 id、tool 消息没有 tool_call_id;
+    OpenAI 接口要求 arguments 为 JSON 字符串、tool 消息带 tool_call_id。pilot 第 1 版直接发送
+    规范化后的历史, SWE-smith 的大部分请求因此被拒(HTTP 400)。服务端收到后会把参数解析回对象,
+    所以渲染出的 prompt 与前缀实验中的处理一致。
+    """
+    result: list[dict[str, Any]] = []
+    pending_ids: list[str] = []
+    for index, message in enumerate(history):
+        if message["role"] == "assistant" and message.get("tool_calls"):
+            calls = []
+            for number, call in enumerate(message["tool_calls"]):
+                arguments = call["function"]["arguments"]
+                calls.append(
+                    {
+                        "id": call.get("id") or f"call_{index}_{number}",
+                        "type": "function",
+                        "function": {
+                            "name": call["function"]["name"],
+                            "arguments": arguments
+                            if isinstance(arguments, str)
+                            else json.dumps(arguments, ensure_ascii=False),
+                        },
+                    }
+                )
+            pending_ids = [call["id"] for call in calls]
+            result.append({"role": "assistant", "content": message.get("content"), "tool_calls": calls})
+        elif message["role"] == "tool":
+            call_id = pending_ids.pop(0) if pending_ids else f"call_{index}"
+            result.append({"role": "tool", "content": message["content"], "tool_call_id": call_id})
+        else:
+            result.append({"role": message["role"], "content": message["content"]})
+    return result
+
+
 def _prompt_ids(response: dict[str, Any]) -> list[int]:
     return list(response.get("prompt_token_ids") or response["choices"][0].get("prompt_token_ids") or [])
 
@@ -145,8 +210,9 @@ def process_turn(
         **({"tools": turn.tools} if turn.tools else {}),
     }
     started = time.perf_counter()
+    history = history_for_api(turn.history)
     first = post(
-        "/v1/chat/completions", {**base, **sampling, "messages": turn.history, "max_tokens": max_tokens, "seed": seed}
+        "/v1/chat/completions", {**base, **sampling, "messages": history, "max_tokens": max_tokens, "seed": seed}
     )
     if "error" in first:
         return {"sample_id": turn.sample_id, "position": turn.position, "error": first["error"]}
@@ -154,14 +220,15 @@ def process_turn(
     prompt_ids = _prompt_ids(first)
     sampled = list(choice.get("token_ids") or [])
     assistant = assistant_for_history(choice["message"])
-    follow = [*turn.history, assistant, *observations_for_history(turn.observations, assistant)]
+    follow = [*history, assistant, *observations_for_history(turn.observations, assistant)]
     second = post("/v1/chat/completions", {**base, "messages": follow, "max_tokens": 1, "temperature": 0.0})
     if "error" in second:
         return {"sample_id": turn.sample_id, "position": turn.position, "error": second["error"]}
     next_ids = _prompt_ids(second)
     context = prompt_ids + sampled
     report = explain_mismatch(context, next_ids, decode, markers=markers)
-    finished = choice.get("finish_reason") == "stop"
+    # 以工具调用结束时 finish_reason 为 "tool_calls"(pilot 第 1 版误把它算作未结束)。
+    finished = choice.get("finish_reason") in ("stop", "tool_calls")
     body = sampled[:-1] if finished and sampled else sampled
     return {
         "sample_id": turn.sample_id,
@@ -189,10 +256,11 @@ def sample_dataset(
     concurrency: int,
     seed: int,
     worker: Callable[[Turn, int], dict[str, Any]],
-) -> tuple[list[dict[str, Any]], Counter[str]]:
+) -> tuple[list[dict[str, Any]], Counter[str], list[str]]:
     """按候选顺序分批并发处理, 取前 target 个成功的轮次; 失败按原因计数。"""
     records: list[dict[str, Any]] = []
     errors: Counter[str] = Counter()
+    error_examples: list[str] = []
     index = 0
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         while len(records) < target and index < len(candidates):
@@ -201,10 +269,14 @@ def sample_dataset(
             index += len(batch)
             for result in results:
                 if "error" in result:
-                    errors[str(result["error"].get("status"))] += 1
+                    message = str(result["error"].get("message", ""))
+                    reason = "context_length" if "context length" in message or "maximum" in message else "other"
+                    errors[f"{result['error'].get('status')}:{reason}"] += 1
+                    if reason == "other" and len(error_examples) < 3:
+                        error_examples.append(message[:300])
                 elif len(records) < target:
                     records.append(result)
-    return records, errors
+    return records, errors, error_examples
 
 
 def summarize(records: list[dict[str, Any]], errors: Counter[str]) -> dict[str, Any]:
@@ -261,16 +333,25 @@ def main(argv: Sequence[str] | None = None) -> None:
     all_records: dict[str, list[dict[str, Any]]] = {}
     for spec in DATASETS:
         conversations, _ = load_conversations(spec, args.samples, args.seed)
-        candidates = [turn for conversation in conversations for turn in candidate_turns(conversation, args.max_turns)]
+        candidates = []
+        for conversation in conversations:
+            tools = conversation.tools or derive_tools(conversation.messages)
+            candidates += [replace(t, tools=tools) for t in candidate_turns(conversation, args.max_turns)]
         random.Random(args.seed).shuffle(candidates)
 
         def worker(turn: Turn, seed: int) -> dict[str, Any]:
             return process_turn(turn, seed, post, model, sampling, args.max_tokens, decode, encode, markers)
 
         started = time.perf_counter()
-        records, errors = sample_dataset(candidates, args.turns_per_dataset, args.concurrency, args.seed, worker)
+        records, errors, error_examples = sample_dataset(
+            candidates, args.turns_per_dataset, args.concurrency, args.seed, worker
+        )
         elapsed = time.perf_counter() - started
-        summaries[spec.name] = {**summarize(records, errors), "seconds": round(elapsed, 1)}
+        summaries[spec.name] = {
+            **summarize(records, errors),
+            "seconds": round(elapsed, 1),
+            "request_error_examples": error_examples,
+        }
         all_records[spec.name] = records
         print(f"{spec.name}: {summaries[spec.name]}", flush=True)
 
