@@ -1,0 +1,57 @@
+{
+ "gpu": "name, memory.total [MiB], compute_cap\nTesla T4, 15360 MiB, 7.5\nTesla T4, 15360 MiB, 7.5\n",
+ "vllm_version": "0.32.0",
+ "install_seconds": 141,
+ "server_ready_seconds": 125,
+ "server_alive": true,
+ "first_request_seconds": 0.79,
+ "response_top_level_keys": [
+  "choices",
+  "created",
+  "ec_transfer_params",
+  "id",
+  "kv_transfer_params",
+  "metrics",
+  "model",
+  "object",
+  "prompt_logprobs",
+  "prompt_text",
+  "prompt_token_ids",
+  "service_tier",
+  "system_fingerprint",
+  "usage"
+ ],
+ "choice_keys": [
+  "finish_reason",
+  "index",
+  "logprobs",
+  "message",
+  "routed_experts",
+  "stop_reason",
+  "token_ids"
+ ],
+ "prompt_tokens": 172,
+ "generated_tokens": 19,
+ "assistant_message": {
+  "role": "assistant",
+  "content": null,
+  "refusal": null,
+  "annotations": null,
+  "audio": null,
+  "function_call": null,
+  "tool_calls": [
+   {
+    "id": "chatcmpl-tool-bec313b4e958b32d",
+    "type": "function",
+    "function": {
+     "name": "bash",
+     "arguments": "{\"command\": \"ls\"}"
+    }
+   }
+  ],
+  "reasoning": null
+ },
+ "next_prompt_tokens": 214,
+ "prefix_ok": true,
+ "first_divergence": null
+}

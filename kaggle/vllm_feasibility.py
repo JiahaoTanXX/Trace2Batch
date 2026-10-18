@@ -24,6 +24,12 @@ MODEL = "Qwen/Qwen2.5-0.5B-Instruct"
 REVISION = "7ae557604adf67be50417f59c2c2f167def9a775"
 PORT = 8000
 OUT = "/kaggle/working/feasibility.json"
+# 在独立虚拟环境中安装 vLLM: Kaggle 预装的 torchaudio 与 vLLM 自带的 PyTorch 编译时的 CUDA 版本不同,
+# 混在一起时 vLLM 启动即报错(第 1 次运行的失败原因)。
+# 放在 /tmp: /kaggle/working 下的文件都会被保存为输出(第 3 次运行把整个虚拟环境存成了输出)。
+VENV = "/tmp/vllm-venv"
+# 第 1 次运行装到 0.31.0、第 3 次装到 0.32.0; 固定为已验证可用的版本。
+VLLM_VERSION = "0.32.0"
 
 
 def run(cmd: list[str]) -> str:
@@ -49,14 +55,18 @@ def write_report(report: dict) -> None:
 def main() -> None:
     report: dict = {"gpu": run(["nvidia-smi", "--query-gpu=name,memory.total,compute_cap", "--format=csv"])}
     started = time.time()
-    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "vllm"], check=True)
-    report["vllm_version"] = run([sys.executable, "-c", "import vllm; print(vllm.__version__)"]).strip()
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q", "uv"], check=True)
+    subprocess.run(["uv", "venv", "--python", "3.12", VENV], check=True)
+    subprocess.run(
+        ["uv", "pip", "install", "-q", "--python", f"{VENV}/bin/python", f"vllm=={VLLM_VERSION}"], check=True
+    )
+    report["vllm_version"] = run([f"{VENV}/bin/python", "-c", "import vllm; print(vllm.__version__)"]).strip()
     report["install_seconds"] = round(time.time() - started)
 
     log = open("/kaggle/working/vllm_server.log", "w")  # noqa: SIM115 服务进程整个运行期间都在写日志
     server = subprocess.Popen(
         [
-            "vllm",
+            f"{VENV}/bin/vllm",
             "serve",
             MODEL,
             "--revision",
