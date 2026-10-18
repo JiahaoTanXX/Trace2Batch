@@ -42,6 +42,7 @@ from experiments.template_prefix.run import (
     TokenizerConfig,
     load_conversations,
 )
+from experiments.tito.encoder import qwen_observation_ids
 from trace2batch.mismatch import explain_mismatch
 
 RESULTS_DIR = Path(__file__).with_name("results")
@@ -63,6 +64,9 @@ MODELS: dict[str, TokenizerConfig] = {
 # vLLM Hermes 解析器(vllm@da9134b vllm/tool_parsers/hermes_tool_parser.py)使用的正则。
 _TOOL_CALL_RE = re.compile(r"<tool_call>(.*?)</tool_call>|<tool_call>(.*)", re.DOTALL)
 EXAMPLES_PER_KIND = 5
+# rl: RL 训练常用的纯采样; recommended: 模型 generation_config 中的推荐设置(Qwen2.5-0.5B 为 T=0.7、
+# top_p=0.8、top_k=20、repetition_penalty=1.1), 用来检验结论是否只是高温采样的产物。
+RL_SAMPLING: dict[str, float] = {"temperature": 1.0, "top_p": 1.0, "top_k": 0, "repetition_penalty": 1.0}
 
 
 # ---------------------------------------------------------------- vLLM 行为模拟
@@ -144,6 +148,14 @@ class Sampler:
         self.model.eval()
         tokenizer = renderer.tokenizer
         self.eos_ids = [tokenizer.convert_tokens_to_ids(token) for token in ("<|im_end|>", "<|endoftext|>")]
+        defaults = self.model.generation_config
+        self.recommended: dict[str, float] = {
+            "temperature": defaults.temperature or 1.0,
+            "top_p": defaults.top_p or 1.0,
+            "top_k": defaults.top_k or 0,
+            "repetition_penalty": defaults.repetition_penalty or 1.0,
+        }
+        self.params: dict[str, float] = dict(RL_SAMPLING)
 
     def sample(self, prompt_ids: list[int], seed: int, max_new_tokens: int) -> list[int]:
         torch = self.torch
@@ -154,9 +166,10 @@ class Sampler:
                 input_ids,
                 attention_mask=torch.ones_like(input_ids),
                 do_sample=True,
-                temperature=1.0,
-                top_p=1.0,
-                top_k=0,
+                temperature=self.params["temperature"],
+                top_p=self.params["top_p"],
+                top_k=int(self.params["top_k"]),
+                repetition_penalty=self.params["repetition_penalty"],
                 max_new_tokens=max_new_tokens,
                 eos_token_id=self.eos_ids,
                 pad_token_id=self.eos_ids[-1],
@@ -179,6 +192,8 @@ def check_turn(
     context = prompt_ids + sampled
     report = explain_mismatch(context, next_ids, renderer.decode, markers=renderer.markers)
     retokenized = renderer.encode(renderer.decode(body))
+    # token-in-token-out: 沿用 prompt + 采样 token, 只追加新消息的 token(按构造 100% 合并)。
+    tito_next = context + qwen_observation_ids(renderer, turn.observations, turn.tools)
     return {
         "sample_id": turn.sample_id,
         "position": turn.position,
@@ -195,6 +210,8 @@ def check_turn(
         "prev_snippet": None if report is None else report.prev_snippet,
         "next_snippet": None if report is None else report.next_snippet,
         "model_output_head": model_output[:300],
+        "tito_equals_rerender": tito_next == next_ids,
+        "tito_text_equals_rerender": renderer.decode(tito_next) == renderer.decode(next_ids),
     }
 
 
@@ -244,18 +261,22 @@ def main(argv: Sequence[str] | None = None) -> None:
     parser.add_argument("--max-turns", type=int, default=50)
     parser.add_argument("--max-prompt-tokens", type=int, default=4096, help="CPU 上跳过更长的 prompt")
     parser.add_argument("--max-new-tokens", type=int, default=512)
+    parser.add_argument("--sampling", choices=("rl", "recommended"), default="rl")
     parser.add_argument("--device", default="cpu")
     parser.add_argument("--model", choices=sorted(MODELS), default="qwen2.5-0.5b")
     parser.add_argument("--out", type=Path, default=None, help="默认 results/<model>/")
     args = parser.parse_args(argv)
     model = MODELS[args.model]
-    out: Path = args.out or RESULTS_DIR / args.model
+    suffix = "" if args.sampling == "rl" else f"@{args.sampling}"
+    out: Path = args.out or RESULTS_DIR / f"{args.model}{suffix}"
 
     import torch
     import transformers
 
     renderer = Renderer(model)
     sampler = Sampler(renderer, args.device)
+    if args.sampling == "recommended":
+        sampler.params = dict(sampler.recommended)
     out.mkdir(parents=True, exist_ok=True)
     summaries: dict[str, dict[str, Any]] = {}
     all_records: dict[str, list[dict[str, Any]]] = {}
@@ -292,7 +313,7 @@ def main(argv: Sequence[str] | None = None) -> None:
             "seed": args.seed,
             "max_prompt_tokens": args.max_prompt_tokens,
             "max_new_tokens": args.max_new_tokens,
-            "sampling": {"temperature": 1.0, "top_p": 1.0, "top_k": 0},
+            "sampling": {"preset": args.sampling, **sampler.params},
             "torch": torch.__version__,
             "transformers": transformers.__version__,
         },
