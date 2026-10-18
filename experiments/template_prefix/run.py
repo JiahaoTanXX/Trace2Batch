@@ -38,6 +38,7 @@ from trace2batch.core import build_samples
 from trace2batch.mismatch import DEFAULT_TEMPLATE_MARKERS, MismatchKind, explain_mismatch
 
 RESULTS_DIR = Path(__file__).with_name("results")
+REPO_ROOT = Path(__file__).resolve().parents[2]
 # 下载的 tokenizer / 数据分片属于不可信数据, 放在独立缓存目录。显式传 cache_dir,
 # 不依赖 HF_HOME: 测试等场景可能在本模块之前就导入了 huggingface_hub。
 CACHE_DIR = Path(os.environ.get("TRACE2BATCH_HF_CACHE", Path.home() / ".cache" / "trace2batch-hf" / "hub"))
@@ -74,6 +75,8 @@ class TokenizerConfig:
     string_tool_arguments: bool = False
     # A 直通依赖"每条助手消息渲染一个 <|im_start|>assistant"的 Qwen 结构, 只对 Qwen 计算。
     passthrough: bool = False
+    # 替换 tokenizer 自带模板的 Jinja 文件(相对仓库根目录), 用于验证模板补丁; None 表示用官方模板。
+    chat_template: str | None = None
 
 
 DATASETS: tuple[DatasetSpec, ...] = (
@@ -280,6 +283,9 @@ class Renderer:
         # 分类器的模板标记: 通用标记 + 该 tokenizer 自己的特殊 / 新增 token。
         added = [token.content for token in self.tokenizer.added_tokens_decoder.values()]
         self.markers: tuple[str, ...] = tuple(dict.fromkeys([*DEFAULT_TEMPLATE_MARKERS, *added]))
+        self.chat_template: str | None = None
+        if config.chat_template is not None:
+            self.chat_template = (REPO_ROOT / config.chat_template).read_text(encoding="utf-8")
 
     def render(self, messages: list[dict[str, Any]], tools: Any, *, generation_prompt: bool) -> str:
         if self.config.string_tool_arguments:
@@ -289,6 +295,7 @@ class Renderer:
             tools=tools,
             add_generation_prompt=generation_prompt,
             tokenize=False,
+            chat_template=self.chat_template,
             strftime_now=FIXED_TEMPLATE_DATE.strftime,
             **self.config.template_kwargs,
         )
