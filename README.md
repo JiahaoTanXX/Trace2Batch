@@ -62,7 +62,7 @@
   - **最主要的失败是"工具调用前插入换行"**（模型输出 `正文<tool_call>`，模板重新渲染时插入 `\n`），分别占失败的 44% 和 85%；
   - 1.5B 模型的非规范切分只占 6.3%。
 
-详见 [真实采样报告](experiments/real_sampling/REPORT.md) 和 [GPU 报告](experiments/vllm_sampling/REPORT.md)。详见 [真实采样报告](experiments/real_sampling/REPORT.md)。
+详见 [真实采样报告](experiments/real_sampling/REPORT.md) 和 [GPU 报告](experiments/vllm_sampling/REPORT.md)。
 
 ## 从诊断到修复：模板补丁与 token-in-token-out
 
