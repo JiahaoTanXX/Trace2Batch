@@ -38,14 +38,24 @@ PATCHES = {
     "qwen3_think_drop[synthetic]": "experiments/template_patch/templates/qwen3_prefix_stable.jinja",
     "gpt-oss": "experiments/template_patch/templates/gpt_oss_prefix_stable.jinja",
 }
+# 补丁 v2: 在 v1 基础上, content 已以换行结尾时不再在工具调用前插入换行; 另为 Qwen2.5 官方模板做同样修改。
+_QWEN3_V2 = "experiments/template_patch/templates/qwen3_prefix_stable_v2.jinja"
+PATCHES_V2 = {
+    "qwen2.5": "experiments/template_patch/templates/qwen2.5_tool_newline.jinja",
+    "qwen3_no_think": _QWEN3_V2,
+    "qwen3_think_keep[synthetic]": _QWEN3_V2,
+    "qwen3_think_drop[synthetic]": _QWEN3_V2,
+}
+PATCH_SETS = {"v1": (PATCHES, "+patch"), "v2": (PATCHES_V2, "+patch2")}
 
 
-def patched_configs() -> list[tuple[TokenizerConfig, TokenizerConfig]]:
-    """(官方配置, 补丁配置) 对; 补丁配置名加 "+patch"。"""
+def patched_configs(patch_set: str = "v1") -> list[tuple[TokenizerConfig, TokenizerConfig]]:
+    """(官方配置, 补丁配置) 对; 补丁配置名加 "+patch"(v1)或 "+patch2"(v2)。"""
+    patches, suffix = PATCH_SETS[patch_set]
     pairs = []
     for config in TOKENIZER_CONFIGS:
-        if config.name in PATCHES:
-            pairs.append((config, replace(config, name=f"{config.name}+patch", chat_template=PATCHES[config.name])))
+        if config.name in patches:
+            pairs.append((config, replace(config, name=f"{config.name}{suffix}", chat_template=patches[config.name])))
     return pairs
 
 
@@ -80,10 +90,13 @@ def main(argv: Sequence[str] | None = None) -> None:
     parser.add_argument("--samples", type=int, default=300)
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--max-turns", type=int, default=50)
-    parser.add_argument("--out", type=Path, default=RESULTS_DIR)
+    parser.add_argument("--patch-set", choices=sorted(PATCH_SETS), default="v1")
+    parser.add_argument("--out", type=Path, default=None, help="默认 v1 为 results/, v2 为 results_v2/")
     args = parser.parse_args(argv)
 
-    pairs = patched_configs()
+    pairs = patched_configs(args.patch_set)
+    patches = PATCH_SETS[args.patch_set][0]
+    args.out = args.out or (RESULTS_DIR if args.patch_set == "v1" else RESULTS_DIR.with_name("results_v2"))
     renderers = {config.name: Renderer(config) for pair in pairs for config in pair}
     args.out.mkdir(parents=True, exist_ok=True)
     cells: list[dict[str, Any]] = []
@@ -115,12 +128,13 @@ def main(argv: Sequence[str] | None = None) -> None:
             "samples_per_dataset": args.samples,
             "seed": args.seed,
             "max_turns": args.max_turns,
-            "patches": PATCHES,
+            "patch_set": args.patch_set,
+            "patches": patches,
         },
         "cells": cells,
         "prompt_shift": shifts,
         "official_reference": [
-            c for c in official_cells if c["tokenizer"] in PATCHES and c["mode"] == "B_vllm_token_ids"
+            c for c in official_cells if c["tokenizer"] in patches and c["mode"] == "B_vllm_token_ids"
         ],
     }
     (args.out / "results.json").write_text(

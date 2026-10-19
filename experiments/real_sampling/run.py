@@ -60,6 +60,20 @@ MODELS: dict[str, TokenizerConfig] = {
         template_kwargs=_NO_THINK,
         chat_template="experiments/template_patch/templates/qwen3_prefix_stable.jinja",
     ),
+    # 补丁 v2: content 已以换行结尾时不再在工具调用前插入换行。
+    "qwen3-0.6b+patch2": TokenizerConfig(
+        "qwen3-0.6b_no_think+patch2",
+        *_QWEN3_06B,
+        QWEN_END,
+        template_kwargs=_NO_THINK,
+        chat_template="experiments/template_patch/templates/qwen3_prefix_stable_v2.jinja",
+    ),
+    "qwen2.5-0.5b+patch2": TokenizerConfig(
+        "qwen2.5-0.5b-instruct+patch2",
+        *_QWEN25_05B,
+        QWEN_END,
+        chat_template="experiments/template_patch/templates/qwen2.5_tool_newline.jinja",
+    ),
 }
 # vLLM Hermes 解析器(vllm@da9134b vllm/tool_parsers/hermes_tool_parser.py)使用的正则。
 _TOOL_CALL_RE = re.compile(r"<tool_call>(.*?)</tool_call>|<tool_call>(.*)", re.DOTALL)

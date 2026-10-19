@@ -75,3 +75,34 @@ def test_gpt_oss_final_answer_end_token_changes_in_history() -> None:
     reports = list(attribute_mismatches(built["B_vllm_token_ids"].events, renderer.decode, renderer.markers))
     assert [report["kind"] for report in reports] == ["template_mismatch"]
     assert reports[0]["changed_segments"][0][0] == "<|return|>"
+
+
+@pytest.mark.parametrize(
+    ("config_name", "chat_template", "expect_prefix"),
+    [
+        ("qwen2.5", None, False),
+        ("qwen2.5", "experiments/template_patch/templates/qwen2.5_tool_newline.jinja", True),
+        ("qwen3_no_think", "experiments/template_patch/templates/qwen3_prefix_stable.jinja", False),
+        ("qwen3_no_think", "experiments/template_patch/templates/qwen3_prefix_stable_v2.jinja", True),
+    ],
+)
+def test_parser_kept_newline_before_tool_call(config_name: str, chat_template: str | None, expect_prefix: bool) -> None:
+    # 模型按规范格式输出 "正文\n<tool_call>...", Hermes 解析器把 "\n" 留在 content 末尾;
+    # 官方模板(及补丁 v1)再插入一个换行导致前缀断开, 补丁 v2 不再插入。
+    pytest.importorskip("transformers")
+    from dataclasses import replace
+
+    from experiments.real_sampling.run import parse_hermes
+    from experiments.template_prefix.run import TOKENIZER_CONFIGS, Renderer
+
+    config = next(item for item in TOKENIZER_CONFIGS if item.name == config_name)
+    renderer = Renderer(replace(config, chat_template=chat_template))
+    history = [{"role": "user", "content": "List the files."}]
+    prompt = renderer.render(history, None, generation_prompt=True)
+    output = 'Let me check.\n<tool_call>\n{"name": "bash", "arguments": {"command": "ls"}}\n</tool_call>'
+    assistant, parsed = parse_hermes(output)
+    assert parsed and assistant["content"] == "Let me check.\n"
+    following = renderer.render(
+        [*history, assistant, {"role": "tool", "content": "a.py"}], None, generation_prompt=True
+    )
+    assert following.startswith(prompt + output + "<|im_end|>") is expect_prefix
