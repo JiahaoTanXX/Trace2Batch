@@ -59,7 +59,7 @@
 - **真实 vLLM 服务端（GPU）**：在 Kaggle 的 T4 上，直接请求 `vllm serve`（Hermes 工具解析、`return_token_ids`），prompt 最长 32k，每种配置约 300 个轮次：
   - Qwen2.5-1.5B 前缀成立 **83.3%**（250/300）；
   - Qwen3-0.6B + 补丁 **74.4%**（212/285）；
-  - **最主要的失败是"工具调用前插入换行"**（模型输出 `正文<tool_call>`，模板重新渲染时插入 `\n`），分别占失败的 44% 和 85%；
+  - **最主要的失败是"工具调用前插入换行"**（模型按规范格式输出 `正文\n<tool_call>`，Hermes 解析器把末尾的 `\n` 保留在 content 里，模板重新渲染时又插入一个 `\n`，变成 `\n\n`），分别占失败的 44% 和 85%；
   - 1.5B 模型的非规范切分只占 6.3%。
 
 详见 [真实采样报告](experiments/real_sampling/REPORT.md) 和 [GPU 报告](experiments/vllm_sampling/REPORT.md)。
