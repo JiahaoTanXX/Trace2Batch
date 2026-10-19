@@ -56,7 +56,13 @@
 
 - **温度消融**：改用模型推荐的采样设置（T=0.7 等）后，前缀成立率升到 88.7%，retoken 降到 4.7%；但模板层面的失败基本不变，两种设置下都约为 6.5%。非规范切分主要是高温采样的问题，工具调用重新格式化则与温度无关。
 
-这是 0.5B 小模型的小规模结果，比例不能直接推广到大模型；GPU 上用真实 vLLM 的大规模复现正在进行。详见 [真实采样报告](experiments/real_sampling/REPORT.md)。
+- **真实 vLLM 服务端（GPU）**：在 Kaggle 的 T4 上，直接请求 `vllm serve`（Hermes 工具解析、`return_token_ids`），prompt 最长 32k，每种配置约 300 个轮次：
+  - Qwen2.5-1.5B 前缀成立 **83.3%**（250/300）；
+  - Qwen3-0.6B + 补丁 **74.4%**（212/285）；
+  - **最主要的失败是"工具调用前插入换行"**（模型输出 `正文<tool_call>`，模板重新渲染时插入 `\n`），分别占失败的 44% 和 85%；
+  - 1.5B 模型的非规范切分只占 6.3%。
+
+详见 [真实采样报告](experiments/real_sampling/REPORT.md) 和 [GPU 报告](experiments/vllm_sampling/REPORT.md)。详见 [真实采样报告](experiments/real_sampling/REPORT.md)。
 
 ## 从诊断到修复：模板补丁与 token-in-token-out
 
@@ -81,7 +87,7 @@
 - **可复现的实证研究**（`experiments/template_prefix/`）：数据集和 tokenizer 的 revision 全部固定，抽样种子固定，样本 id 落盘，一条命令即可重跑。重复运行的合并与归因结果完全一致。归因次数与样本构建的不匹配计数逐条交叉校验。
 - **三种采集方式对照**：token 直通（对照组）、vLLM token id（每轮服务端重渲染）、文本重分词，可以分离模板改写与分词边界两类因素。
 - **样本构建引擎**（`trace2batch/core.py`）：把模型请求、工具观察、奖励事件转成 RL 样本行（prompt / response / policy mask / reward），支持 `transition` 与 `trajectory` 两种表示、三种截断策略、多 rollout 批处理、总长预算、缺失奖励填充、请求过滤计数和"无可用行"原因诊断。零运行时依赖。
-- **工程质量**：122 个默认离线测试，加上 3 个使用真实 tokenizer 的联网测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
+- **工程质量**：126 个默认离线测试，加上 3 个使用真实 tokenizer 的联网测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
 
 ## 研究设置一览
 
