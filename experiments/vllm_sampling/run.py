@@ -256,14 +256,24 @@ def sample_dataset(
     concurrency: int,
     seed: int,
     worker: Callable[[Turn, int], dict[str, Any]],
-) -> tuple[list[dict[str, Any]], Counter[str], list[str]]:
-    """按候选顺序分批并发处理, 取前 target 个成功的轮次; 失败按原因计数。"""
+    deadline: float | None = None,
+    clock: Callable[[], float] = time.monotonic,
+) -> tuple[list[dict[str, Any]], Counter[str], list[str], bool]:
+    """按候选顺序分批并发处理, 取前 target 个成功的轮次; 失败按原因计数。
+
+    deadline(clock 的时刻)到达后不再开始新的批次, 已发出的批次会等它完成;
+    最后一个返回值表示是否因时间上限提前停止。
+    """
     records: list[dict[str, Any]] = []
     errors: Counter[str] = Counter()
     error_examples: list[str] = []
     index = 0
+    stopped = False
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         while len(records) < target and index < len(candidates):
+            if deadline is not None and clock() >= deadline:
+                stopped = True
+                break
             batch = candidates[index : index + concurrency]
             results = list(pool.map(worker, batch, [seed + index + offset for offset in range(len(batch))]))
             index += len(batch)
@@ -276,7 +286,7 @@ def sample_dataset(
                         error_examples.append(message[:300])
                 elif len(records) < target:
                     records.append(result)
-    return records, errors, error_examples
+    return records, errors, error_examples, stopped
 
 
 def summarize(records: list[dict[str, Any]], errors: Counter[str]) -> dict[str, Any]:
@@ -307,6 +317,12 @@ def main(argv: Sequence[str] | None = None) -> None:
     parser.add_argument("--max-tokens", type=int, default=1024)
     parser.add_argument("--concurrency", type=int, default=16)
     parser.add_argument("--out", type=Path, default=None)
+    parser.add_argument(
+        "--time-budget-seconds",
+        type=float,
+        default=None,
+        help="整个任务的时间上限; 每个数据集分得剩余时间的平均份额, 到点后不再开始新批次",
+    )
     args = parser.parse_args(argv)
 
     from transformers import AutoTokenizer
@@ -331,7 +347,8 @@ def main(argv: Sequence[str] | None = None) -> None:
     out.mkdir(parents=True, exist_ok=True)
     summaries: dict[str, Any] = {}
     all_records: dict[str, list[dict[str, Any]]] = {}
-    for spec in DATASETS:
+    job_started = time.monotonic()
+    for position, spec in enumerate(DATASETS):
         conversations, _ = load_conversations(spec, args.samples, args.seed)
         candidates = []
         for conversation in conversations:
@@ -342,19 +359,37 @@ def main(argv: Sequence[str] | None = None) -> None:
         def worker(turn: Turn, seed: int) -> dict[str, Any]:
             return process_turn(turn, seed, post, model, sampling, args.max_tokens, decode, encode, markers)
 
+        deadline = None
+        if args.time_budget_seconds is not None:
+            remaining = args.time_budget_seconds - (time.monotonic() - job_started)
+            deadline = time.monotonic() + max(remaining, 0) / (len(DATASETS) - position)
         started = time.perf_counter()
-        records, errors, error_examples = sample_dataset(
-            candidates, args.turns_per_dataset, args.concurrency, args.seed, worker
+        records, errors, error_examples, stopped = sample_dataset(
+            candidates, args.turns_per_dataset, args.concurrency, args.seed, worker, deadline
         )
         elapsed = time.perf_counter() - started
         summaries[spec.name] = {
             **summarize(records, errors),
             "seconds": round(elapsed, 1),
+            "stopped_by_time_budget": stopped,
             "request_error_examples": error_examples,
         }
         all_records[spec.name] = records
         print(f"{spec.name}: {summaries[spec.name]}", flush=True)
+        # 每个数据集完成后就写盘: 即使任务之后被强制终止, 已完成的数据集也不会丢失。
+        write_report(out, model, args, sampling, summaries, all_records, complete=position == len(DATASETS) - 1)
+    print(json.dumps(summaries, ensure_ascii=False, indent=1))
 
+
+def write_report(
+    out: Path,
+    model: ServedModel,
+    args: argparse.Namespace,
+    sampling: dict[str, float],
+    summaries: dict[str, Any],
+    all_records: dict[str, list[dict[str, Any]]],
+    complete: bool,
+) -> None:
     report = {
         "schema_version": 1,
         "settings": {
@@ -364,7 +399,9 @@ def main(argv: Sequence[str] | None = None) -> None:
             "seed": args.seed,
             "max_tokens": args.max_tokens,
             "concurrency": args.concurrency,
+            "time_budget_seconds": args.time_budget_seconds,
         },
+        "complete": complete,
         "summaries": summaries,
         "examples": {
             name: {kind: [r for r in records if r["kind"] == kind][:EXAMPLES_PER_KIND] for kind in KINDS}
@@ -375,7 +412,6 @@ def main(argv: Sequence[str] | None = None) -> None:
     (out / "results.json").write_text(
         json.dumps(report, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8"
     )
-    print(json.dumps(summaries, ensure_ascii=False, indent=1))
 
 
 if __name__ == "__main__":

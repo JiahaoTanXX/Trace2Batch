@@ -114,7 +114,8 @@ def test_sample_dataset_keeps_candidate_order_and_counts_errors() -> None:
             return {"error": {"status": 400}}
         return {"sample_id": turn.sample_id, "seed": seed}
 
-    records, errors, examples = sample_dataset(turns, target=4, concurrency=3, seed=100, worker=worker)
+    records, errors, examples, stopped = sample_dataset(turns, target=4, concurrency=3, seed=100, worker=worker)
+    assert stopped is False
     assert [r["sample_id"] for r in records] == ["s1", "s2", "s4", "s5"]
     assert [r["seed"] for r in records] == [101, 102, 104, 105]
     assert errors == {"400:other": 2}
@@ -169,3 +170,18 @@ def test_derive_tools_from_history() -> None:
     assert [t["function"]["name"] for t in tools] == ["bash", "edit"]
     assert sorted(tools[1]["function"]["parameters"]["properties"]) == ["new", "path"]
     assert derive_tools([{"role": "user", "content": "hi"}]) is None
+
+
+def test_deadline_stops_starting_new_batches() -> None:
+    turns = [Turn(f"s{i}", i, [], [], None) for i in range(20)]
+    ticks = iter(range(100))
+
+    def worker(turn: Turn, seed: int) -> dict[str, Any]:
+        return {"sample_id": turn.sample_id}
+
+    # clock 每批前前进 1; deadline=2 时只运行两批(每批 3 个)。
+    records, _, _, stopped = sample_dataset(
+        turns, target=20, concurrency=3, seed=0, worker=worker, deadline=2, clock=lambda: next(ticks)
+    )
+    assert [r["sample_id"] for r in records] == ["s0", "s1", "s2", "s3", "s4", "s5"]
+    assert stopped is True
