@@ -30,7 +30,7 @@ from collections import Counter
 from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any, Protocol, Self, cast
 
 from experiments.template_prefix.run import (
     CACHE_DIR,
@@ -44,6 +44,10 @@ from experiments.template_prefix.run import (
 )
 from experiments.tito.encoder import qwen_observation_ids
 from trace2batch.mismatch import explain_mismatch
+
+if TYPE_CHECKING:
+    from torch import Tensor
+    from transformers import GenerationConfig
 
 RESULTS_DIR = Path(__file__).with_name("results")
 _QWEN25_05B = ("Qwen/Qwen2.5-0.5B-Instruct", "7ae557604adf67be50417f59c2c2f167def9a775", "Qwen")
@@ -147,6 +151,33 @@ def candidate_turns(conversation: Conversation, max_turns: int) -> list[Turn]:
 # ---------------------------------------------------------------- 采样与检查
 
 
+class _SamplingModel(Protocol):
+    """采样器使用的模型接口, 隔离 Transformers 自动模型返回类型的兼容问题。
+
+    Transformers 5.20.0 的 .to 装饰器与生成协议在 Pyright 1.1.414 下无法正确绑定。
+    仅在加载边界 cast 到此接口; 不包装或替换运行时模型, 也不关闭调用处的类型检查。
+    """
+
+    generation_config: GenerationConfig
+
+    def to(self, device: str) -> Self: ...
+    def eval(self) -> Self: ...
+    def generate(
+        self,
+        inputs: Tensor,
+        *,
+        attention_mask: Tensor,
+        do_sample: bool,
+        temperature: float,
+        top_p: float,
+        top_k: int,
+        repetition_penalty: float,
+        max_new_tokens: int,
+        eos_token_id: list[int],
+        pad_token_id: int,
+    ) -> Tensor: ...
+
+
 class Sampler:
     def __init__(self, renderer: Renderer, device: str) -> None:
         config = renderer.config
@@ -156,8 +187,11 @@ class Sampler:
         self.torch = torch
         self.renderer = renderer
         self.device = device
-        self.model = AutoModelForCausalLM.from_pretrained(
-            config.repo, revision=config.revision, cache_dir=CACHE_DIR, dtype=torch.float32, trust_remote_code=False
+        self.model = cast(
+            _SamplingModel,
+            AutoModelForCausalLM.from_pretrained(
+                config.repo, revision=config.revision, cache_dir=CACHE_DIR, dtype=torch.float32, trust_remote_code=False
+            ),
         ).to(device)
         self.model.eval()
         tokenizer = renderer.tokenizer
