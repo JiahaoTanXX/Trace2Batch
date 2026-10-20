@@ -1,4 +1,5 @@
 # Copyright (c) 2026 Jiahao Tan
+# pyright: reportMissingImports=false
 
 """Optional masked-CE training measurements, with one update per complete rollout.
 
