@@ -19,6 +19,8 @@ dependencies = []
 real = ["transformers>=4.56", "jinja2>=3.1", "datasets>=4.0"]
 # 真实采样实验: 本地 CPU / MPS 上运行 0.5B 级小模型。
 sampling = ["trace2batch[real]", "torch>=2.4"]
+# P3-A 训练成本基准；固定实际验证的 Transformers / PEFT 组合。
+train = ["trace2batch[sampling]", "transformers==5.20.0", "peft==0.21.2"]
 # ruff 0.17 起检查 Markdown 代码块，固定版本保证本地与 CI 一致。
 dev = ["pytest>=8", "ruff==0.17.1", "pyright==1.1.414"]
 
