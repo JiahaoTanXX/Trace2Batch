@@ -82,13 +82,17 @@
 
 详见 [模板补丁报告](experiments/template_patch/REPORT.md)。
 
+## P3-A：训练成本基准
+
+新增 [训练成本实验](experiments/train_cost/README.md)：从同一份前缀稳定的 token 事件构建逐轮和合并样本，逐目标核对完整上下文；采用相同 LoRA 初始化、每 rollout 一次更新、policy token 归一化和 AB/BA 顺序，测量真实前向、反向及更新成本。提供本地数据预检、限时运行和独立 Kaggle 提交包。
+
 ## 项目亮点
 
 - **不匹配归因器**（`trace2batch/mismatch.py`）：定位第一个分歧 token，把失败归为 `template_mismatch` / `retoken_mismatch` / `others_mismatch` 三类，并输出分歧点前后的文本片段供人工核查。只用 Python 标准库，解码函数以回调注入，可以接入任何 tokenizer。
 - **可复现的实证研究**（`experiments/template_prefix/`）：数据集和 tokenizer 的 revision 全部固定，抽样种子固定，样本 id 落盘，一条命令即可重跑。重复运行的合并与归因结果完全一致。归因次数与样本构建的不匹配计数逐条交叉校验。
 - **三种采集方式对照**：token 直通（对照组）、vLLM token id（每轮服务端重渲染）、文本重分词，可以分离模板改写与分词边界两类因素。
 - **样本构建引擎**（`trace2batch/core.py`）：把模型请求、工具观察、奖励事件转成 RL 样本行（prompt / response / policy mask / reward），支持 `transition` 与 `trajectory` 两种表示、三种截断策略、多 rollout 批处理、总长预算、缺失奖励填充、请求过滤计数和"无可用行"原因诊断。零运行时依赖。
-- **工程质量**：126 个默认离线测试，加上 3 个使用真实 tokenizer 的联网测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
+- **工程质量**：默认离线测试和可选真实 tokenizer 测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
 
 ## 研究设置一览
 
@@ -194,6 +198,7 @@ Trace2Batch/
 ├── experiments/template_patch/ # 前缀稳定模板补丁、验证实验与报告
 ├── experiments/tito/           # TITO 观察分词与规范输出验证
 ├── experiments/vllm_sampling/  # 真实 vLLM 服务端采样客户端（GPU）
+├── experiments/train_cost/    # P3-A 数据配对、masked CE 训练成本与限时提交包
 ├── experiments/truncation/
 │   ├── run.py                  # 截断策略对比实验
 │   ├── REPORT.md               # 截断实验报告
