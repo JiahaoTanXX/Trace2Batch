@@ -205,7 +205,6 @@ Trace2Batch/
 │   └── results/
 ├── examples/trace2batch/       # 合成场景与手算期望
 ├── tests/                      # 离线测试 + network 测试
-├── drafts/upstream_issue.md    # 已提交上游 Issue 的原文
 └── .github/workflows/ci.yml
 ```
 
