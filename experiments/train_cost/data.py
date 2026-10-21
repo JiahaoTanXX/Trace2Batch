@@ -23,6 +23,7 @@ class PairedRollout:
     transition: list[SampleRow]
     trajectory: list[SampleRow]
     stratum: str | None = None
+    turns: int | None = None
 
     @property
     def policy_tokens(self) -> int:
@@ -30,8 +31,13 @@ class PairedRollout:
 
     @property
     def group(self) -> str:
-        """Verification and timing unit: the dataset, or dataset|stratum for stratified data."""
-        return self.dataset if self.stratum is None else f"{self.dataset}|{self.stratum}"
+        """Verification and timing unit: the dataset, then |stratum and |k<turns> when the data records them."""
+        parts = [self.dataset]
+        if self.stratum is not None:
+            parts.append(self.stratum)
+        if self.turns is not None:
+            parts.append(f"k{self.turns}")
+        return "|".join(parts)
 
 
 def parse_stratum(value: Any) -> tuple[int, int]:
@@ -196,6 +202,11 @@ def load_pairs(path: str | Path) -> tuple[list[PairedRollout], dict[str, Any]]:
             if not low < len(final.prompt_token_ids) + len(final.response_token_ids) <= high:
                 raise ValueError(f"final complete context of {identity} lies outside its stratum")
             pair = replace(pair, stratum=rollout["stratum"])
+        if "turns" in rollout:
+            turns = rollout["turns"]
+            if type(turns) is not int or turns != len(pair.transition):
+                raise ValueError(f"turns of {identity} must equal its number of model requests")
+            pair = replace(pair, turns=turns)
         pairs.append(pair)
     counts = Counter(pair.dataset for pair in pairs)
     if set(counts) - set(selection):

@@ -31,7 +31,8 @@ MODEL_REPO = "Qwen/Qwen3-0.6B"
 MODEL_REVISION = "c1899de289a04d12100db370d81485cdf75e47ca"
 MAX_SOURCE_BYTES = 1024 * 1024
 MAX_INPUT_BYTES = 16 * 1024 * 1024
-MAX_DATA_BYTES = 4 * 1024 * 1024
+# Token-ID JSON compresses about 20x; 8 MiB uncompressed still stays far below the payload limit.
+MAX_DATA_BYTES = 8 * 1024 * 1024
 MAX_PAYLOAD_BYTES = 8 * 1024 * 1024
 SESSION_LINE = "SESSION_LIMIT_SECONDS = 3600\n"
 RUN_MODE_LINE = 'RUN_MODE = "benchmark"\n'
@@ -109,11 +110,18 @@ def _public_prepared(document: dict[str, Any]) -> dict[str, Any]:
     settings = _fields(
         result["settings"],
         "max_total_length max_turns samples_per_dataset candidate_pool_per_dataset seed event_mode "
-        "local_files_only fixed_template_date datasets strata min_turns cells selection_order",
+        "local_files_only fixed_template_date datasets strata min_turns cells selection_order "
+        "window turns extra_candidates excluded_inputs",
         "settings",
     )
     datasets = settings.pop("datasets", [])
+    excluded_inputs = settings.pop("excluded_inputs", None)
     result["settings"] = {key: _public_value(value) for key, value in settings.items()}
+    if excluded_inputs is not None:
+        result["settings"]["excluded_inputs"] = [
+            {key: _public_value(value) for key, value in _fields(item, "name sha256", "excluded input").items()}
+            for item in excluded_inputs
+        ]
     result["settings"]["datasets"] = [
         {
             key: _public_value(value)
@@ -128,13 +136,20 @@ def _public_prepared(document: dict[str, Any]) -> dict[str, Any]:
         _public_value(name)
         item = _fields(
             report,
-            "requested requested_per_cell selected scanned candidate_pool eligible_in_shard rejected decisions strata",
+            "requested requested_per_cell selected scanned candidate_pool eligible_in_shard rejected decisions strata "
+            "cells extra_candidates excluded",
             "selection",
         )
         rejected = item.pop("rejected", {})
         decisions = item.pop("decisions", [])
         strata = item.pop("strata", None)
+        cells = item.pop("cells", None)
         selection[name] = {key: _public_value(value) for key, value in item.items()}
+        if cells is not None:
+            selection[name]["cells"] = {
+                _public_value(cell): _public_value(count)
+                for cell, count in _fields(cells, " ".join(cells), "cells").items()
+            }
         if strata is not None:
             selection[name]["strata"] = {
                 _public_value(stratum): {
@@ -157,7 +172,7 @@ def _public_prepared(document: dict[str, Any]) -> dict[str, Any]:
     result["selection"] = selection
     rollouts = []
     for raw in result["rollouts"]:
-        rollout = _fields(raw, "dataset sample_id stratum events", "rollout")
+        rollout = _fields(raw, "dataset sample_id stratum turns events", "rollout")
         events = []
         for raw_event in rollout["events"]:
             event = _fields(raw_event, "event_type data", "event")
@@ -170,8 +185,9 @@ def _public_prepared(document: dict[str, Any]) -> dict[str, Any]:
             )
             events.append({"event_type": event["event_type"], "data": {k: _public_value(v) for k, v in data.items()}})
         projected = {"dataset": _public_value(rollout["dataset"]), "sample_id": _public_value(rollout["sample_id"])}
-        if "stratum" in rollout:
-            projected["stratum"] = _public_value(rollout["stratum"])
+        for optional in ("stratum", "turns"):
+            if optional in rollout:
+                projected[optional] = _public_value(rollout[optional])
         rollouts.append({**projected, "events": events})
     result["rollouts"] = rollouts
     return result

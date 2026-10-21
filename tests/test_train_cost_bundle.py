@@ -900,3 +900,44 @@ def test_benchmark_is_the_default_run_mode(tmp_path: Path, bundle_input: tuple[P
             session_limit_minutes=30,
             run_mode="train",
         )
+
+
+def test_stratified_profile_keeps_turns_fields(tmp_path: Path, bundle_input: tuple[Path, Path]) -> None:
+    value = stratified([("toy", str(i), "4096-6144", [3000, 6000]) for i in range(2)])
+    for rollout in value["rollouts"]:
+        rollout["turns"] = 2
+    value["settings"].update({"window": "4096-6144", "turns": [2], "seed": 1, "extra_candidates": 1000})
+    _, module = build_stratified(tmp_path, bundle_input, value, profile="stratified", session_limit_minutes=45)
+    data_path = module.unpack_payload(module.PAYLOAD_B64, module.PAYLOAD_SHA256, tmp_path / "src")
+    packaged = json.loads(data_path.read_text())
+    assert {rollout["turns"] for rollout in packaged["rollouts"]} == {2}
+    assert packaged["settings"]["turns"] == [2] and packaged["settings"]["seed"] == 1
+
+
+@pytest.mark.parametrize(("megabytes", "accepted"), [(5, True), (9, False)])
+def test_driver_bounds_packaged_data_at_eight_mib(tmp_path: Path, megabytes: int, accepted: bool) -> None:
+    module = driver_module()
+    value = prepared()
+    value["padding"] = "x" * (megabytes * 1024 * 1024)
+    stream = io.BytesIO()
+    with zipfile.ZipFile(stream, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for name in SOURCES:
+            archive.writestr(name, '"""An allowed Python source."""\n')
+        archive.writestr("data.json", json.dumps(value))
+    payload = stream.getvalue()
+    arguments = (base64.b64encode(payload).decode(), hashlib.sha256(payload).hexdigest(), tmp_path / "unpacked")
+    if accepted:
+        assert module.unpack_payload(*arguments).exists()
+    else:
+        with pytest.raises(ValueError):
+            module.unpack_payload(*arguments)
+
+
+def test_bundle_accepts_packaged_data_between_four_and_eight_mib(
+    tmp_path: Path, bundle_input: tuple[Path, Path]
+) -> None:
+    value = stratified([("toy", "0", "4096-6144", [3000, 6000])])
+    decision = {"sample_id": "x" * 200, "selected": False, "reason": "y" * 400}
+    value["selection"]["toy"]["decisions"] = [decision] * 7000  # about 4.6 MiB once packaged
+    result, _ = build_stratified(tmp_path, bundle_input, value, profile="stratified", session_limit_minutes=45)
+    assert result["payload_bytes"] < 8 * 1024 * 1024

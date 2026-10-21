@@ -80,6 +80,101 @@ def select_strata(
     return chosen, decisions
 
 
+def extend_candidates(pool: Sequence[Any], shard: Sequence[Any], *, extra: int, key: Any) -> list[Any]:
+    """Keep the seeded pool in its order, then append up to `extra` further shard items in shard order.
+
+    Appending (instead of drawing a larger seeded sample) leaves every selection made from the
+    original pool unchanged; the extra items are only reached by cells the pool cannot fill.
+    """
+    seen = {key(item) for item in pool}
+    return [*pool, *[item for item in shard if key(item) not in seen][:extra]]
+
+
+def read_excluded(paths: Sequence[Path]) -> set[tuple[str, str]]:
+    """(dataset, sample_id) of every rollout in earlier prepared files, so replicates never share one."""
+    excluded: set[tuple[str, str]] = set()
+    for path in paths:
+        for rollout in json.loads(Path(path).read_text(encoding="utf-8"))["rollouts"]:
+            excluded.add((rollout["dataset"], rollout["sample_id"]))
+    return excluded
+
+
+def select_turns(
+    candidates: Sequence[tuple[str, list[dict[str, Any]]]],
+    window: tuple[int, int],
+    turns: Sequence[int],
+    *,
+    samples: int,
+    excluded: set[str],
+) -> tuple[dict[int, list[tuple[str, list[dict[str, Any]]]]], list[dict[str, Any]]]:
+    """Pick up to `samples` candidates per turn count whose exact k-turn prefix ends in (lo, hi].
+
+    Context length is held to one window while the number of turns varies. Higher turn counts
+    are filled first because they are scarcer; each candidate is used at most once, candidates
+    are scanned in the given order, and excluded ones are never used.
+    """
+    low, high = window
+    chosen: dict[int, list[tuple[str, list[dict[str, Any]]]]] = {k: [] for k in turns}
+    used: set[str] = set()
+    decisions: list[dict[str, Any]] = []
+    for k in sorted(turns, reverse=True):
+        for sample_id, events in candidates:
+            if len(chosen[k]) == samples:
+                break
+            if sample_id in used or sample_id in excluded or len(events) < k:
+                continue
+            if low < _context_after(events[k - 1]) <= high:
+                used.add(sample_id)
+                chosen[k].append((sample_id, events[:k]))
+                decisions.append(
+                    {
+                        "sample_id": sample_id,
+                        "selected": True,
+                        "turns": k,
+                        "context_tokens": _context_after(events[k - 1]),
+                    }
+                )
+    for sample_id, _ in candidates:
+        if sample_id in excluded:
+            decisions.append(
+                {"sample_id": sample_id, "selected": False, "reason": "excluded by an earlier prepared file"}
+            )
+        elif sample_id not in used:
+            decisions.append({"sample_id": sample_id, "selected": False, "reason": "no qualifying prefix or unused"})
+    return chosen, decisions
+
+
+def _build_candidates(
+    conversations: Sequence[Any],
+    renderer: Any,
+    max_turns: int,
+    build_turn_events: Any,
+    rejected: Counter[str],
+    decisions: list[dict[str, Any]],
+) -> list[tuple[str, list[dict[str, Any]]]]:
+    """B-mode token events per conversation; failures are reported, never shortened or repaired."""
+    candidates: list[tuple[str, list[dict[str, Any]]]] = []
+    for conversation in conversations:
+        try:
+            built = build_turn_events(conversation, renderer, max_turns)["B_vllm_token_ids"]
+            if built.generation_unresolved or built.generation_not_token_prefix or built.generation_not_text_prefix:
+                raise ValueError("generation prefix could not be preserved")
+        except Exception as error:
+            reason = f"{type(error).__name__}: {str(error)[:180]}"
+            rejected[reason] += 1
+            decisions.append({"sample_id": conversation.sample_id, "selected": False, "reason": reason})
+            continue
+        candidates.append((conversation.sample_id, built.events))
+    return candidates
+
+
+def _nonnegative(value: str) -> int:
+    number = int(value)
+    if number < 0:
+        raise argparse.ArgumentTypeError("must be a nonnegative integer")
+    return number
+
+
 def parse_options(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--out", type=Path, required=True)
@@ -91,7 +186,30 @@ def parse_options(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--strata", default=None, help="comma-separated lo-hi context strata, e.g. 0-2048,2048-4096")
     parser.add_argument("--min-turns", type=int, default=2, help="stratified mode: fewest turns per rollout")
     parser.add_argument("--cells", default=None, help="stratified mode: comma-separated dataset|lo-hi to emit")
+    parser.add_argument("--turns", default=None, help="turns mode: comma-separated exact turn counts, e.g. 2,4,6,8")
+    parser.add_argument("--window", default=None, help="turns mode: final complete context window lo-hi")
+    parser.add_argument("--seed", type=_nonnegative, default=0, help="seed of the candidate pool")
+    parser.add_argument("--exclude", type=Path, nargs="*", default=[], help="prepared files whose rollouts are skipped")
+    parser.add_argument(
+        "--extra-candidates", type=_nonnegative, default=0, help="further shard candidates appended after the pool"
+    )
     args = parser.parse_args(argv)
+    if (args.turns is None) != (args.window is None):
+        parser.error("--turns and --window must be given together")
+    if args.turns is not None:
+        if args.strata is not None or args.cells is not None:
+            parser.error("--turns cannot be combined with --strata or --cells")
+        try:
+            turns = [int(item) for item in args.turns.split(",")]
+            window = parse_stratum(args.window)
+        except ValueError as error:
+            parser.error(f"--turns/--window: {error}")
+        if len(set(turns)) != len(turns) or not all(2 <= k <= 20 for k in turns):
+            parser.error("--turns must be distinct integers from 2 to 20")
+        args.turns, args.window = sorted(turns), window
+        args.max_turns = max(args.max_turns, max(turns))
+        args.cells = None
+        return args
     cells_text = args.cells
     if args.strata is None:
         if cells_text is not None:
@@ -157,6 +275,7 @@ def main(argv: Sequence[str] | None = None) -> None:
     selected: list[dict[str, Any]] = []
     selection: dict[str, Any] = {}
     dataset_versions: list[dict[str, Any]] = []
+    excluded = read_excluded(args.exclude)
     for spec in specs:
         # Explicit cache preflight gives a clear missing-data error before the
         # shared loader runs; the offline environment forbids its network path.
@@ -171,27 +290,64 @@ def main(argv: Sequence[str] | None = None) -> None:
                 token=False,
             )
         )
-        conversations, eligible = load_conversations(spec, args.candidates, 0)
+        conversations, eligible = load_conversations(spec, args.candidates, args.seed)
+        pool_size = len(conversations)
+        if args.extra_candidates:
+            shard_order, _ = load_conversations(spec, eligible, args.seed)  # every eligible item, in shard order
+            conversations = extend_candidates(
+                conversations, shard_order, extra=args.extra_candidates, key=lambda item: item.sample_id
+            )
         rejected: Counter[str] = Counter()
         decisions: list[dict[str, Any]] = []
         kept = 0
+
+        if args.turns is not None:
+            low, high = args.window
+            window_name = f"{low}-{high}"
+            skip = {sample_id for dataset, sample_id in excluded if dataset == spec.name}
+            by_turns, choices = select_turns(
+                _build_candidates(conversations, renderer, args.max_turns, build_turn_events, rejected, decisions),
+                args.window,
+                args.turns,
+                samples=args.samples,
+                excluded=skip,
+            )
+            decisions.extend(choices)
+            for k in args.turns:
+                for sample_id, events in by_turns[k]:
+                    # Re-audit with the window's own budget before anything is written.
+                    pair_events(events, sample_id=sample_id, dataset=spec.name, max_total_length=high)
+                    selected.append(
+                        {
+                            "dataset": spec.name,
+                            "sample_id": sample_id,
+                            "stratum": window_name,
+                            "turns": k,
+                            "events": events,
+                        }
+                    )
+                    kept += 1
+            cell_counts = {f"k{k}": len(by_turns[k]) for k in args.turns}
+            selection[spec.name] = {
+                "requested_per_cell": args.samples,
+                "selected": kept,
+                "cells": cell_counts,
+                "candidate_pool": pool_size,
+                "extra_candidates": len(conversations) - pool_size,
+                "excluded": len(skip),
+                "eligible_in_shard": eligible,
+                "rejected": dict(rejected),
+                "decisions": decisions,
+            }
+            with shard.open("rb") as stream:
+                shard_sha256 = hashlib.file_digest(stream, "sha256").hexdigest()
+            dataset_versions.append({**asdict(spec), "shard_sha256": shard_sha256})
+            print(f"{spec.name}: {cell_counts}, emitted={kept}, rejected={dict(rejected)}", flush=True)
+            continue
         if args.strata is not None:
-            candidates: list[tuple[str, list[dict[str, Any]]]] = []
-            for conversation in conversations:
-                try:
-                    built = build_turn_events(conversation, renderer, args.max_turns)["B_vllm_token_ids"]
-                    if (
-                        built.generation_unresolved
-                        or built.generation_not_token_prefix
-                        or built.generation_not_text_prefix
-                    ):
-                        raise ValueError("generation prefix could not be preserved")
-                except Exception as error:  # Reported, never shortened or repaired.
-                    reason = f"{type(error).__name__}: {str(error)[:180]}"
-                    rejected[reason] += 1
-                    decisions.append({"sample_id": conversation.sample_id, "selected": False, "reason": reason})
-                    continue
-                candidates.append((conversation.sample_id, built.events))
+            candidates = _build_candidates(
+                conversations, renderer, args.max_turns, build_turn_events, rejected, decisions
+            )
             chosen, choices = select_strata(candidates, args.strata, samples=args.samples, min_turns=args.min_turns)
             decisions.extend(choices)
             strata_report: dict[str, Any] = {}
@@ -276,15 +432,36 @@ def main(argv: Sequence[str] | None = None) -> None:
             "tokenizers_version": version("tokenizers"),
         },
         "settings": {
-            "max_total_length": args.max_total_length if args.strata is None else args.strata[-1][1],
+            "max_total_length": (
+                args.window[1]
+                if args.turns is not None
+                else args.max_total_length
+                if args.strata is None
+                else args.strata[-1][1]
+            ),
             "max_turns": args.max_turns,
             "samples_per_dataset": args.samples,
             "candidate_pool_per_dataset": args.candidates,
-            "seed": 0,
+            "seed": args.seed,
             "event_mode": "B_vllm_token_ids",
             "local_files_only": True,
             "fixed_template_date": FIXED_TEMPLATE_DATE.isoformat(),
             "datasets": dataset_versions,
+            **(
+                {}
+                if args.turns is None
+                else {
+                    "window": f"{args.window[0]}-{args.window[1]}",
+                    "turns": args.turns,
+                    "extra_candidates": args.extra_candidates,
+                    "excluded_inputs": [
+                        {"name": path.name, "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
+                        for path in args.exclude
+                    ],
+                    "selection_order": "highest turns first; exact k-turn prefix in window; pool then extras; "
+                    "each candidate once; excluded inputs skipped",
+                }
+            ),
             **(
                 {}
                 if args.strata is None

@@ -469,14 +469,20 @@ def test_gradient_diagnostics_records_overflow_and_restores_the_model():
 
 def test_gradient_criterion_separates_measured_fp16_noise_from_semantic_errors():
     judge = engine().judge_gradients
-    # fp16 noise of the size seen on long rows with loss scaling passes.
+    # fp16 noise of the size seen on long rows with loss scaling passes, including the worst measured T4 gate
+    # (stage-2 run C, 5069 tokens: loss 2.3e-4, relative L2 0.0242, cosine 0.999709; fp32 agrees to 4e-6).
     assert judge(loss_relative_error=5e-4, relative_l2_error=0.015, cosine=0.9999, presence_mismatches=0)["passed"]
-    # A difference of the size caused by one changed context token fails on every metric.
-    changed = judge(loss_relative_error=4e-3, relative_l2_error=0.05, cosine=0.999, presence_mismatches=0)
-    assert not changed["passed"] and not changed["loss_close"] and not changed["gradients_close"]
+    assert judge(loss_relative_error=2.3e-4, relative_l2_error=0.0242, cosine=0.999709, presence_mismatches=0)["passed"]
+    # One changed context token (fp32 reference: loss 3.0e-3, relative L2 0.044, cosine 0.99905) now fails only on
+    # the loss threshold; the gradient thresholds sit above it and catch only larger errors.
+    changed = judge(loss_relative_error=3.0e-3, relative_l2_error=0.044, cosine=0.99905, presence_mismatches=0)
+    assert not changed["passed"] and not changed["loss_close"] and changed["gradients_close"]
+    # One changed target token fails on every metric.
+    target = judge(loss_relative_error=0.11, relative_l2_error=0.156, cosine=0.988, presence_mismatches=0)
+    assert not target["passed"] and not target["loss_close"] and not target["gradients_close"]
     # Each threshold rejects on its own.
-    assert not judge(loss_relative_error=1e-5, relative_l2_error=0.03, cosine=0.99999, presence_mismatches=0)["passed"]
-    assert not judge(loss_relative_error=1e-5, relative_l2_error=0.01, cosine=0.9997, presence_mismatches=0)["passed"]
+    assert not judge(loss_relative_error=1e-5, relative_l2_error=0.06, cosine=0.99999, presence_mismatches=0)["passed"]
+    assert not judge(loss_relative_error=1e-5, relative_l2_error=0.01, cosine=0.9985, presence_mismatches=0)["passed"]
     assert not judge(loss_relative_error=2e-3, relative_l2_error=0.001, cosine=0.999999, presence_mismatches=0)[
         "passed"
     ]

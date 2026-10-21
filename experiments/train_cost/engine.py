@@ -18,9 +18,11 @@ from typing import Any
 from trace2batch.core import SampleRow
 
 _MODES = ("transition", "trajectory")
-# Pass criterion for the transition/trajectory gradient check. The thresholds sit between the fp16 noise
-# observed on a T4 with loss scaling and the difference caused by a single changed context token in fp32.
-GRADIENT_CRITERION = {"max_loss_relative_error": 1e-3, "max_relative_l2_error": 0.02, "min_cosine": 0.9998}
+# Pass criterion for the transition/trajectory gradient check on a T4 in fp16. The gradient thresholds sit above
+# the fp16 noise measured with loss scaling (up to relative L2 0.024 at ~5k tokens, while fp32 agrees to 4e-6);
+# the loss threshold still rejects a single changed context token (fp32 loss error 3e-3). Exact equivalence is
+# checked separately in fp32 on CPU before submission.
+GRADIENT_CRITERION = {"max_loss_relative_error": 1e-3, "max_relative_l2_error": 0.05, "min_cosine": 0.999}
 
 
 def _torch() -> Any:

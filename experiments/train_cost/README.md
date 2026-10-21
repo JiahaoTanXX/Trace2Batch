@@ -10,7 +10,7 @@
 - 无 padding，microbatch=1；每条 rollout 的所有行累积梯度，loss 按该 rollout 的 policy token 数归一化，只更新一次。
 - 每个条件都从相同的初始 LoRA 参数、全新 AdamW 与 GradScaler 开始。每个条件预热后再次重置；默认两次重复采用 AB/BA 顺序。
 - LoRA：`r=8`、`alpha=16`、`dropout=0`、`q_proj/v_proj`、`bias=none`；关闭其他 dropout 和 KV cache，默认梯度检查点开启。CUDA fp16，CPU float32。
-- 正式计时前，核对每个分组首个配对样本的 loss 和所有可训练参数梯度。核对使用 training 模式（Hugging Face 只在 training 模式下启用梯度检查点；所有 dropout 必须为 0），并像训练一样做 loss scaling（固定 4096），存储梯度前再除回去。通过条件为：loss 相对误差 ≤1e-3、梯度相对 L2 误差 ≤0.02、余弦 ≥0.9998，且梯度存在性一致。阈值介于 T4 上 fp16 的数值噪声与单个上下文 token 被改动时的梯度差异之间。逐元素 `allclose` 结果只作诊断记录。
+- 正式计时前，核对每个分组首个配对样本的 loss 和所有可训练参数梯度。核对使用 training 模式（Hugging Face 只在 training 模式下启用梯度检查点；所有 dropout 必须为 0），并像训练一样做 loss scaling（固定 4096），存储梯度前再除回去。通过条件为：loss 相对误差 ≤1e-3、梯度相对 L2 误差 ≤0.05、余弦 ≥0.999，且梯度存在性一致。梯度阈值高于 T4 上 fp16 的实测数值噪声（约 5k token 时相对 L2 可达 0.024，而同一样本在 fp32 下一致到 4e-6）；单个上下文 token 被改动时主要靠 loss 阈值拒绝（fp32 下 loss 相对误差 3e-3）。两种表示是否严格等价，另外在提交前用 CPU fp32 核对。逐元素 `allclose` 结果只作诊断记录。
 
 每 rollout 等权，而不是把不同 rollout 长度混为相同 token 权重。这一规则在两种表示中一致；正式研究需明确该目标与实际训练栈是否相符。
 
@@ -34,6 +34,17 @@ python -m experiments.train_cost.prepare --out all.json --strata 0-2048,2048-409
 ```
 
 每条 rollout 记录 `stratum`，加载时会重新核验最终完整上下文确实落在该层内；核对与计时按“数据集|层”分组。
+
+要在固定长度下只改变轮数，用固定轮数模式：每条候选取**恰好 k 轮**、最终完整上下文落在窗口内的前缀，按轮数从高到低填格，每条候选只用一次。`--seed` 选择候选池，`--exclude` 跳过已准备文件中的对话（用来构造互不重复的重复组），`--extra-candidates` 在 seed 候选池之后按分片顺序追加候选，这样原候选池能填满的格保持不变：
+
+```bash
+python -m experiments.train_cost.prepare --out a.json --datasets swe_smith_tool nebius_swe_agent \
+  --turns 2,4,6,8 --window 3072-4096 --samples 6 --seed 0 --extra-candidates 1000
+python -m experiments.train_cost.prepare --out b.json --datasets swe_smith_tool nebius_swe_agent \
+  --turns 2,4,6,8 --window 3072-4096 --samples 6 --seed 1 --exclude a.json --extra-candidates 1000
+```
+
+每条 rollout 还会记录 `turns`，加载时核验它等于实际轮数；核对与计时按“数据集|窗口|kN”分组。
 
 输出包含样本 ID、逐条筛选原因、固定数据 revision 与分片 hash、模板/tokenizer hash、准备库版本。`run --check-only` 重新审计这些事件，不导入 torch/Transformers/PEFT，不下载权重，不覆盖已有结果。
 
@@ -59,7 +70,7 @@ python -m experiments.train_cost.run --data kaggle/p3_inputs/prepared.json --out
 python -m experiments.train_cost.bundle --data kaggle/p3_inputs/prepared.json --out kaggle/p3_pilot --owner YOUR_KAGGLE_ID --driver kaggle/train_cost_driver.py
 ```
 
-规模上限是显式的配置档：`--profile pilot`（默认：≤4096、≤12 条、每个数据集 ≤4 条、≤4 轮）或 `--profile stratified`（≤6144、每个包 ≤48 条、每格 ≤6 条、≤20 轮，并要求每条都有 stratum）。`--session-limit-minutes`（10–720 的整数）和 `--run-mode {benchmark,diagnose}` 在打包时写入驱动，提交时的超时必须与写入值相同。
+规模上限是显式的配置档：`--profile pilot`（默认：≤4096、≤12 条、每个数据集 ≤4 条、≤4 轮）或 `--profile stratified`（≤6144、每个包 ≤48 条、每格 ≤6 条、≤20 轮，并要求每条都有 stratum）。包内数据不超过 8 MiB。`--session-limit-minutes`（10–720 的整数）和 `--run-mode {benchmark,diagnose}` 在打包时写入驱动，提交时的超时必须与写入值相同。
 
 包内只有 `pilot.py` 和私有 `kernel-metadata.json`。`pilot.py` 内嵌允许清单中的源码及 prepared JSON，并记录压缩包 SHA256；不依赖尚未推送的 GitHub 代码，不包含账号凭据、缓存、虚拟环境或其他 Kaggle 文件。运行前校验大小、哈希、路径、源码语法、数据配对及模型限制。
 

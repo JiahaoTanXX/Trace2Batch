@@ -288,3 +288,105 @@ def test_prepare_parses_strata_and_cells(tmp_path: Path) -> None:
     assert options.min_turns == 2
     pilot = prepare.parse_options(["--out", str(tmp_path / "out.json")])
     assert pilot.strata is None and pilot.cells is None
+
+
+def test_turns_field_is_reaudited_and_joins_the_group(tmp_path: Path) -> None:
+    document = _prepared()  # the fixture rollout has 2 model requests and a final context of 6 tokens
+    document["rollouts"][0].update({"stratum": "4-6", "turns": 2})
+    path = tmp_path / "prepared.json"
+    path.write_text(json.dumps(document), encoding="utf-8")
+    pairs, _ = _data().load_pairs(path)
+    assert pairs[0].turns == 2
+    assert pairs[0].group == "toy|4-6|k2"
+    for bad in (3, 0, "2", 2.0, True):
+        document["rollouts"][0]["turns"] = bad
+        path.write_text(json.dumps(document), encoding="utf-8")
+        with pytest.raises(ValueError, match="turns"):
+            _data().load_pairs(path)
+
+
+def test_turns_selection_takes_exact_prefixes_highest_turns_first_and_skips_excluded() -> None:
+    prepare = importlib.import_module("experiments.train_cost.prepare")
+    candidates = [
+        ("a", _turns([500, 1500, 2500, 3500])),  # k=4 ends in (3000, 4000]
+        ("b", _turns([3200, 3600])),  # k=1 and k=2 both inside; one-turn prefixes are never used
+        ("x", _turns([400, 900, 1300, 3100])),  # excluded
+        ("c", _turns([1000, 3100, 3300, 3700])),  # k=2, 3 and 4 inside; taken once, at the highest needed k
+        ("d", _turns([3050, 3900])),
+        ("e", _turns([200, 300, 600, 900])),  # never inside the window
+    ]
+    chosen, decisions = prepare.select_turns(candidates, (3000, 4000), (2, 4), samples=2, excluded={"x"})
+    assert [(sample_id, len(events)) for sample_id, events in chosen[4]] == [("a", 4), ("c", 4)]
+    assert [(sample_id, len(events)) for sample_id, events in chosen[2]] == [("b", 2), ("d", 2)]
+    assert chosen[4][0][1] == candidates[0][1][:4]
+    reasons = {item["sample_id"]: item for item in decisions}
+    assert reasons["x"]["selected"] is False and "excluded" in reasons["x"]["reason"]
+    assert reasons["e"]["selected"] is False
+    assert reasons["a"]["turns"] == 4 and reasons["a"]["context_tokens"] == 3500
+
+
+def test_extra_candidates_follow_the_seeded_pool_in_shard_order() -> None:
+    prepare = importlib.import_module("experiments.train_cost.prepare")
+    pool = ["s7", "s2", "s5"]
+    shard = ["s1", "s2", "s3", "s4", "s5", "s6", "s7"]
+    assert prepare.extend_candidates(pool, shard, extra=2, key=lambda item: item) == ["s7", "s2", "s5", "s1", "s3"]
+    assert prepare.extend_candidates(pool, shard, extra=0, key=lambda item: item) == pool
+    assert prepare.extend_candidates(pool, shard, extra=99, key=lambda item: item) == [*pool, "s1", "s3", "s4", "s6"]
+
+
+def test_excluded_rollouts_are_read_from_prepared_files(tmp_path: Path) -> None:
+    prepare = importlib.import_module("experiments.train_cost.prepare")
+    first, second = tmp_path / "a.json", tmp_path / "b.json"
+    rollouts = [{"dataset": "d1", "sample_id": "x"}, {"dataset": "d2", "sample_id": "y"}]
+    first.write_text(json.dumps({"rollouts": rollouts}))
+    second.write_text(json.dumps({"rollouts": [{"dataset": "d1", "sample_id": "z"}]}))
+    assert prepare.read_excluded([first, second]) == {("d1", "x"), ("d2", "y"), ("d1", "z")}
+
+
+@pytest.mark.parametrize(
+    "arguments",
+    [
+        ["--turns", "2,4"],
+        ["--window", "3072-4096"],
+        ["--turns", "2,4", "--window", "3072-4096", "--strata", "0-2048"],
+        ["--turns", "2,2", "--window", "3072-4096"],
+        ["--turns", "0,4", "--window", "3072-4096"],
+        ["--turns", "2,25", "--window", "3072-4096"],
+        ["--turns", "2,4", "--window", "4096-3072"],
+        ["--seed", "-1"],
+        ["--extra-candidates", "-5"],
+    ],
+)
+def test_prepare_rejects_invalid_turns_options(
+    tmp_path: Path, arguments: list[str], capsys: pytest.CaptureFixture[str]
+) -> None:
+    prepare = importlib.import_module("experiments.train_cost.prepare")
+    with pytest.raises(SystemExit) as stopped:
+        prepare.parse_options(["--out", str(tmp_path / "unused.json"), *arguments])
+    assert stopped.value.code == 2
+    assert "unrecognized" not in capsys.readouterr().err
+
+
+def test_prepare_parses_turns_options(tmp_path: Path) -> None:
+    prepare = importlib.import_module("experiments.train_cost.prepare")
+    options = prepare.parse_options(
+        [
+            "--out",
+            str(tmp_path / "o.json"),
+            "--turns",
+            "8,2,6,4",
+            "--window",
+            "3072-4096",
+            "--seed",
+            "1",
+            "--exclude",
+            str(tmp_path / "a.json"),
+            "--extra-candidates",
+            "1000",
+        ]
+    )
+    assert options.turns == [2, 4, 6, 8] and options.window == (3072, 4096)
+    assert options.seed == 1 and options.extra_candidates == 1000 and options.exclude == [tmp_path / "a.json"]
+    assert options.max_turns >= 8
+    default = prepare.parse_options(["--out", str(tmp_path / "o.json")])
+    assert default.turns is None and default.seed == 0 and default.extra_candidates == 0 and default.exclude == []
