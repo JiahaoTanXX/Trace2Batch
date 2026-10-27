@@ -185,3 +185,34 @@ def test_deadline_stops_starting_new_batches() -> None:
     )
     assert [r["sample_id"] for r in records] == ["s0", "s1", "s2", "s3", "s4", "s5"]
     assert stopped is True
+
+
+def test_patch2_configs_serve_the_v2_templates_on_the_pinned_models() -> None:
+    from pathlib import Path
+
+    from experiments.template_patch.run import PATCHES_V2
+
+    root = Path(__file__).resolve().parents[1]
+    pairs = {
+        "qwen2.5-1.5b+patch2": ("qwen2.5-1.5b", PATCHES_V2["qwen2.5"]),
+        "qwen3-0.6b+patch2": ("qwen3-0.6b", PATCHES_V2["qwen3_no_think"]),
+    }
+    for key, (base_key, template) in pairs.items():
+        served, base = MODELS[key], MODELS[base_key]
+        assert served.key == key
+        assert (served.repo, served.revision) == (base.repo, base.revision)
+        assert served.chat_template_kwargs == base.chat_template_kwargs
+        assert served.recommended == base.recommended
+        assert served.chat_template == template and (root / template).is_file()
+
+
+def test_qwen3_patch2_requests_disable_thinking() -> None:
+    payloads: list[dict[str, Any]] = []
+
+    def post(path: str, payload: dict[str, Any]) -> dict[str, Any]:
+        payloads.append(payload)
+        return {"error": {"status": 400, "message": "fixture stops after the first request"}}
+
+    process_turn(TURN, 0, post, MODELS["qwen3-0.6b+patch2"], RL_SAMPLING, 64, decode, encode, [])
+    assert payloads[0]["model"] == "qwen3-0.6b+patch2"
+    assert payloads[0]["chat_template_kwargs"] == {"enable_thinking": False}

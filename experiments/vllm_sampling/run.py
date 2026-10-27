@@ -56,6 +56,9 @@ class ServedModel:
 
 
 QWEN3_PATCH = "experiments/template_patch/templates/qwen3_prefix_stable.jinja"
+# 补丁 v2: content 已以换行结尾时不再在工具调用前插入换行(与 experiments.template_patch 的 PATCHES_V2 相同)。
+QWEN3_PATCH_V2 = "experiments/template_patch/templates/qwen3_prefix_stable_v2.jinja"
+QWEN25_PATCH_V2 = "experiments/template_patch/templates/qwen2.5_tool_newline.jinja"
 _QWEN25_RECOMMENDED = {"temperature": 0.7, "top_p": 0.8, "top_k": 20, "repetition_penalty": 1.1}
 _QWEN3_NO_THINK_RECOMMENDED = {"temperature": 0.7, "top_p": 0.8, "top_k": 20, "min_p": 0.0}
 _QWEN3 = ("Qwen/Qwen3-0.6B", "c1899de289a04d12100db370d81485cdf75e47ca")
@@ -77,6 +80,16 @@ MODELS: dict[str, ServedModel] = {
     ),
     "qwen3-0.6b+patch": ServedModel(
         "qwen3-0.6b+patch", *_QWEN3, {"enable_thinking": False}, QWEN3_PATCH, _QWEN3_NO_THINK_RECOMMENDED
+    ),
+    "qwen2.5-1.5b+patch2": ServedModel(
+        "qwen2.5-1.5b+patch2",
+        "Qwen/Qwen2.5-1.5B-Instruct",
+        "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+        chat_template=QWEN25_PATCH_V2,
+        recommended=_QWEN25_RECOMMENDED,
+    ),
+    "qwen3-0.6b+patch2": ServedModel(
+        "qwen3-0.6b+patch2", *_QWEN3, {"enable_thinking": False}, QWEN3_PATCH_V2, _QWEN3_NO_THINK_RECOMMENDED
     ),
 }
 # RL 训练常用的纯采样; recommended 使用 ServedModel.recommended。
