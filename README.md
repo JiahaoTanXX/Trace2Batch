@@ -24,7 +24,7 @@
 
 结论：`trajectory` 聚合能否生效，取决于"模板 × 思考内容是否回传 × 工具观察的消息角色 × 是否出现最终回答"的组合，而不是数据本身。配置不对时，训练数据会退化成逐轮样本，而现有指标只记录失败次数，不给出原因。
 
-据此向 microsoft/agent-lightning 提交了 Issue [#645](https://github.com/microsoft/agent-lightning/issues/645)，提议在训练指标中按原因归因合并失败。完整报告见 [REPORT.md](experiments/template_prefix/REPORT.md)。
+据此向 microsoft/agent-lightning 提交了 Issue [#645](https://github.com/microsoft/agent-lightning/issues/645)，提议在训练指标中按原因归因合并失败。
 
 ## 发现二：真正的约束是单行总长，而不是截断方式
 
@@ -43,7 +43,7 @@
 
 **2. 在相同总长下，按轮次切分（split）保留的 policy token 从不多于截断。** 这与推导一致：位置超过单行总长的 token，任何一行都装不下。split 的价值是行在轮次边界结束（"行尾只剩观察"的比例为 0%）。它在更大单行总长下的 token 膨胀中，62.6%–67.7% 是重复前缀；按共享前缀只算一次计算，每个保留的 policy token 需要 6.4–6.5 个 token，低于或接近截断的 6.6–17.4。
 
-这些都是数据层面的对比，没有做训练验证。详见 [截断实验报告](experiments/truncation/REPORT.md)。
+这些都是数据层面的对比，没有做训练验证。
 
 ## 发现三：真实采样下，"模板前缀稳定"也不够
 
@@ -62,7 +62,6 @@
   - **最主要的失败是"工具调用前插入换行"**（模型按规范格式输出 `正文\n<tool_call>`，Hermes 解析器把末尾的 `\n` 保留在 content 里，模板重新渲染时又插入一个 `\n`，变成 `\n\n`），分别占失败的 44% 和 85%；
   - 1.5B 模型的非规范切分只占 6.3%。
 
-详见 [真实采样报告](experiments/real_sampling/REPORT.md) 和 [GPU 报告](experiments/vllm_sampling/REPORT.md)。
 
 ## 从诊断到修复：模板补丁与 token-in-token-out
 
@@ -80,7 +79,6 @@
 - **补丁 v2**：解析器保留的换行与模板插入的换行叠加，是真实 vLLM 下最主要的失败。v2 只在 content 不以换行结尾时才插入换行，在 CPU 真实采样中消除了全部此类失败：Qwen3-0.6B 前缀成立率 78.3% → **90.2%**，Qwen2.5-0.5B 88.7% → **94.8%**；规范输出仍 100% 合并。
 - 补丁有意偏离了 Qwen3 官方"历史中不保留思考"的建议，对模型效果的影响尚未验证。
 
-详见 [模板补丁报告](experiments/template_patch/REPORT.md)。
 
 ## P3-A：训练成本基准
 
@@ -112,7 +110,9 @@
 归因: template_mismatch，差异 = 删除 "<think>\n\n</think>\n\n"
 ```
 
-已知局限：这组实验用的是模板规范输出，真实采样带来的问题见"发现三"；没有覆盖 Llama、Mistral 等家族。详见报告第 6 节。
+已知局限：这组实验用的是模板规范输出，真实采样带来的问题见"发现三"；没有覆盖 Llama、Mistral 等家族。
+
+完整的实验报告与结果数据将在项目完成后整理发布；每个实验都可以用下方「快速开始」中的命令在本地重跑，结果写入各实验目录的 `results/`。
 
 ## 快速开始
 
@@ -192,17 +192,14 @@ Trace2Batch/
 │   └── tito.py                 # token-in-token-out 轨迹记录器
 ├── experiments/template_prefix/
 │   ├── run.py                  # 真实 tokenizer 前缀一致性实验
-│   ├── DATA.md / REPORT.md     # 数据说明与研究报告
-│   └── results/                # 结果 JSON、汇总表与样本 id
-├── experiments/real_sampling/  # 真实模型采样实验与报告
-├── experiments/template_patch/ # 前缀稳定模板补丁、验证实验与报告
+│   └── DATA.md                 # 数据说明
+├── experiments/real_sampling/  # 真实模型采样实验
+├── experiments/template_patch/ # 前缀稳定模板补丁与验证实验
 ├── experiments/tito/           # TITO 观察分词与规范输出验证
 ├── experiments/vllm_sampling/  # 真实 vLLM 服务端采样客户端（GPU）
 ├── experiments/train_cost/    # P3-A 数据配对、masked CE 训练成本与限时提交包
 ├── experiments/truncation/
-│   ├── run.py                  # 截断策略对比实验
-│   ├── REPORT.md               # 截断实验报告
-│   └── results/
+│   └── run.py                  # 截断策略对比实验
 ├── examples/trace2batch/       # 合成场景与手算期望
 ├── tests/                      # 离线测试 + network 测试
 └── .github/workflows/ci.yml
