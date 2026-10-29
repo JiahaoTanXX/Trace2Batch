@@ -20,6 +20,7 @@ Common training frameworks (agent-lightning, for example) report only *how many*
 | 🧪 **Real sampling** | Even with a prefix-stable template, only 60.4% of really sampled turns keep the prefix, mostly because of non-canonical token splits |
 | 🩹 **Template patches** | Prefix-stable patches take merging from **0% → 100%** on canonical outputs. Patch v2 removes every stacked-newline failure on a real vLLM server, lifting prefix retention from 74.4% to **94.7%** |
 | ✅ **TITO** | In multi-turn rollouts on a real vLLM server, token-in-token-out keeps **528 / 528** trajectories fully mergeable; server re-rendering manages 63.6% / 77.3% |
+| 🔬 **New finding** | TITO is not free: the model continues its own non-canonical splits from context. Once a trajectory has had one, later turns repeat it **10.5 / 24.8 points** more often than under re-render-driven rollouts (both 95% CIs above 0) |
 | ⏱️ **Training cost** | In a real LoRA training loop, failed merges make training **1.5–4.2×** slower, reaching **4.0–5.2×** at 8 turns. The gap is almost entirely explained by token inflation (r = 0.987) |
 | ✂️ **Truncation** | At the same per-row length, dynamic budget allocation raises policy-token retention from 26.3% to **54.6%** |
 | 🌐 **Upstream** | Reported as microsoft/agent-lightning issue [#645](https://github.com/microsoft/agent-lightning/issues/645); the maintainer confirmed seeing the same phenomenon in their own experiments |
@@ -102,6 +103,22 @@ Token-in-token-out (TITO) reuses the existing token ids for all history and toke
 - The attribution is clean: under patch v2, **every** remaining retoken failure diverges inside the model's own sample for that turn (Qwen2.5 154 / 154, Qwen3 121 / 121).
 - The client's Hermes parsing was checked against vLLM's own parser: of the 475 checks where both calls produced the same sample, 474 parse identically.
 - In earlier offline validation on canonical outputs for 900 trajectories, TITO matches server re-rendering token for token (12,884 / 12,884 prompts).
+- **The inference is confirmed by measurement.** Driving the same trajectories with real server re-rendering gives fully mergeable rates of 63.0% (Qwen2.5, 300 trajectories) and 77.3% (Qwen3, 264 trajectories). That is within 2 points of the paired inference above. With SWE-smith filled in, TITO keeps 300 / 300 (Qwen2.5) and 299 / 299 (Qwen3) trajectories fully mergeable.
+
+### The price of TITO: the model continues its own non-canonical splits
+
+The full run showed a pattern: once a trajectory had one non-canonical split, later turns produced more of them. This could come from the content itself, or from TITO keeping the model's own non-canonical tokens in context. To tell the two apart, we reran the same trajectories with the same seeding rule, but with server re-rendering driving the rollouts. Re-rendering re-tokenizes the context canonically every turn, so the model never sees its own non-canonical tokens. The decision rule was fixed before the run.
+
+| Per-turn non-canonical split rate | No earlier split | After an earlier split |
+|---|---:|---:|
+| Qwen2.5-1.5B, TITO-driven | 11.5% | **25.7%** |
+| Qwen2.5-1.5B, re-render-driven | 11.0% | 15.2% |
+| Qwen3-0.6B, TITO-driven | 4.9% | **29.2%** |
+| Qwen3-0.6B, re-render-driven | 4.7% | 4.4% |
+
+- After an earlier split, TITO minus re-rendering is **+10.5 points [+4.6, +16.6]** for Qwen2.5 and **+24.8 points [+14.5, +35.7]** for Qwen3. Both 95% CIs come from a trajectory-level bootstrap and lie entirely above 0.
+- The control is clean: with no earlier split, the two drivers are nearly identical (+0.4 and +0.1 points, both CIs include 0). Qwen3 shows no clustering at all under re-rendering (4.7% → 4.4%).
+- **Takeaway:** TITO guarantees token-exact consistency between training and inference. The price is that the model sees and continues its own non-canonical splits, which shifts the sampling distribution. Re-rendering avoids this effect, but at the cost of a train/inference mismatch and broken merges. This project quantifies that trade-off in multi-turn agentic RL data collection on a real server. Whether RL training learns or amplifies it is a natural next question.
 
 ## 5. The cost: how much slower does training get? (P3-A)
 
@@ -166,7 +183,7 @@ Building on Section 1, we filed issue [#645](https://github.com/microsoft/agent-
 
 - Section 1 uses canonical template outputs and does not cover model families such as Llama or Mistral.
 - The real-sampling experiments use small models (0.5B–1.5B) in fp16 on T4, with one run per configuration.
-- In the multi-turn rollouts, tool observations come from the dataset and are therefore off-policy. The re-rendering numbers are paired inferences on the same samples.
+- In the multi-turn rollouts, tool observations come from the dataset and are therefore off-policy. The clustering comparison is observational, because the two drivers' samples stop being paired after their first divergence. Qwen3's re-render-driven run completed only 64 SWE-smith trajectories.
 - The patches deliberately depart from Qwen3's official advice not to keep reasoning in history; their effect on model quality has not been evaluated.
 - The training-cost benchmark is a masked-CE + LoRA reference loop, not GRPO or full-parameter training. The truncation study is a data-level comparison.
 
