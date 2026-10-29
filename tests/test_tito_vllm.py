@@ -14,12 +14,17 @@ import json
 from collections.abc import Sequence
 from typing import Any
 
+from experiments.real_sampling.run import parse_hermes
 from experiments.template_prefix.run import Conversation
 from experiments.tito_vllm.run import (
     VllmServer,
+    dataset_deadlines,
     observation_ids,
     rollout,
+    rollout_rerender,
+    run_dataset,
     summarize,
+    summarize_rerender,
     trajectory_stats,
 )
 
@@ -261,7 +266,11 @@ def test_parser_check_compares_client_and_server_parsing_on_the_same_sample() ->
     call = {"function": {"name": "ls", "arguments": '{"path": "."}'}}
     assert check_first_turn({"content": "look.\n", "tool_calls": [call]}) == {"same_sample": True, "match": True}
     # 服务端把换行去掉时, 客户端解析与之不一致, 必须报告出来。
-    assert check_first_turn({"content": "look.", "tool_calls": [call]}) == {"same_sample": True, "match": False}
+    mismatch = check_first_turn({"content": "look.", "tool_calls": [call]})
+    assert (mismatch["same_sample"], mismatch["match"]) == (True, False)
+    # 不一致时保存证据: 采样文本、客户端与服务端各自的解析结果。
+    assert mismatch["text"] == "look.\n" + CALL
+    assert mismatch["client"]["content"] == "look.\n" and mismatch["server"]["content"] == "look."
     assert check_first_turn({"content": "x"}, same_sample=False) == {"same_sample": False, "match": None}
 
 
@@ -329,3 +338,112 @@ def test_summarize_counts_self_retoken_turns_and_where_retoken_failures_occur() 
     summary = summarize([result])
     assert summary["self_retoken_turns"] == 1
     assert summary["retoken_in_response"] == {"official": 1, "v2": 1}
+
+
+# ---------------------------------------------------------------- 重渲染驱动
+
+
+def chat_server(samples: list[list[str]], calls: list[dict[str, Any]] | None = None):
+    """只实现 /v1/chat/completions 的假服务端: 按请求的模板渲染 prompt, 按 Hermes 规则解析采样。"""
+    state = {"next": 0}
+
+    def post(path: str, payload: dict[str, Any]) -> dict[str, Any]:
+        assert path == "/v1/chat/completions"
+        if calls is not None:
+            calls.append(payload)
+        template = "v2" if payload.get("chat_template") == V2_TEMPLATE_TEXT else "official"
+        prompt = TOK.encode(render(payload["messages"], template, True))
+        k = state["next"]
+        state["next"] += 1
+        ids = [TOK.id(piece) for piece in samples[k]]
+        parsed, _ = parse_hermes(TOK.decode(ids[:-1]))
+        message: dict[str, Any] = {"role": "assistant", "content": parsed.get("content")}
+        if parsed.get("tool_calls"):
+            message["tool_calls"] = [
+                {
+                    "id": f"c{k}",
+                    "type": "function",
+                    "function": {**c["function"], "arguments": json.dumps(c["function"]["arguments"])},
+                }
+                for c in parsed["tool_calls"]
+            ]
+        finish = "tool_calls" if parsed.get("tool_calls") else "stop"
+        return {
+            "prompt_token_ids": prompt,
+            "choices": [{"token_ids": ids, "message": message, "finish_reason": finish}],
+        }
+
+    return post
+
+
+def run_rerender(samples: list[list[str]], calls: list[dict[str, Any]] | None = None, seed: int = 0) -> dict[str, Any]:
+    return rollout_rerender(
+        server(chat_server(samples, calls)),
+        CONVERSATION,
+        None,
+        max_turns=8,
+        seed=seed,
+        sampling={"temperature": 1.0},
+        max_tokens=64,
+        decode=TOK.decode,
+        encode=TOK.encode,
+        markers=SPECIAL,
+        stop_ids=[TOK.id("<|im_end|>")],
+    )
+
+
+def test_rerender_rollout_checks_each_turn_against_the_next_server_prompt() -> None:
+    samples = [
+        [*pieces("look.\n" + CALL), "<|im_end|>"],  # v2 下不叠加换行
+        ["o", "k", "<|im_end|>"],  # 非规范切分
+        [*pieces("bye"), "<|im_end|>"],
+    ]
+    calls: list[dict[str, Any]] = []
+    result = run_rerender(samples, calls, seed=7)
+
+    turns = result["turns"]
+    assert [t["checked"] for t in turns] == [True, True, False]
+    assert [t["kind"] for t in turns[:2]] == [None, "retoken_mismatch"]
+    assert turns[1]["in_response"] is True
+    assert [t["self_retoken"] for t in turns] == [False, True, False]
+    assert result["pipelines"]["rerender"]["merge_mismatches"] == 1
+    assert result["pipelines"]["rerender"]["n_rows"] == 2
+    # 每轮都由服务端按 v2 模板重渲染, 种子规则与 TITO 驱动相同。
+    assert [c["seed"] for c in calls] == [7, 8, 9]
+    assert all(c["chat_template"] == V2_TEMPLATE_TEXT and c["return_token_ids"] for c in calls)
+    # 服务端解析出的消息原样写回历史(带工具调用 id)。
+    second = calls[1]["messages"]
+    assert second[1]["tool_calls"][0]["id"] == "c0" and second[2]["tool_call_id"] == "c0"
+
+
+def test_summarize_rerender_reports_measured_merges() -> None:
+    clean = run_rerender([[*pieces("a"), "<|im_end|>"], [*pieces("b"), "<|im_end|>"], [*pieces("c"), "<|im_end|>"]])
+    broken = run_rerender([[*pieces("a"), "<|im_end|>"], ["o", "k", "<|im_end|>"], [*pieces("c"), "<|im_end|>"]])
+    summary = summarize_rerender([clean, broken])
+    assert summary["trajectories"] == 2 and summary["turns"] == 6 and summary["merge_checks"] == 4
+    assert summary["fully_mergeable"] == 1
+    assert summary["turn_kinds"] == {"prefix_ok": 3, "retoken_mismatch": 1}
+    assert summary["self_retoken_turns"] == 1 and summary["retoken_in_response"] == 1
+    assert summary["rows"] == 3
+
+
+def test_dataset_deadlines_split_the_budget_by_weight() -> None:
+    weights = {"a": 0.6, "b": 0.3, "c": 0.1}
+    # 剩余 100 s, 还剩 a、b、c 三个数据集时, a 分到 60 s。
+    assert dataset_deadlines(100.0, ["a", "b", "c"], weights) == 60.0
+    # a 提前完成后, 剩余时间在 b、c 之间按 3:1 分配。
+    assert dataset_deadlines(80.0, ["b", "c"], weights) == 60.0
+    # 未给权重时平均分配。
+    assert dataset_deadlines(90.0, ["a", "b", "c"], None) == 30.0
+
+
+def test_run_dataset_passes_absolute_indices_from_the_start_index() -> None:
+    seen: list[int] = []
+
+    def worker(conversation: Conversation, index: int) -> dict[str, Any]:
+        seen.append(index)
+        return {"sample_id": conversation.sample_id}
+
+    conversations = [Conversation(f"s{i}", [], None) for i in range(5)]
+    results, stopped = run_dataset(conversations, worker, concurrency=2, deadline=None, first_index=64)
+    assert sorted(seen) == [64, 65, 66, 67, 68] and not stopped and len(results) == 5

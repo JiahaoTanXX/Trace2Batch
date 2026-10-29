@@ -18,6 +18,9 @@ build_samples(trajectory), 比较合并失败次数、训练行数与 token 总�
 服务端以官方模板启动(不传 --chat-template), v2 模板随请求的 chat_template 字段发送,
 因此需要 --trust-request-chat-template。
 
+--driver rerender 改由服务端重渲染驱动(/v1/chat/completions + v2 模板, 服务端解析出的消息写回历史),
+实测重渲染链路的合并结果; 种子规则与 TITO 驱动相同, 用来比较两种驱动方式下非规范切分的出现情况。
+
     python -m experiments.tito_vllm.run --model qwen3-0.6b --base-url http://127.0.0.1:8000
 """
 
@@ -40,6 +43,7 @@ from experiments.vllm_sampling.run import (
     QWEN25_PATCH_V2,
     RL_SAMPLING,
     Post,
+    assistant_for_history,
     derive_tools,
     history_for_api,
     http_post,
@@ -163,8 +167,12 @@ def _check_parser(
     body: list[int],
     parsed: dict[str, Any],
     stop_ids: Sequence[int],
+    decode: Callable[[Sequence[int]], str],
 ) -> dict[str, Any]:
-    """第一轮的 prompt 与 /v1/chat/completions 完全相同; 同种子再采样一次, 采样一致时比较两边的解析结果。"""
+    """第一轮的 prompt 与 /v1/chat/completions 完全相同; 同种子再采样一次, 采样一致时比较两边的解析结果。
+
+    不一致时保存采样文本(前 2,000 个字符)与两边的解析结果, 便于事后归因。
+    """
     response = server.chat(history, tools, seed, sampling, max_tokens)
     if "error" in response:
         return {"same_sample": None, "match": None}
@@ -184,7 +192,9 @@ def _check_parser(
         for call in parsed.get("tool_calls") or []
     ]
     match = (message.get("content") or None) == (parsed.get("content") or None) and server_calls == client_calls
-    return {"same_sample": True, "match": match}
+    if match:
+        return {"same_sample": True, "match": True}
+    return {"same_sample": True, "match": False, "text": decode(body)[:2000], "client": parsed, "server": message}
 
 
 def rollout(
@@ -254,7 +264,7 @@ def rollout(
         }
         if parser_check and k == 0:
             record["parser_check"] = _check_parser(
-                server, history, tools, seed, sampling, max_tokens, body, parsed, stop_ids
+                server, history, tools, seed, sampling, max_tokens, body, parsed, stop_ids, decode
             )
         turns.append(record)
         if not finished:
@@ -316,8 +326,122 @@ def summarize(rollouts: list[dict[str, Any]]) -> dict[str, Any]:
         "token_ratio_vs_tito": {
             name: round(totals[name] / totals["tito"], 4) if totals["tito"] else None for name in names
         },
-        "parser_check": dict(Counter(json.dumps(t["parser_check"]) for t in turns if "parser_check" in t)),
+        "parser_check": _parser_outcomes(turns),
     }
+
+
+def _parser_outcomes(turns: list[dict[str, Any]]) -> dict[str, int]:
+    checks = [t["parser_check"] for t in turns if "parser_check" in t]
+    return dict(Counter(f"same_sample={c['same_sample']},match={c['match']}" for c in checks))
+
+
+def rollout_rerender(
+    server: VllmServer,
+    conversation: Conversation,
+    tools: Any,
+    *,
+    max_turns: int,
+    seed: int,
+    sampling: dict[str, float],
+    max_tokens: int,
+    decode: Callable[[Sequence[int]], str],
+    markers: Sequence[str],
+    stop_ids: Sequence[int],
+    encode: Callable[[str], list[int]] | None = None,
+) -> dict[str, Any]:
+    """由服务端重渲染驱动的 rollout: 每轮请求 /v1/chat/completions(v2 模板), 把服务端解析出的消息写回历史。
+
+    第 k 轮的合并检查要等第 k+1 轮的请求返回服务端渲染的 prompt 后才能做; 最后一轮和下一次请求失败的
+    轮次不做检查(checked=False)。
+    """
+    started = time.perf_counter()
+    messages = conversation.messages
+    positions = [i for i, m in enumerate(messages) if m["role"] == "assistant"][:max_turns]
+    history = list(messages[: positions[0]])
+    events: list[dict[str, Any]] = []
+    turns: list[dict[str, Any]] = []
+    previous: tuple[dict[str, Any], list[int]] | None = None  # (上一轮的记录, 上一轮的 prompt + 采样)
+    stop_reason = "max_turns_or_end"
+    for k, position in enumerate(positions):
+        response = server.chat(history, tools, seed + k, sampling, max_tokens)
+        if "error" in response:
+            stop_reason = _error_reason(response["error"])
+            break
+        choice = response["choices"][0]
+        prompt = list(response.get("prompt_token_ids") or choice.get("prompt_token_ids") or [])
+        if previous is not None:
+            record, context = previous
+            report = explain_mismatch(context, prompt, decode, markers=markers)
+            record["checked"] = True
+            record["kind"] = None if report is None else report.kind
+            record["segments"] = [] if report is None else report.changed_segments[:4]
+            record["in_response"] = None if report is None else report.token_index >= record["prompt_tokens"]
+        sampled = list(choice.get("token_ids") or [])
+        finished = choice.get("finish_reason") in ("stop", "tool_calls")
+        appended = finished and (not sampled or sampled[-1] not in stop_ids)
+        if appended:
+            sampled.append(stop_ids[0])
+        body = sampled[:-1] if finished else sampled
+        assistant = assistant_for_history(choice["message"])
+        events.append(
+            {"event_type": "model_request", "data": {"prompt_token_ids": prompt, "response_token_ids": sampled}}
+        )
+        record = {
+            "turn": k,
+            "prompt_tokens": len(prompt),
+            "sampled_tokens": len(sampled),
+            "finish_reason": choice.get("finish_reason"),
+            "stop_token_appended": appended,
+            "tool_calls": len(assistant.get("tool_calls") or []),
+            "self_retoken": None if encode is None else encode(decode(body)) != body,
+            "checked": False,
+            "kind": None,
+        }
+        turns.append(record)
+        if not finished:
+            stop_reason = "unfinished"
+            break
+        if k + 1 >= len(positions):
+            break
+        history = [*history, assistant, *messages[position + 1 : positions[k + 1]]]
+        previous = (record, prompt + sampled)
+    return {
+        "sample_id": conversation.sample_id,
+        "driver": "rerender",
+        "stop_reason": stop_reason,
+        "turns": turns,
+        "pipelines": {"rerender": trajectory_stats(events)},
+        "seconds": round(time.perf_counter() - started, 3),
+    }
+
+
+def summarize_rerender(rollouts: list[dict[str, Any]]) -> dict[str, Any]:
+    turns = [t for r in rollouts for t in r["turns"]]
+    checked = [t for t in turns if t["checked"]]
+    stats = [r["pipelines"]["rerender"] for r in rollouts]
+    return {
+        "trajectories": len(rollouts),
+        "turns": len(turns),
+        "stop_reasons": dict(Counter(r["stop_reason"] for r in rollouts)),
+        "with_tool_calls": sum(t["tool_calls"] > 0 for t in turns),
+        "stop_token_appended": sum(t["stop_token_appended"] for t in turns),
+        "prompt_tokens_max": max((t["prompt_tokens"] for t in turns), default=0),
+        "self_retoken_turns": sum(t.get("self_retoken") is True for t in turns),
+        "merge_checks": len(checked),
+        "turn_kinds": dict(Counter(t["kind"] or "prefix_ok" for t in checked)),
+        "retoken_in_response": sum(t["kind"] == "retoken_mismatch" and t.get("in_response") is True for t in checked),
+        "fully_mergeable": sum(s["merge_mismatches"] == 0 for s in stats),
+        "rows": sum(s["n_rows"] for s in stats),
+        "total_tokens": sum(s["total_tokens"] for s in stats),
+        "policy_tokens": sum(s["policy_tokens"] for s in stats),
+    }
+
+
+def dataset_deadlines(remaining_seconds: float, names: Sequence[str], weights: dict[str, float] | None) -> float:
+    """names[0] 这个数据集可用的秒数: 剩余时间按尚未运行的数据集的权重分配, 没有权重时平均分配。"""
+    if not weights:
+        return remaining_seconds / len(names)
+    return remaining_seconds * weights[names[0]] / sum(weights[name] for name in names)
 
 
 def run_dataset(
@@ -325,15 +449,19 @@ def run_dataset(
     worker: Callable[[Conversation, int], dict[str, Any]],
     concurrency: int,
     deadline: float | None,
+    first_index: int = 0,
 ) -> tuple[list[dict[str, Any]], bool]:
-    """按固定顺序分批并发 rollout; deadline 到达后不再开始新的批次。返回 (结果, 是否因时间上限提前停止)。"""
+    """按固定顺序分批并发 rollout; deadline 到达后不再开始新的批次。返回 (结果, 是否因时间上限提前停止)。
+
+    worker 收到的是轨迹在完整选择顺序中的序号(first_index 起), 补跑时种子与原运行一致。
+    """
     results: list[dict[str, Any]] = []
     with ThreadPoolExecutor(max_workers=concurrency) as pool:
         for start in range(0, len(conversations), concurrency):
             if deadline is not None and time.monotonic() >= deadline:
                 return results, True
             batch = conversations[start : start + concurrency]
-            results += pool.map(worker, batch, range(start, start + len(batch)))
+            results += pool.map(worker, batch, range(first_index + start, first_index + start + len(batch)))
     return results, False
 
 
@@ -350,6 +478,17 @@ def main(argv: Sequence[str] | None = None) -> None:
     parser.add_argument("--parser-check", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--out", type=Path, default=None)
     parser.add_argument("--time-budget-seconds", type=float, default=None)
+    parser.add_argument("--driver", choices=("tito", "rerender"), default="tito")
+    parser.add_argument("--datasets", nargs="+", choices=[spec.name for spec in DATASETS], default=None)
+    parser.add_argument(
+        "--start-index", type=int, default=0, help="从完整选择顺序中的第几条轨迹开始(补跑时使用), 种子规则不变"
+    )
+    parser.add_argument(
+        "--dataset-weights",
+        type=lambda text: {k: float(v) for k, v in (item.split("=") for item in text.split(","))},
+        default=None,
+        help="按数据集分配时间预算, 例如 swe_smith_tool=0.62,nebius_swe_agent=0.25,toucan_qwen3=0.13",
+    )
     args = parser.parse_args(argv)
 
     from transformers import AutoTokenizer
@@ -373,46 +512,54 @@ def main(argv: Sequence[str] | None = None) -> None:
     server = VllmServer(
         http_post(args.base_url), model.key, model.chat_template_kwargs, {"official": None, "v2": v2_text}, "v2"
     )
-    out: Path = args.out or RESULTS_DIR / args.model
+    out: Path = args.out or RESULTS_DIR / f"{args.model}@{args.driver}"
     out.mkdir(parents=True, exist_ok=True)
+    specs = [spec for spec in DATASETS if args.datasets is None or spec.name in args.datasets]
     summaries: dict[str, Any] = {}
     all_rollouts: dict[str, list[dict[str, Any]]] = {}
     job_started = time.monotonic()
-    for position, spec in enumerate(DATASETS):
+    for position, spec in enumerate(specs):
         conversations, _ = load_conversations(spec, args.samples, args.seed)
         multi_turn = [c for c in conversations if sum(m["role"] == "assistant" for m in c.messages) >= 2]
-        chosen = multi_turn[: args.trajectories_per_dataset]
+        chosen = multi_turn[args.start_index : args.trajectories_per_dataset]
 
         def worker(conversation: Conversation, index: int) -> dict[str, Any]:
             tools = conversation.tools or derive_tools(conversation.messages)
+            common: dict[str, Any] = {
+                "max_turns": args.max_turns,
+                "seed": args.seed + 1000 * index,
+                "sampling": RL_SAMPLING,
+                "max_tokens": args.max_tokens,
+                "decode": decode,
+                "encode": encode,
+                "markers": markers,
+                "stop_ids": stop_ids,
+            }
             try:
-                return rollout(
-                    server,
-                    conversation,
-                    tools,
-                    max_turns=args.max_turns,
-                    seed=args.seed + 1000 * index,
-                    sampling=RL_SAMPLING,
-                    max_tokens=args.max_tokens,
-                    decode=decode,
-                    encode=encode,
-                    markers=markers,
-                    stop_ids=stop_ids,
-                    parser_check=args.parser_check,
-                )
+                if args.driver == "rerender":
+                    return {"index": index, **rollout_rerender(server, conversation, tools, **common)}
+                return {
+                    "index": index,
+                    **rollout(server, conversation, tools, parser_check=args.parser_check, **common),
+                }
             except Exception as error:  # 单条轨迹失败不应终止整个任务; 记录后在汇总中排除。
-                return {"sample_id": conversation.sample_id, "failed": f"{type(error).__name__}: {error}"[:500]}
+                return {
+                    "index": index,
+                    "sample_id": conversation.sample_id,
+                    "failed": f"{type(error).__name__}: {error}"[:500],
+                }
 
         deadline = None
         if args.time_budget_seconds is not None:
-            remaining = args.time_budget_seconds - (time.monotonic() - job_started)
-            deadline = time.monotonic() + max(remaining, 0) / (len(DATASETS) - position)
+            remaining = max(args.time_budget_seconds - (time.monotonic() - job_started), 0)
+            names = [s.name for s in specs[position:]]
+            deadline = time.monotonic() + dataset_deadlines(remaining, names, args.dataset_weights)
         started = time.perf_counter()
-        results, stopped = run_dataset(chosen, worker, args.concurrency, deadline)
+        results, stopped = run_dataset(chosen, worker, args.concurrency, deadline, first_index=args.start_index)
         rollouts = [r for r in results if "failed" not in r]
         failures = [r for r in results if "failed" in r]
         summaries[spec.name] = {
-            **summarize(rollouts),
+            **(summarize_rerender(rollouts) if args.driver == "rerender" else summarize(rollouts)),
             "failed_rollouts": len(failures),
             "failure_examples": [r["failed"] for r in failures[:3]],
             "seconds": round(time.perf_counter() - started, 1),
@@ -428,7 +575,7 @@ def main(argv: Sequence[str] | None = None) -> None:
                 "sampling": RL_SAMPLING,
                 **{k: v for k, v in vars(args).items() if k not in ("out", "base_url")},
             },
-            "complete": position == len(DATASETS) - 1,
+            "complete": position == len(specs) - 1,
             "summaries": summaries,
             "rollouts": all_rollouts,
         }
