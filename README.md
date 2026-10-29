@@ -1,12 +1,32 @@
 # Trace2Batch
 
-**Agentic RL 多轮轨迹数据的一致性诊断工具与实证研究。**
+中文 | [English](README.en.md)
 
-多轮 Agent 做 RL 训练时，常见的做法是把一整条轨迹合并成一个训练样本（`trajectory` 聚合），省掉重复历史前缀的计算。合并的前提是：下一轮 prompt 的 token 必须以上一轮的上下文为前缀。训练指标只会告诉你合并失败了多少次，不会告诉你为什么。Trace2Batch 回答的正是这个问题：**在真实的 chat template 下，这个前提到底会不会被悄悄破坏？被谁破坏？代价多大？**
+[![CI](https://github.com/JiahaoTanXX/Trace2Batch/actions/workflows/ci.yml/badge.svg)](https://github.com/JiahaoTanXX/Trace2Batch/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## 核心发现
+**Agentic RL 多轮轨迹数据的一致性诊断、修复与实证研究。** 研究范围从 chat template、vLLM 服务端一直到训练成本，用 900 条公开 Agent 轨迹、超过 10 万次合并尝试和真实 GPU 运行，回答每个采用 trajectory 聚合的多轮 Agent RL 训练栈都要面对的问题：
 
-用 **4 个模型家族**（Qwen、DeepSeek、GLM、gpt-oss）的 5 个真实 tokenizer、9 种模板配置，以及 3 个公开 Agent 轨迹数据集的 900 条轨迹，模拟"OpenAI 兼容代理 + vLLM `return_token_ids`"这条常见的采集链路，共 107,848 次合并尝试：
+> 把一整条轨迹合并成一个训练样本（`trajectory` 聚合）能省掉大量重复计算，前提是下一轮 prompt 的 token 必须以上一轮上下文为前缀。**这个前提在真实链路里会不会被悄悄破坏？被谁破坏？破坏后训练要多付多少代价？怎么彻底修好？**
+
+常见的训练框架（例如 agent-lightning）只报告“合并失败了多少次”。Trace2Batch 能定位到第一个分歧 token，说清楚失败的原因，并给出经过真实服务端验证的修复方案。
+
+## 主要结果
+
+| | 结果 |
+|---|---|
+| 🔍 **诊断** | 107,848 次合并尝试中有 54,391 次失败，**全部**定位到 chat template 对历史的改写。Qwen3 关闭思考时合并率为 **0%**，训练 token 膨胀到 **15.75×** |
+| 🧪 **真实采样** | 即使模板本身前缀稳定，真实采样下也只有 60.4% 的轮次前缀成立，主要原因是非规范 token 切分 |
+| 🩹 **模板补丁** | 前缀稳定补丁让合并率从 **0% → 100%**（规范输出）；补丁 v2 在真实 vLLM 上消除了全部换行叠加失败，前缀成立率 74.4% → **94.7%** |
+| ✅ **TITO 根治** | 真实 vLLM 多轮 rollout 中，token-in-token-out 让 **528 / 528** 条轨迹完整合并；服务端重渲染只有 63.6% / 77.3% |
+| ⏱️ **训练代价** | 真实 LoRA 训练中，合并失败让训练慢 **1.5–4.2×**，8 轮轨迹达 **4.0–5.2×**，差距几乎完全由 token 膨胀决定（r = 0.987） |
+| ✂️ **截断** | 同一单行总长下，改用动态预算分配后，policy token 保留率从 26.3% 提升到 **54.6%** |
+| 🌐 **上游反馈** | 向 microsoft/agent-lightning 提交 Issue [#645](https://github.com/microsoft/agent-lightning/issues/645)，维护者确认内部实验中也观察到同样的现象 |
+
+## 1. 诊断：chat template 在悄悄破坏前缀
+
+用 **4 个模型家族**（Qwen、DeepSeek、GLM、gpt-oss）的 5 个真实 tokenizer、9 种模板配置，以及 3 个公开 Agent 轨迹数据集的 900 条轨迹，模拟“OpenAI 兼容代理 + vLLM `return_token_ids`”这条主流采集链路，共 **107,848 次合并尝试**：
 
 | 配置 | SWE-smith | Toucan | SWE-agent（nebius） | 失败根因 |
 |---|---|---|---|---|
@@ -18,107 +38,11 @@
 
 （表中为合并成功率。）
 
-- 54,391 次合并失败**全部被归因为 `template_mismatch`**，差异片段逐条可查。
-- 合并失败时，每一轮都失败，样本退化成逐轮，每行都要重复携带完整历史。不截断时，行内 token 总量膨胀 **15.75×**（SWE-smith）、**14.75×**（SWE-agent）、**1.75×**（Toucan）（Qwen3 关闭思考，对照组为 token 直通）。
-- 渲染时还发现模板对数据格式很脆弱：gpt-oss 模板遇到 `description` 为 `null` 的工具定义会报错，GLM-4.5 模板遇到不合法的 JSON 参数会报错；gpt-oss 每条消息只渲染第一个工具调用。
+- **54,391 次失败 100% 归因为 `template_mismatch`**，每一处差异片段都可以逐条查看。
+- 合并一旦失败，就是每一轮都失败，样本退化成逐轮，每行都要重复携带完整历史。不截断时，行内 token 总量膨胀到 **15.75×**（SWE-smith）、**14.75×**（SWE-agent）、**1.75×**（Toucan）。
+- 另外还发现模板对数据格式很脆弱：gpt-oss 模板遇到 `description` 为 `null` 的工具定义会报错，GLM-4.5 模板遇到不合法的 JSON 参数会报错，gpt-oss 每条消息只渲染第一个工具调用。
 
-结论：`trajectory` 聚合能否生效，取决于"模板 × 思考内容是否回传 × 工具观察的消息角色 × 是否出现最终回答"的组合，而不是数据本身。配置不对时，训练数据会退化成逐轮样本，而现有指标只记录失败次数，不给出原因。
-
-据此向 microsoft/agent-lightning 提交了 Issue [#645](https://github.com/microsoft/agent-lightning/issues/645)，提议在训练指标中按原因归因合并失败。
-
-## 发现二：真正的约束是单行总长，而不是截断方式
-
-同一批真实轨迹的合并 response 中，**约 80% 是工具观察**，长度预算主要被观察占用。超出预算时，默认的尾部截断会丢掉最接近奖励的后期生成。
-
-为此新增 `truncation_strategy` 参数（`truncate` / `split_on_budget` / `drop`），并做了两组对比：
-
-**1. 在相同的单行总长下，把 prompt / response 固定对半分改成动态分配，默认截断的保留率显著提高**（`max_total_length`）：
-
-| 数据集 | 单行总长 | policy token 保留率（固定对半 → 动态分配） | 最后一次生成丢失的轨迹（固定 → 动态） |
-|---|---:|---|---|
-| SWE-smith | 16,384 | 26.3% → **54.6%** | 75.0% → **41.3%** |
-| SWE-smith | 32,768 | 57.2% → **83.0%** | 36.7% → **14.3%** |
-| SWE-agent | 16,384 | 55.0% → **73.5%** | 54.0% → **36.3%** |
-| SWE-agent | 32,768 | 77.8% → **99.4%** | 31.7% → **2.0%** |
-
-**2. 在相同总长下，按轮次切分（split）保留的 policy token 从不多于截断。** 这与推导一致：位置超过单行总长的 token，任何一行都装不下。split 的价值是行在轮次边界结束（"行尾只剩观察"的比例为 0%）。它在更大单行总长下的 token 膨胀中，62.6%–67.7% 是重复前缀；按共享前缀只算一次计算，每个保留的 policy token 需要 6.4–6.5 个 token，低于或接近截断的 6.6–17.4。
-
-这些都是数据层面的对比，没有做训练验证。
-
-## 发现三：真实采样下，"模板前缀稳定"也不够
-
-上面的结论基于模板认可的规范输出。为了补上这个盲区，让 Qwen2.5-0.5B-Instruct 在真实历史上**实际采样**生成每一轮（temperature=1.0），再按 vLLM Hermes 工具解析器解析、重渲染下一轮 prompt。共 300 个轮次，本地 CPU 运行，可复现：
-
-- 在规范输出下 100% 合并的 Qwen2.5 模板，真实采样后，**正常结束的 169 个轮次中只有 60.4% 前缀成立**。
-- 主要原因是**非规范 token 切分**（32.5%）：模型采样出 `-t` + `xt`，而同一段文本重新分词得到的是 `-txt`。
-- 其次是模板层面的差异（6.5%）：模型把工具调用 JSON 写成带缩进的多行格式而模板重新渲染成紧凑格式、以 `<|endoftext|>` 而非 `<|im_end|>` 结束、正文与模板的换行叠加等。
-- 所以只要采用"服务端每轮重渲染 + 重分词"的链路，就算模板本身前缀稳定，trajectory 聚合也会频繁退化；要稳定合并，需要 token-in-token-out。
-
-- **温度消融**：改用模型推荐的采样设置（T=0.7 等）后，前缀成立率升到 88.7%，retoken 降到 4.7%；但模板层面的失败基本不变，两种设置下都约为 6.5%。非规范切分主要是高温采样的问题，工具调用重新格式化则与温度无关。
-
-- **真实 vLLM 服务端（GPU）**：在 Kaggle 的 T4 上，直接请求 `vllm serve`（Hermes 工具解析、`return_token_ids`），prompt 最长 32k，每种配置约 300 个轮次：
-  - Qwen2.5-1.5B 前缀成立 **83.3%**（250/300）；
-  - Qwen3-0.6B + 补丁 **74.4%**（212/285）；
-  - **最主要的失败是"工具调用前插入换行"**（模型按规范格式输出 `正文\n<tool_call>`，Hermes 解析器把末尾的 `\n` 保留在 content 里，模板重新渲染时又插入一个 `\n`，变成 `\n\n`），分别占失败的 44% 和 85%；
-  - 1.5B 模型的非规范切分只占 6.3%。
-  - 换上补丁 v2 后在相同设置下重跑（见下一节），这类换行失败降为 0。
-
-
-## 从诊断到修复：模板补丁与 token-in-token-out
-
-针对 Qwen3 和 gpt-oss，各编写了一个**前缀稳定的模板补丁**（`experiments/template_patch/templates/`）：历史消息按生成时的样子渲染。补丁都是官方模板的最小改动。
-
-| 验证 | 官方模板 | 补丁模板 |
-|---|---:|---:|
-| 规范输出：Qwen3 关闭思考，3 个数据集 | 0% | **100%** |
-| 规范输出：gpt-oss，SWE-agent | 0% | **100%** |
-| 真实采样：Qwen3-0.6B 关闭思考，150 个轮次 | 0% | **78.7%**（v1）/ **90.0%**（v2） |
-| 真实 vLLM：Qwen2.5-1.5B，300 个轮次 | 83.3% | **90.7%**（v2） |
-| 真实 vLLM：Qwen3-0.6B 关闭思考，约 300 个轮次 | — | **74.4%**（v1，285 轮）/ **94.7%**（v2，300 轮） |
-
-- 规范输出下，补丁后的训练行与 token-in-token-out **逐数据集完全一致**。
-- 提供只用标准库的 **token-in-token-out 参考实现**（`trace2batch/tito.py`）。在 900 条轨迹上，它与服务端重渲染逐 token 相同（12,884 / 12,884 个 prompt），模板改写历史时依然 100% 合并。
-- 真实采样下剩余的 21.3%，来自工具调用被重新格式化（例如 `-74.0060` 经 JSON 解析后变成 `-74.006`）和非规范 token 切分。这两类**只有 token-in-token-out 能消除**。
-- **补丁 v2**：解析器保留的换行与模板插入的换行叠加，是真实 vLLM 下最主要的失败。v2 只在 content 不以换行结尾时才插入换行，在 CPU 真实采样中消除了全部此类失败：Qwen3-0.6B 前缀成立率 78.3% → **90.2%**，Qwen2.5-0.5B 88.7% → **94.8%**；规范输出仍 100% 合并。在 Kaggle T4 的真实 vLLM 上，以相同设置重跑，换行叠加失败从 23 / 64 个降为 **0**：Qwen2.5-1.5B 83.3% → **90.7%**，Qwen3-0.6B 74.4% → **94.7%**。按轮次配对，Qwen2.5 有 25 个轮次由失败变为成立、3 个反之（采样不同，属于 fp16 运行间差异）；Qwen3 分别为 58 个和 1 个。剩余失败主要是非规范切分和工具调用重新格式化。
-- 补丁有意偏离了 Qwen3 官方"历史中不保留思考"的建议，对模型效果的影响尚未验证。
-
-### 真实 vLLM 多轮 rollout：TITO 端到端验证
-
-在 Kaggle T4 的真实 vLLM 0.32 上做多轮 rollout（`experiments/tito_vllm/`）：每条轨迹从第一个助手轮次开始，最多 8 轮，每轮由模型采样（T=1.0），观察沿用数据集。rollout 由 TITO 驱动：`/v1/completions` 直接接收 token id，观察 token 由服务端 `/tokenize` 渲染。同一份采样再按官方模板和补丁 v2 重渲染，三条链路配对比较。每个模型 264 条轨迹（SWE-smith 64 条，Toucan 和 SWE-agent 各 100 条）。
-
-| 整条轨迹可完整合并 | TITO | 重渲染 + 官方模板 | 重渲染 + 补丁 v2 |
-|---|---:|---:|---:|
-| Qwen2.5-1.5B（1,360 轮） | **100%** | 62.1% | 63.6% |
-| Qwen3-0.6B 关闭思考（1,482 轮） | **100%** | 0% | 77.3% |
-
-- 逐轮看，补丁 v2 的前缀成立率为 85.1%（Qwen2.5）和 88.8%（Qwen3）。但轮次越多，失败的机会越多，**只有 TITO 能让整条轨迹稳定合并**，每条轨迹恰好 1 个训练行。
-- 重渲染链路每失败一次，就多出一个携带完整历史的训练行。训练 token 总量为 TITO 的 1.07–1.80 倍（v2）；Qwen3 官方模板最高 5.0 倍。
-- 补丁 v2 下剩余的 retoken 失败，分歧点全部落在模型本轮的采样内（Qwen2.5 154 / 154，Qwen3 121 / 121），也就是模型自己采样出的非规范切分。剩余的少数 template 失败来自工具调用 JSON 被重新格式化。
-- 客户端按 Hermes 规则解析工具调用。第一轮用相同 prompt 和种子分别走 completions 和 chat 接口，两次采样相同的 475 次中，474 次与 vLLM 的解析结果一致。
-- 局限：观察来自数据集，是离策略的；重渲染链路的结果是在同一份采样上配对推断得到的；每个配置只运行一次。
-
-
-## P3-A：训练成本基准
-
-新增 [训练成本实验](experiments/train_cost/README.md)：从同一份前缀稳定的 token 事件构建逐轮和合并样本，逐目标核对完整上下文；采用相同 LoRA 初始化、每 rollout 一次更新、policy token 归一化和 AB/BA 顺序，测量真实前向、反向及更新成本。提供本地数据预检、限时运行和独立 Kaggle 提交包。
-
-## 项目亮点
-
-- **不匹配归因器**（`trace2batch/mismatch.py`）：定位第一个分歧 token，把失败归为 `template_mismatch` / `retoken_mismatch` / `others_mismatch` 三类，并输出分歧点前后的文本片段供人工核查。只用 Python 标准库，解码函数以回调注入，可以接入任何 tokenizer。
-- **可复现的实证研究**（`experiments/template_prefix/`）：数据集和 tokenizer 的 revision 全部固定，抽样种子固定，样本 id 落盘，一条命令即可重跑。重复运行的合并与归因结果完全一致。归因次数与样本构建的不匹配计数逐条交叉校验。
-- **三种采集方式对照**：token 直通（对照组）、vLLM token id（每轮服务端重渲染）、文本重分词，可以分离模板改写与分词边界两类因素。
-- **样本构建引擎**（`trace2batch/core.py`）：把模型请求、工具观察、奖励事件转成 RL 样本行（prompt / response / policy mask / reward），支持 `transition` 与 `trajectory` 两种表示、三种截断策略、多 rollout 批处理、总长预算、缺失奖励填充、请求过滤计数和"无可用行"原因诊断。零运行时依赖。
-- **工程质量**：默认离线测试和可选真实 tokenizer 测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上持续集成。
-
-## 研究设置一览
-
-| 维度 | 内容 |
-|---|---|
-| 数据 | SWE-smith（结构化工具调用）、Toucan-1.5M Qwen3 子集（MCP 工具调用）、nebius SWE-agent（文本动作），各 300 条 |
-| Tokenizer | Qwen2.5-7B-Instruct、Qwen3-8B、DeepSeek-V3.1、GLM-4.5、gpt-oss-20b，共 9 种配置（含合成思考内容的配置已明确标注） |
-| 采集方式 | A token 直通 / B vLLM token id / C 文本重分词 |
-| 规模 | 66 个实验单元，每种配置约 11,984 次合并尝试，共 107,848 次 |
-| 资源 | 纯 CPU，只下载 tokenizer 文件，不需要模型权重 |
+**结论**：`trajectory` 聚合能否生效，取决于“模板 × 思考内容是否回传 × 工具观察的消息角色 × 是否出现最终回答”的组合，而不是数据本身。配置一旦不对，训练数据就会悄悄退化成逐轮样本，而现有指标看不出原因。
 
 典型分歧片段（Qwen3，`enable_thinking=False`）：
 
@@ -128,9 +52,119 @@
 归因: template_mismatch，差异 = 删除 "<think>\n\n</think>\n\n"
 ```
 
-已知局限：这组实验用的是模板规范输出，真实采样带来的问题见"发现三"；没有覆盖 Llama、Mistral 等家族。
+## 2. 真实采样：“模板前缀稳定”也不够
 
-完整的实验报告与结果数据将在项目完成后整理发布；每个实验都可以用下方「快速开始」中的命令在本地重跑，结果写入各实验目录的 `results/`。
+规范输出只是理想情况。让模型在真实历史上**实际采样**每一轮，再按 vLLM Hermes 工具解析器解析、重渲染下一轮 prompt：
+
+- **CPU 复现**（Qwen2.5-0.5B-Instruct，T=1.0，300 个轮次）：在规范输出下 100% 合并的 Qwen2.5 模板，真实采样后只有 **60.4%** 的正常结束轮次前缀成立。
+  - 主因是**非规范 token 切分**（32.5%）：模型采样出 `-t` + `xt`，而同一段文本重新分词得到的是 `-txt`。
+  - 其次是模板层面的改写（6.5%）：工具调用 JSON 被重新格式化、以 `<|endoftext|>` 结束、换行叠加。
+  - **温度消融**：换成推荐采样设置（T=0.7）后，前缀成立率升到 88.7%，但模板层面的失败基本不变（约 6.5%）。非规范切分主要是高温采样的问题，重新格式化则与温度无关。
+- **真实 vLLM 服务端**（Kaggle T4，`vllm serve` + Hermes 解析 + `return_token_ids`，prompt 最长 32k）：Qwen2.5-1.5B 前缀成立率 83.3%（250/300），Qwen3-0.6B + 补丁 v1 为 74.4%（212/285）。
+  - **最主要的失败是一个解析器与模板之间的交互缺陷**：模型按规范格式输出 `正文\n<tool_call>`，Hermes 解析器把末尾的 `\n` 保留在 content 里，模板重新渲染时又插入一个 `\n`，叠加成 `\n\n`。它分别占失败的 44% 和 85%。
+
+**结论**：只要采用“服务端每轮重渲染 + 重新分词”的链路，就算模板本身前缀稳定，trajectory 聚合也会频繁退化。
+
+## 3. 修复：前缀稳定的模板补丁
+
+为 Qwen3、gpt-oss 和 Qwen2.5 编写了**前缀稳定的模板补丁**（`experiments/template_patch/templates/`），全部是官方模板的最小改动：历史消息按生成时的样子渲染。补丁 v2 只在 content 不以换行结尾时才插入换行，修复了上面的换行叠加缺陷。
+
+| 验证 | 官方模板 | 补丁模板 |
+|---|---:|---:|
+| 规范输出：Qwen3 关闭思考，3 个数据集 | 0% | **100%** |
+| 规范输出：gpt-oss，SWE-agent | 0% | **100%** |
+| 真实采样（CPU）：Qwen3-0.6B 关闭思考，150 个轮次 | 0% | 78.7%（v1）→ **90.0%**（v2） |
+| 真实 vLLM：Qwen2.5-1.5B，300 个轮次 | 83.3% | **90.7%**（v2） |
+| 真实 vLLM：Qwen3-0.6B 关闭思考 | — | 74.4%（v1，285 轮）→ **94.7%**（v2，300 轮） |
+
+- 真实 vLLM 下，补丁 v2 让换行叠加失败从 23 / 64 次降为 **0**。逐轮配对后，Qwen2.5 有 25 个轮次由失败变为成立、3 个反之（这 3 个都是两次运行的采样本身不同），Qwen3 分别为 58 个和 1 个。
+- 规范输出下，补丁后的训练行与 token-in-token-out **逐数据集完全一致**。
+- 剩余的失败（非规范切分、`-74.0060` → `-74.006` 这类工具调用重新格式化）只要服务端还在重渲染，就无法通过模板消除。
+
+## 4. 根治：TITO 在真实 vLLM 多轮 rollout 上端到端验证
+
+token-in-token-out（TITO）的做法是历史一律沿用已有的 token id，只对新增消息分词。项目提供只用标准库的参考实现（`trace2batch/tito.py`），并在 **真实 vLLM 0.32 服务端**上做了端到端验证（`experiments/tito_vllm/`）：
+
+- **rollout 由 TITO 驱动**：`/v1/completions` 直接接收 token id，观察 token 由服务端 `/tokenize` 渲染。每条轨迹从第一个助手轮次开始，最多 8 轮，每轮由模型采样（T=1.0）。
+- **配对比较**：同一份采样再交给“服务端重渲染 + 官方模板”和“服务端重渲染 + 补丁 v2”两条链路，三条链路逐轮比较，排除了运行间随机性的干扰。
+
+| 整条轨迹可完整合并 | **TITO** | 重渲染 + 官方模板 | 重渲染 + 补丁 v2 |
+|---|---:|---:|---:|
+| Qwen2.5-1.5B（264 条轨迹，1,360 轮） | **100%** | 62.1% | 63.6% |
+| Qwen3-0.6B 关闭思考（264 条轨迹，1,482 轮） | **100%** | 0% | 77.3% |
+
+- **单轮 85–89% 的前缀成立率，到了多轮就会累积成大量整条轨迹失败。** 只有 TITO 能让每条轨迹稳定地合并成 1 个训练行。
+- 重渲染链路每失败一次，就多出一个携带完整历史的训练行。训练 token 总量为 TITO 的 **1.07–1.80×**（补丁 v2），Qwen3 官方模板最高 **5.0×**。
+- 归因非常干净：补丁 v2 下剩余的 retoken 失败，分歧点**全部**落在模型本轮的采样内（Qwen2.5 154 / 154，Qwen3 121 / 121）。
+- 客户端的 Hermes 解析经过逐条核对：两次采样相同的 475 次中，474 次与 vLLM 自带的解析结果一致。
+- 此前的离线验证：在 900 条轨迹的规范输出上，TITO 与服务端重渲染逐 token 相同（12,884 / 12,884 个 prompt）。
+
+## 5. 代价：合并失败让训练慢多少（P3-A）
+
+[训练成本基准](experiments/train_cost/README.md)在真实训练循环中测量两种表示的成本（Kaggle T4，Qwen3-0.6B + LoRA，masked CE）：
+
+- 两种表示来自**同一份** token 事件，逐个监督目标核对完整上下文；
+- 正式计时前，先核对两种表示的 loss 和全部可训练参数的梯度是否一致；
+- 采用相同的 LoRA 初始化、每条 rollout 只更新一次、按 policy token 归一化，以及 AB/BA 交替顺序。
+
+- 退化成逐轮表示时，训练耗时是合并表示的 **1.5–4.2×**（按格），单条 rollout 最高 **5.1×**。
+- **轮数是决定性因素**：长度固定时，加速比随轮数单调上升，从 2 轮的约 1.0–1.7× 到 8 轮的约 **4.0–5.2×**，两批独立样本结果一致。
+- 加速比与处理 token 的比值高度相关（r = **0.987**），实际约为 token 比的 0.82 倍。
+- 两种表示的峰值显存基本相同：合并省下的是**时间**，而不是显存。
+
+## 6. 截断：真正的约束是单行总长
+
+合并后的 response 中**约 80% 是工具观察**，长度预算主要被观察占满；超出时，默认的尾部截断会丢掉离奖励最近的后期生成。为此新增了 `truncation_strategy`（`truncate` / `split_on_budget` / `drop`）和 `max_total_length`：
+
+| 数据集 | 单行总长 | policy token 保留率（固定对半 → 动态分配） | 最后一次生成丢失的轨迹（固定 → 动态） |
+|---|---:|---|---|
+| SWE-smith | 16,384 | 26.3% → **54.6%** | 75.0% → **41.3%** |
+| SWE-smith | 32,768 | 57.2% → **83.0%** | 36.7% → **14.3%** |
+| SWE-agent | 16,384 | 55.0% → **73.5%** | 54.0% → **36.3%** |
+| SWE-agent | 32,768 | 77.8% → **99.4%** | 31.7% → **2.0%** |
+
+- 推导并验证：在相同总长下，按轮次切分保留的 policy token **从不多于**截断，因为位置超过单行总长的 token，任何一行都装不下。
+- 切分的价值在于行在轮次边界结束（“行尾只剩观察”的比例为 0%）。它带来的 token 膨胀中 62.6%–67.7% 是重复前缀；如果共享前缀只算一次，每个保留的 policy token 只需 6.4–6.5 个 token，低于或接近截断的 6.6–17.4。
+
+## 上游反馈
+
+基于第 1 节的结果，向 [microsoft/agent-lightning](https://github.com/microsoft/agent-lightning) 提交了 Issue [#645](https://github.com/microsoft/agent-lightning/issues/645)，指出合并失败的原因字段恒为 `False`，并附上复现数据与归因方案。维护者回复确认，他们在早期实验中也观察到了同样的现象，并因此在 coding agent 示例中提供了专门的 chat template。
+
+## 工具箱
+
+- **不匹配归因器**（`trace2batch/mismatch.py`）：定位第一个分歧 token，把失败归为 `template_mismatch` / `retoken_mismatch` / `others_mismatch`，并输出分歧点前后的文本片段供人工核查。只用 Python 标准库；解码函数以回调注入，可以接入任何 tokenizer。
+- **TITO 记录器**（`trace2batch/tito.py`）：零依赖，产出的事件可以直接交给样本构建器。
+- **样本构建引擎**（`trace2batch/core.py`）：把模型请求、工具观察、奖励事件转成 RL 样本行（prompt / response / policy mask / reward），支持：
+  - `transition` / `trajectory` 两种表示和三种截断策略；
+  - 多 rollout 批处理和总长预算；
+  - 缺失奖励填充和“无可用行”原因诊断。
+
+  零运行时依赖。
+- **真实服务端客户端**（`experiments/vllm_sampling/`、`experiments/tito_vllm/`）：直接对接 `vllm serve`，覆盖单轮采样，以及多轮 TITO 与重渲染的配对比较。
+- **训练成本基准**（`experiments/train_cost/`）：先核对梯度一致，再计时的真实 LoRA 训练循环，附限时运行和 Kaggle 提交流程。
+
+## 实验设置与可复现性
+
+| 维度 | 内容 |
+|---|---|
+| 数据 | SWE-smith（结构化工具调用）、Toucan-1.5M Qwen3 子集（MCP 工具调用）、nebius SWE-agent（文本动作） |
+| Tokenizer | Qwen2.5、Qwen3、DeepSeek-V3.1、GLM-4.5、gpt-oss，共 9 种模板配置（合成思考内容的配置已明确标注） |
+| 采集方式 | token 直通（对照组）/ vLLM token id（每轮服务端重渲染）/ 文本重分词，可以分离模板改写与分词边界两类因素 |
+| 真实模型 | Qwen2.5-0.5B / 1.5B-Instruct、Qwen3-0.6B，revision 固定 |
+| 硬件 | 诊断与截断实验只用 CPU；真实服务端与训练实验用 Kaggle T4 |
+
+- 数据集与 tokenizer 的 revision、抽样种子全部固定，样本 id 落盘，一条命令即可重跑；重复运行的合并与归因结果完全一致。
+- 归因次数与样本构建的不匹配计数逐条交叉校验。
+- 默认离线测试 + 可选真实 tokenizer 测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上做持续集成。
+- 完整的实验报告与结果数据将在项目完成后整理发布；每个实验都可以用下方的命令在本地重跑，结果写入各实验目录下的 `results/`。
+
+## 局限
+
+- 第 1 节用的是模板规范输出，没有覆盖 Llama、Mistral 等模型家族。
+- 真实采样实验只用了 0.5B–1.5B 的小模型，在 T4 上以 fp16 运行，每个配置只运行一次。
+- 多轮 rollout 中的工具观察来自数据集，属于离策略；重渲染链路的结果是在同一份采样上配对推断得到的。
+- 补丁有意偏离了 Qwen3 官方“历史中不保留思考”的建议，对模型效果的影响尚未验证。
+- 训练成本基准是 masked CE + LoRA 的参考训练循环，不是 GRPO 或全参数训练；截断实验是数据层面的对比。
 
 ## 快速开始
 
@@ -177,6 +211,17 @@ report = explain_mismatch(
 print(report.kind, report.changed_segments)
 ```
 
+TITO 记录：
+
+```python
+from trace2batch.tito import TokenInTokenOut
+
+tito = TokenInTokenOut(initial_prompt_ids)
+tito.record_response(sampled_ids)        # 生成的 token 原样接入上下文
+tito.add_observation(observation_ids)   # 只对新增消息分词
+events = tito.events()                  # 可直接交给 build_samples
+```
+
 ## 样本构建语义
 
 | 功能 | 实现方式 |
@@ -184,9 +229,9 @@ print(report.kind, report.changed_segments)
 | 逐轮表示 `transition` | 每次有效模型响应形成一行，生成 token 的 mask 为 1 |
 | 连续轨迹表示 `trajectory` | 按完整 token 前缀合并；前缀不连续时分行 |
 | 工具观察 | 作为上下文保留在合并响应中，mask 为 0 |
-| 长度边界 | 响应与 mask 同步截断；可选 `max_total_length` 总长预算；过长 prompt 截断并标记丢弃 |
+| 长度边界 | 响应与 mask 同步截断；可选 `max_total_length` 总长预算；过长的 prompt 截断并标记丢弃 |
 | 截断策略 | `truncate`（默认）/ `split_on_budget`（按轮次边界另起一行）/ `drop`（整行丢弃） |
-| 批处理 `build_batch` | 每行带 `rollout_id`，rollout 之间不合并，汇总 rollout 级诊断 |
+| 批处理 `build_batch` | 每行带 `rollout_id`，rollout 之间不合并，并汇总 rollout 级诊断 |
 | 奖励 | 取最后一个 reward，区分零奖励与缺失奖励，缺失时按 `reward_fillna_value` 填充 |
 
 三轮工具调用合并后的 response 与 mask：
@@ -215,22 +260,18 @@ Trace2Batch/
 ├── experiments/template_prefix/
 │   ├── run.py                  # 真实 tokenizer 前缀一致性实验
 │   └── DATA.md                 # 数据说明
-├── experiments/real_sampling/  # 真实模型采样实验
+├── experiments/real_sampling/  # 真实模型采样实验（CPU）
 ├── experiments/template_patch/ # 前缀稳定模板补丁与验证实验
 ├── experiments/tito/           # TITO 观察分词与规范输出验证
 ├── experiments/vllm_sampling/  # 真实 vLLM 服务端采样客户端（GPU）
 ├── experiments/tito_vllm/      # 真实 vLLM 多轮 rollout：TITO 与重渲染配对比较（GPU）
-├── experiments/train_cost/    # P3-A 数据配对、masked CE 训练成本与限时提交包
+├── experiments/train_cost/     # P3-A 训练成本基准：数据配对、masked CE 与限时运行
 ├── experiments/truncation/
 │   └── run.py                  # 截断策略对比实验
 ├── examples/trace2batch/       # 合成场景与手算期望
 ├── tests/                      # 离线测试 + network 测试
 └── .github/workflows/ci.yml
 ```
-
-## English summary
-
-Trace2Batch is a diagnostic toolkit and empirical study of multi-turn agent trajectory data for agentic RL. Using 5 real tokenizers from 4 model families (Qwen, DeepSeek, GLM, gpt-oss; 9 template configurations) and 900 public agent trajectories, it simulates the OpenAI-compatible proxy + vLLM `return_token_ids` collection path over 107,848 merge attempts. All 54,391 failures are attributed to chat-template rewrites: Qwen3 with `enable_thinking=False` drops the empty `<think>` block from history (0% merged), Qwen3/GLM-4.5 thinking modes lose history reasoning unless it is sent back and observations use the `tool` role, and gpt-oss rewrites `<|return|>` to `<|end|>` after a final answer. Qwen2.5, DeepSeek-V3.1 and GLM-4.5 without thinking merge 100%. When merging fails, rows degrade to one per turn and uncapped token volume grows up to 15.75×. A follow-up with real sampling (Qwen2.5-0.5B-Instruct, T=1.0, 300 turns, vLLM Hermes parsing) shows that even a prefix-stable template breaks in practice: only 60.4% of finished turns keep the prefix, mainly because of non-canonical token splits (32.5%). Minimal prefix-stable template patches for Qwen3 and gpt-oss restore merging from 0% to 100% on canonical outputs, and from 0% to 78.7% under real Qwen3-0.6B sampling. A v2 patch that stops stacking a template newline on the newline the Hermes parser keeps removes every such failure under a real vLLM server (prefix kept: Qwen2.5-1.5B 83.3% → 90.7%, Qwen3-0.6B 74.4% → 94.7%); the remainder (tool-call reformatting such as -74.0060 → -74.006, and non-canonical splits) can only be removed by token-in-token-out. Multi-turn rollouts on a real vLLM server (up to 8 sampled turns, 264 trajectories per model) confirm this end to end: TITO keeps 100% of trajectories fully mergeable, versus 63.6% (Qwen2.5-1.5B) and 77.3% (Qwen3-0.6B) with server re-rendering and the v2 template, which costs 1.07–1.80× more training tokens. A second study shows that about 80% of the merged response budget is spent on tool observations, and that the binding constraint is the per-row total length. At the same total length, allocating the prompt/response budget dynamically instead of splitting it in half raises policy-token retention under default truncation from 26.3% to 54.6% on SWE-smith (16k total). Splitting at turn boundaries never retains more policy tokens at equal total length, and 62.6%–67.7% of its token overhead is shared prefix. The project ships a dependency-free mismatch classifier (template / retoken / others), a reproducible experiment pipeline, and a zero-dependency sample builder. The findings were reported upstream as microsoft/agent-lightning#645.
 
 ## 许可证
 
