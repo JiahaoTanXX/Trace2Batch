@@ -221,9 +221,9 @@ Recording with TITO:
 from trace2batch.tito import TokenInTokenOut
 
 tito = TokenInTokenOut(initial_prompt_ids)
-tito.record_response(sampled_ids)        # sampled tokens enter the context unchanged
-tito.add_observation(observation_ids)   # only new messages are tokenized
-events = tito.events()                  # ready for build_samples
+tito.record_response(sampled_ids)  # sampled tokens enter the context unchanged
+tito.add_observation(observation_ids)  # only new messages are tokenized
+events = tito.events()  # ready for build_samples
 ```
 
 ## Sample-building semantics

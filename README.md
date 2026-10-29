@@ -217,9 +217,9 @@ TITO 记录：
 from trace2batch.tito import TokenInTokenOut
 
 tito = TokenInTokenOut(initial_prompt_ids)
-tito.record_response(sampled_ids)        # 生成的 token 原样接入上下文
-tito.add_observation(observation_ids)   # 只对新增消息分词
-events = tito.events()                  # 可直接交给 build_samples
+tito.record_response(sampled_ids)  # 生成的 token 原样接入上下文
+tito.add_observation(observation_ids)  # 只对新增消息分词
+events = tito.events()  # 可直接交给 build_samples
 ```
 
 ## 样本构建语义
