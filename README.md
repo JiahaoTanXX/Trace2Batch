@@ -6,7 +6,7 @@
 ![Python](https://img.shields.io/badge/python-3.12%20%7C%203.13-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-**Agentic RL 多轮轨迹数据的一致性诊断、修复与实证研究。** 研究范围从 chat template、vLLM 服务端一直到训练成本，用 900 条公开 Agent 轨迹、超过 10 万次合并尝试和真实 GPU 运行，回答每个采用 trajectory 聚合的多轮 Agent RL 训练栈都要面对的问题：
+**Agentic RL 多轮轨迹数据的一致性诊断、修复与实证研究。** 研究范围从 chat template、vLLM 服务端、训练成本一直到真实的 GRPO 训练，用 900 条公开 Agent 轨迹、超过 10 万次合并尝试和真实 GPU 运行，回答每个采用 trajectory 聚合的多轮 Agent RL 训练栈都要面对的问题：
 
 > 把一整条轨迹合并成一个训练样本（`trajectory` 聚合）能省掉大量重复计算，前提是下一轮 prompt 的 token 必须以上一轮上下文为前缀。**这个前提在真实链路里会不会被悄悄破坏？被谁破坏？破坏后训练要多付多少代价？怎么彻底修好？**
 
@@ -21,6 +21,7 @@
 | 🩹 **模板补丁** | 前缀稳定补丁让合并率从 **0% → 100%**（规范输出）；补丁 v2 在真实 vLLM 上消除了全部换行叠加失败，前缀成立率 74.4% → **94.7%** |
 | ✅ **TITO 根治** | 真实 vLLM 多轮 rollout 中，token-in-token-out 让 **528 / 528** 条轨迹完整合并；服务端重渲染只有 63.6% / 77.3% |
 | 🔬 **新发现** | TITO 并非零代价：模型会延续自己在上下文中的非规范切分。此前已出现过非规范切分的轨迹里，后续再出现的比例比重渲染驱动高 **10.5 / 24.8 个百分点**（95% 置信区间都大于 0） |
+| 🎯 **真实 GRPO** | 在 vLLM 实时 rollout + 每步热加载 LoRA 的多轮工具调用 GRPO 中（4 次运行、15,360 条 rollout），两种采集方式都把 held-out 成功率从 3–7% 提升到 **78%** 左右（95% 置信区间都大于 0）。重渲染每条 rollout 平均拆成 **2.05–2.07** 行，训练更新多花 **1.24–1.71×** 时间；60 步内非规范切分没有被强化，反而在 4 次运行中都下降 |
 | ⏱️ **训练代价** | 真实 LoRA 训练中，合并失败让训练慢 **1.5–4.2×**，8 轮轨迹达 **4.0–5.2×**，差距几乎完全由 token 膨胀决定（r = 0.987） |
 | ✂️ **截断** | 同一单行总长下，改用动态预算分配后，policy token 保留率从 26.3% 提升到 **54.6%** |
 | 🌐 **上游反馈** | 向 microsoft/agent-lightning 提交 Issue [#645](https://github.com/microsoft/agent-lightning/issues/645)，维护者确认内部实验中也观察到同样的现象 |
@@ -114,7 +115,7 @@ token-in-token-out（TITO）的做法是历史一律沿用已有的 token id，�
 
 - “此前已出现”条件下，TITO 减重渲染的差值为 **+10.5 个百分点 [+4.6, +16.6]**（Qwen2.5）和 **+24.8 个百分点 [+14.5, +35.7]**（Qwen3）。这是按轨迹 bootstrap 得到的 95% 置信区间，两个都整体大于 0。
 - 对照组干净：“此前未出现”条件下，两种驱动方式的比率几乎相同（差值为 +0.4 和 +0.1 个百分点，置信区间都包含 0）。Qwen3 在重渲染驱动下完全没有聚集（4.7% → 4.4%）。
-- **结论**：TITO 保证了训练与推理逐 token 一致，代价是模型会看到并延续自己的非规范切分，采样分布因此改变。重渲染没有这个效应，但会带来训练与推理不一致和合并失败。本项目在真实服务端上量化了多轮 Agent RL 采集链路中的这一权衡；它在 RL 训练中会不会被学到、会不会放大，是下一步值得研究的问题。
+- **结论**：TITO 保证了训练与推理逐 token 一致，代价是模型会看到并延续自己的非规范切分，采样分布因此改变。重渲染没有这个效应，但会带来训练与推理不一致和合并失败。本项目在真实服务端上量化了多轮 Agent RL 采集链路中的这一权衡；它在 RL 训练中会不会被放大，见[第 7 节](#7-真实-grpo-训练采集方式对学习和成本的影响p3-b)。
 
 ## 5. 代价：合并失败让训练慢多少（P3-A）
 
@@ -143,6 +144,39 @@ token-in-token-out（TITO）的做法是历史一律沿用已有的 token id，�
 - 推导并验证：在相同总长下，按轮次切分保留的 policy token **从不多于**截断，因为位置超过单行总长的 token，任何一行都装不下。
 - 切分的价值在于行在轮次边界结束（“行尾只剩观察”的比例为 0%）。它带来的 token 膨胀中 62.6%–67.7% 是重复前缀；如果共享前缀只算一次，每个保留的 policy token 只需 6.4–6.5 个 token，低于或接近截断的 6.6–17.4。
 
+## 7. 真实 GRPO 训练：采集方式对学习和成本的影响（P3-B）
+
+前面几节回答的是数据和成本层面的问题。P3-B 把两条采集链路接进**真实的多轮工具调用 GRPO 训练**（`experiments/grpo/`），在训练中直接比较：
+
+- **TITO**：`/v1/completions` 接收 token id，整条轨迹合并为 1 个训练行；
+- **服务端重渲染**：`/v1/chat/completions` + 补丁 v2 模板，按前缀合并，合并失败处拆行。
+
+| 项目 | 设置 |
+|---|---|
+| 环境 | 只用标准库的确定性库存环境：`lookup` 查单价和库存，`calculate` 做四则运算（`ast` 安全求值），最终答案精确匹配得 1 分，不使用模型判分；工具结果由环境实时返回，严格同策略 |
+| 模型与算法 | Qwen3-0.6B（关闭思考）+ LoRA r16；GRPO，每个任务 8 条轨迹，组内优势 = 奖励 − 组均值，每批一次更新，按 policy token 归一化 |
+| 规模 | 60 步 × 每步 8 个任务 × 8 条轨迹；每组 2 个种子，共 4 次运行、15,360 条 rollout；200 个 held-out 任务，第 0 / 20 / 40 / 60 步评测 |
+| 硬件 | Kaggle 2×T4：一张卡运行 vLLM 0.32 做 rollout，另一张卡训练 LoRA，每步把 adapter 热加载回 vLLM |
+
+判定规则在运行前就已固定。结果如下：
+
+| | TITO s0 / s1 | 重渲染 s0 / s1 |
+|---|---|---|
+| held-out 成功率（第 0 → 60 步） | 0.07 → 0.78 / 0.065 → 0.785 | 0.03 → 0.78 / 0.03 → 0.775 |
+| 成功率提升的 95% 置信区间 | [+0.65, +0.77] / [+0.66, +0.79] | [+0.69, +0.81] / [+0.69, +0.81] |
+| 每条 rollout 的训练行数 | 1.00 / 1.00 | 2.07 / 2.05 |
+| 参与更新的训练 token | 0.74M / 0.80M | 1.23M / 0.99M |
+| 训练更新总耗时 | 569 s / 638 s | 971 s / 793 s |
+| 每轮非规范切分率（前 10 步 → 后 10 步） | 2.5% → 1.2% / 3.2% → 0.7% | 3.6% → 0.4% / 3.1% → 2.3% |
+
+- **两条链路都学会了，学得一样好。** 4 次运行的成功率提升都显著大于 0，最终都在 0.78 左右，学习曲线几乎重合。
+- **代价只在重渲染一侧。** 重渲染每条 rollout 平均拆成 2.05–2.07 行；同样的学习效果，参与更新的 token 多 **1.23–1.66×**，训练更新耗时多 **1.24–1.71×**。
+- **非规范切分没有被训练强化。** 第 4 节发现 TITO 会让模型延续自己的非规范切分；按事先固定的规则（TITO 两个种子的斜率都大于 0，且都大于重渲染），60 步内**没有观察到强化**：4 次运行的斜率全部为负。
+- **训练端数值一致。** 每 10 步把同一批数据按逐轮表示再做一次反向，梯度与合并表示一致（cosine ≥ 0.999，相对 L2 ≤ 0.038），耗时比与 token 比同步变化，与 P3-A 的结论吻合。vLLM 采样 logprob 与训练端重算的 logprob 之差，每步中位数为 0。
+- **如实报告的两点**：
+  - 只有总价类任务学会了（0.04–0.09 → 0.98–0.99），缺货类任务（200 个评测任务中的 42 个）从头到尾都是 0，策略收敛到了占多数的答案类型；
+  - TITO 的优势只在训练端。本实现中 TITO 每轮多一次 `/tokenize` 请求，rollout 更慢，60 步的端到端总时间两个种子一快一慢。
+
 ## 上游反馈
 
 基于第 1 节的结果，向 [microsoft/agent-lightning](https://github.com/microsoft/agent-lightning) 提交了 Issue [#645](https://github.com/microsoft/agent-lightning/issues/645)，指出合并失败的原因字段恒为 `False`，并附上复现数据与归因方案。维护者回复确认，他们在早期实验中也观察到了同样的现象，并因此在 coding agent 示例中提供了专门的 chat template。
@@ -159,6 +193,7 @@ token-in-token-out（TITO）的做法是历史一律沿用已有的 token id，�
   零运行时依赖。
 - **真实服务端客户端**（`experiments/vllm_sampling/`、`experiments/tito_vllm/`）：直接对接 `vllm serve`，覆盖单轮采样，以及多轮 TITO 与重渲染的配对比较。
 - **训练成本基准**（`experiments/train_cost/`）：先核对梯度一致，再计时的真实 LoRA 训练循环，附限时运行和 Kaggle 提交流程。
+- **多轮工具调用 GRPO**（`experiments/grpo/`）：只用标准库的可验证环境，TITO / 重渲染两种 rollout 驱动，组内优势与 GRPO 更新，LoRA adapter 每步热加载到 vLLM，按答案类型统计的 held-out 评测。
 
 ## 实验设置与可复现性
 
@@ -168,7 +203,7 @@ token-in-token-out（TITO）的做法是历史一律沿用已有的 token id，�
 | Tokenizer | Qwen2.5、Qwen3、DeepSeek-V3.1、GLM-4.5、gpt-oss，共 9 种模板配置（合成思考内容的配置已明确标注） |
 | 采集方式 | token 直通（对照组）/ vLLM token id（每轮服务端重渲染）/ 文本重分词，可以分离模板改写与分词边界两类因素 |
 | 真实模型 | Qwen2.5-0.5B / 1.5B-Instruct、Qwen3-0.6B，revision 固定 |
-| 硬件 | 诊断与截断实验只用 CPU；真实服务端与训练实验用 Kaggle T4 |
+| 硬件 | 诊断与截断实验只用 CPU；真实服务端与训练实验用 Kaggle T4（GRPO 用 2×T4） |
 
 - 数据集与 tokenizer 的 revision、抽样种子全部固定，样本 id 落盘，一条命令即可重跑；重复运行的合并与归因结果完全一致。
 - 归因次数与样本构建的不匹配计数逐条交叉校验。
@@ -181,7 +216,8 @@ token-in-token-out（TITO）的做法是历史一律沿用已有的 token id，�
 - 真实采样实验只用了 0.5B–1.5B 的小模型，在 T4 上以 fp16 运行，每个配置只运行一次。
 - 多轮 rollout 中的工具观察来自数据集，属于离策略。非规范切分聚集的比较是观察性的：两种驱动方式的采样在第一个分歧点之后就不再配对。Qwen3 的重渲染驱动在 SWE-smith 上只完成了 64 条轨迹。
 - 补丁有意偏离了 Qwen3 官方“历史中不保留思考”的建议，对模型效果的影响尚未验证。
-- 训练成本基准是 masked CE + LoRA 的参考训练循环，不是 GRPO 或全参数训练；截断实验是数据层面的对比。
+- 训练成本基准是 masked CE + LoRA 的参考训练循环，不是全参数训练；截断实验是数据层面的对比。
+- GRPO 实验用的是自建的轻量环境和 0.6B 模型，结论只限于这个环境；每组只有 2 个种子、60 步，没有 KL 项，T4 上用 fp16。缺货类任务没有学会。
 
 ## 快速开始
 
@@ -202,6 +238,9 @@ python -m experiments.template_patch.run      # 模板补丁验证
 # 需要一个已启动的 vLLM 服务（GPU；vllm serve ... --enable-auto-tool-choice --tool-call-parser hermes）
 python -m experiments.vllm_sampling.run --model qwen3-0.6b+patch2 --base-url http://127.0.0.1:8000   # 单轮采样
 python -m experiments.tito_vllm.run --model qwen3-0.6b --base-url http://127.0.0.1:8000             # 多轮 TITO（服务端另加 --trust-request-chat-template）
+
+# GRPO（需要 2 张 GPU 并 pip install -e ".[train]"；vLLM 服务端另加 --enable-lora --max-lora-rank 16，并设置 VLLM_ALLOW_RUNTIME_LORA_UPDATING=True）
+python -m experiments.grpo.run train --driver tito --difficulties 3 --tasks-per-step 8 --train-device cuda:1 --out results/grpo_tito
 ```
 
 样本构建：
@@ -283,6 +322,7 @@ Trace2Batch/
 ├── experiments/vllm_sampling/  # 真实 vLLM 服务端采样客户端（GPU）
 ├── experiments/tito_vllm/      # 真实 vLLM 多轮 rollout：TITO 与重渲染配对比较（GPU）
 ├── experiments/train_cost/     # P3-A 训练成本基准：数据配对、masked CE 与限时运行
+├── experiments/grpo/           # P3-B 多轮工具调用 GRPO：环境、rollout 驱动、训练循环与评测
 ├── experiments/truncation/
 │   └── run.py                  # 截断策略对比实验
 ├── examples/trace2batch/       # 合成场景与手算期望
