@@ -495,3 +495,110 @@ def test_verify_reports_criterion_and_keeps_elementwise_check_as_diagnostic():
     assert result["passed"] and result["gradients_close"]
     assert set(result["criterion"]) == {"max_loss_relative_error", "max_relative_l2_error", "min_cosine"}
     assert "elementwise_close" in result
+
+
+def _tiny_qwen3(attention="sdpa"):
+    transformers = pytest.importorskip("transformers")
+    torch.manual_seed(0)
+    config = transformers.Qwen3Config(
+        vocab_size=64,
+        hidden_size=32,
+        intermediate_size=64,
+        num_hidden_layers=2,
+        num_attention_heads=4,
+        num_key_value_heads=2,
+        head_dim=8,
+        max_position_embeddings=512,
+    )
+    config.use_cache = False
+    model = transformers.Qwen3ForCausalLM(config)
+    model.config._attn_implementation = attention
+    return model
+
+
+def _long_pair():
+    prompt = [1 + index % 60 for index in range(120)]
+    return PairedRollout(
+        sample_id="long",
+        dataset="fixture",
+        transition=[row(prompt, [3, 4], [1, 1]), row([*prompt, 3, 4, 8, 9], [5], [1])],
+        trajectory=[row(prompt, [3, 4, 8, 9, 5], [1, 1, 0, 0, 1])],
+    )
+
+
+def test_policy_logits_only_gives_the_same_loss_and_gradients():
+    """第三阶段: 只在监督位置计算 logits, loss 和梯度必须与全序列 logits 相同。"""
+    model = _tiny_qwen3()
+    item = _long_pair().trajectory[0]
+    results = []
+    for selective in (False, True):
+        model.zero_grad()
+        loss = engine().policy_loss(model, item, device="cpu", policy_logits_only=selective)
+        loss.backward()
+        results.append((loss.detach(), [parameter.grad.clone() for parameter in model.parameters()]))
+    torch.testing.assert_close(results[0][0], results[1][0])
+    for full, selected in zip(results[0][1], results[1][1], strict=True):
+        torch.testing.assert_close(full, selected)
+
+
+def test_policy_logits_only_runs_the_lm_head_on_supervised_positions_only():
+    model = _tiny_qwen3()
+    shapes = []
+    handle = model.lm_head.register_forward_hook(lambda module, inputs, output: shapes.append(tuple(output.shape)))
+    try:
+        engine().policy_loss(model, _long_pair().trajectory[0], device="cpu", policy_logits_only=True)
+        engine().policy_loss(model, _long_pair().trajectory[0], device="cpu")
+    finally:
+        handle.remove()
+    # 3 个监督 token 对应 3 个前驱位置; 默认路径对全部 125 个位置计算 logits。
+    assert shapes == [(1, 3, 64), (1, 125, 64)]
+
+
+def test_verify_and_benchmark_pass_the_logits_option_through():
+    model = _tiny_qwen3()
+    check = engine().verify_equivalence(
+        model, _long_pair(), device="cpu", rtol=1e-4, atol=1e-5, policy_logits_only=True
+    )
+    assert check["passed"] and check["policy_logits_only"]
+    assert set(check["seconds"]) == {"transition", "trajectory"}
+    result = engine().benchmark(
+        model, [_long_pair()], device="cpu", repeats=2, warmup_rollouts=0, policy_logits_only=True
+    )
+    assert result["complete"]
+
+
+def test_repeat_kv_attention_matches_sdpa_and_is_used():
+    from experiments.train_cost import attention
+
+    name = attention.register()
+    reference = _tiny_qwen3()
+    candidate = _tiny_qwen3(name)
+    candidate.load_state_dict(reference.state_dict())
+    masks = []
+    original = attention.repeat_kv_attention
+
+    def spy(*args, **kwargs):
+        masks.append(args[4])
+        return original(*args, **kwargs)
+
+    from transformers import AttentionInterface
+
+    AttentionInterface.register(name, spy)
+    try:
+        ids = torch.tensor([[1 + index % 60 for index in range(50)]])
+        torch.testing.assert_close(candidate(input_ids=ids).logits, reference(input_ids=ids).logits)
+        check = engine().verify_equivalence(candidate, _long_pair(), device="cpu", rtol=1e-4, atol=1e-5)
+    finally:
+        attention.register()
+    assert check["passed"]
+    # 每层都走自定义路径, 而且单行输入不构造 mask (因果关系由 is_causal 表达)。
+    assert masks and all(mask is None for mask in masks)
+
+
+def test_repeat_kv_attention_rejects_an_explicit_mask():
+    from experiments.train_cost import attention
+
+    query = torch.zeros(1, 4, 3, 8)
+    key = torch.zeros(1, 2, 3, 8)
+    with pytest.raises(ValueError, match="attention mask"):
+        attention.repeat_kv_attention(SimpleNamespace(num_key_value_groups=2), query, key, key, torch.zeros(1, 1, 3, 3))

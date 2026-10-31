@@ -38,6 +38,7 @@ SOURCES = (
     "experiments/train_cost/data.py",
     "experiments/train_cost/engine.py",
     "experiments/train_cost/run.py",
+    "experiments/train_cost/attention.py",
 )
 
 
@@ -941,3 +942,91 @@ def test_bundle_accepts_packaged_data_between_four_and_eight_mib(
     value["selection"]["toy"]["decisions"] = [decision] * 7000  # about 4.6 MiB once packaged
     result, _ = build_stratified(tmp_path, bundle_input, value, profile="stratified", session_limit_minutes=45)
     assert result["payload_bytes"] < 8 * 1024 * 1024
+
+
+def test_long_profile_accepts_sixteen_k_and_refuses_more(tmp_path: Path, bundle_input: tuple[Path, Path]) -> None:
+    """第三阶段: long 档允许最长 16384 token, 其余上限与 stratified 档相同。"""
+    value = stratified([("toy", "0", "12288-16384", [3000, 16000])], max_total_length=16384)
+    result, module = build_stratified(tmp_path, bundle_input, value, profile="long", session_limit_minutes=50)
+    metadata = json.loads((tmp_path / "out" / "kernel-metadata.json").read_text())
+    assert result["profile"] == "long" and metadata["id"] == "fixture-owner/trace2batch-p3-long"
+    assert metadata["id"].split("/")[1] == re.sub(r"[^a-z0-9]+", "-", metadata["title"].lower()).strip("-")
+    assert module.unpack_payload(module.PAYLOAD_B64, module.PAYLOAD_SHA256, tmp_path / "source").exists()
+    too_long = stratified([("toy", "0", "12288-16384", [3000, 16000])], max_total_length=16385)
+    with pytest.raises(ValueError, match="context limit"):
+        build_stratified(tmp_path / "other", bundle_input, too_long, profile="long", session_limit_minutes=50)
+
+
+def test_run_args_are_baked_and_each_run_gets_its_own_output(tmp_path: Path, bundle_input: tuple[Path, Path]) -> None:
+    value = stratified([("toy", "0", "4096-6144", [3000, 6000])])
+    runs = [
+        ["--attention", "sdpa_repeat_kv", "--policy-logits-only", "--loss-scales", "4096"],
+        ["--groups", "toy|4096-6144|k8", "--loss-scales", "4096"],
+    ]
+    result, module = build_stratified(
+        tmp_path, bundle_input, value, profile="long", session_limit_minutes=50, run_mode="diagnose", run_args=runs
+    )
+    assert result["run_args"] == module.RUN_ARGS == runs
+    commands = FakeCommands()
+    status = module.run_driver(output_dir=tmp_path / "working", temp_root=tmp_path, command_runner=commands)
+    assert status["status"] == "complete", status.get("error")
+    trains = [command for command, _, _ in commands.commands if "experiments.train_cost.run" in command]
+    assert len(trains) == 2
+    for index, (train, extra) in enumerate(zip(trains, runs, strict=True)):
+        assert train[-len(extra) :] == extra and "--diagnose-gradients" in train
+        assert train[train.index("--out") + 1] == str(tmp_path / "working" / f"run{index}")
+    assert len(status["training_time_budget_seconds"]) == 2
+
+
+def test_default_run_args_keep_a_single_run_in_the_working_directory(
+    tmp_path: Path, bundle_input: tuple[Path, Path]
+) -> None:
+    result, module = build(tmp_path, bundle_input)
+    assert result["run_args"] == [[]] and module.RUN_ARGS == [[]]
+    commands = FakeCommands()
+    module.run_driver(output_dir=tmp_path / "working", temp_root=tmp_path, command_runner=commands)
+    train = next(command for command, _, _ in commands.commands if "experiments.train_cost.run" in command)
+    assert train[train.index("--out") + 1] == str(tmp_path / "working")
+
+
+@pytest.mark.parametrize(
+    "runs",
+    [
+        [["--out", "/tmp/elsewhere"]],
+        [["--attention", "eager"]],
+        [["--attention"]],
+        [["--policy-logits-only", "--policy-logits-only"]],
+        [["--groups", "toy;rm -rf /"]],
+        [],
+        [[]] * 5,
+        [[1]],
+    ],
+)
+def test_run_args_refuse_unknown_options_and_values(
+    tmp_path: Path, bundle_input: tuple[Path, Path], runs: list
+) -> None:
+    value = stratified([("toy", "0", "4096-6144", [3000, 6000])])
+    with pytest.raises(ValueError, match=r"run|invalid value"):
+        build_stratified(tmp_path, bundle_input, value, profile="long", session_limit_minutes=50, run_args=runs)
+
+
+def test_long_context_data_is_lzma_compressed_and_unpacks(tmp_path: Path, bundle_input: tuple[Path, Path]) -> None:
+    """第三阶段: 长上下文的每一轮都重复此前的全部上下文, 超出 DEFLATE 的 32 KiB 窗口; data.json 改用 LZMA。"""
+    value = stratified([("toy", "0", "12288-16384", [3000, 16000])], max_total_length=16384)
+    _, module = build_stratified(tmp_path, bundle_input, value, profile="long", session_limit_minutes=50)
+    payload = base64.b64decode(module.PAYLOAD_B64)
+    with zipfile.ZipFile(io.BytesIO(payload)) as archive:
+        types = {info.filename: info.compress_type for info in archive.infolist()}
+    assert types.pop("data.json") == zipfile.ZIP_LZMA and set(types.values()) == {zipfile.ZIP_DEFLATED}
+    data_path = module.unpack_payload(module.PAYLOAD_B64, module.PAYLOAD_SHA256, tmp_path / "source")
+    assert json.loads(data_path.read_text())["rollouts"] == value["rollouts"]
+
+
+def test_bundle_refuses_a_script_larger_than_kaggle_accepts(
+    tmp_path: Path, bundle_input: tuple[Path, Path], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    module = bundle_module()
+    monkeypatch.setattr(module, "MAX_SCRIPT_BYTES", 1024)
+    source_root, data = bundle_input
+    with pytest.raises(ValueError, match="split the data"):
+        module.build_bundle(data, tmp_path / "out", owner="fixture-owner", driver_path=DRIVER, source_root=source_root)

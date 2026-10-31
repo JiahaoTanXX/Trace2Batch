@@ -58,6 +58,17 @@ python -m experiments.train_cost.run --data kaggle/p3_inputs/prepared.json --out
 
 `results.json` 原子写入启动、校验、每个条件和最终状态；每个条件还记录各条 rollout 的耗时（CUDA event，不额外同步，条件总时长仍按墙钟计）。`--diagnose-gradients` 只在多个 loss scale 下比较每一对样本的梯度（`--loss-scales`），不计时，也不因核对未通过而停止。记录数据 SHA256、训练配置、实际依赖版本、模型加载耗时、各条件实际完成的 rollout/行/token/更新次数、计时、有效 policy tokens/s、处理 tokens/s 和 CUDA 峰值 allocated/reserved 显存。CPU 显存字段为 `null`。
 
+**长上下文（6k–16k）**：加上 `--attention sdpa_repeat_kv --policy-logits-only`。
+- `sdpa_repeat_kv` 显式复制 KV 头，并强制使用 memory-efficient SDPA 内核。默认路径在 T4 上会退回 math 内核，物化 L² 注意力矩阵。
+- `--policy-logits-only` 只在监督位置计算 logits。
+
+两者都不改变 loss 和梯度，只改变成本，所以这样测出的速度比只能在同一条路径内比较。`--groups dataset|lo-hi|kN,...` 只运行列出的分格。
+
+```bash
+python -m experiments.train_cost.run --data prepared.json --out results/long --device cuda \
+  --attention sdpa_repeat_kv --policy-logits-only
+```
+
 计时包含输入张量构造、前向、masked loss、反向、有限性检查和 AdamW 更新；不包含模型加载、预热、初始化参数恢复和新优化器创建。CUDA 前后同步。有限性检查会产生同步开销，因此这是带校验的参考训练循环，不代表所有生产训练栈。
 
 只有所有重复的两种条件均完整完成时，才给出 `speed_ratio = transition_seconds / trajectory_seconds`。大于 1 表示该循环下合并更快。超时、OOM、非有限 loss/梯度、单边完成都必须报告；它们的比值为 `null`，不能作为完整实验结论。
@@ -70,7 +81,7 @@ python -m experiments.train_cost.run --data kaggle/p3_inputs/prepared.json --out
 python -m experiments.train_cost.bundle --data kaggle/p3_inputs/prepared.json --out kaggle/p3_pilot --owner YOUR_KAGGLE_ID --driver kaggle/train_cost_driver.py
 ```
 
-规模上限是显式的配置档：`--profile pilot`（默认：≤4096、≤12 条、每个数据集 ≤4 条、≤4 轮）或 `--profile stratified`（≤6144、每个包 ≤48 条、每格 ≤6 条、≤20 轮，并要求每条都有 stratum）。包内数据不超过 8 MiB。`--session-limit-minutes`（10–720 的整数）和 `--run-mode {benchmark,diagnose}` 在打包时写入驱动，提交时的超时必须与写入值相同。
+规模上限是显式的配置档：`--profile pilot`（默认：≤4096、≤12 条、每个数据集 ≤4 条、≤4 轮）、`--profile stratified`（≤6144、每个包 ≤48 条、每格 ≤6 条、≤20 轮，并要求每条都有 stratum）或 `--profile long`（与 stratified 相同，但上下文上限为 16384）。包内数据不超过 8 MiB。data.json 用 LZMA 压缩，因为长上下文每一轮都重复此前的上下文，超出 DEFLATE 的窗口；生成的脚本超过 450 KiB 时拒绝打包，需要把数据拆成几个包。`--run-args '[[...], [...]]'` 让一个包依次执行多次 run.py（只允许白名单中的选项），每次的结果写到各自的 `run<i>/` 目录。`--session-limit-minutes`（10–720 的整数）和 `--run-mode {benchmark,diagnose}` 在打包时写入驱动，提交时的超时必须与写入值相同。
 
 包内只有 `pilot.py` 和私有 `kernel-metadata.json`。`pilot.py` 内嵌允许清单中的源码及 prepared JSON，并记录压缩包 SHA256；不依赖尚未推送的 GitHub 代码，不包含账号凭据、缓存、虚拟环境或其他 Kaggle 文件。运行前校验大小、哈希、路径、源码语法、数据配对及模型限制。
 

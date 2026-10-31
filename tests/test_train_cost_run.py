@@ -213,3 +213,70 @@ def test_gate_uses_training_like_loss_scaling(tmp_path: Path, monkeypatch: pytes
     )
     main(["--data", str(data), "--out", str(tmp_path / "out"), "--device", "cpu"])
     assert scales == [4096.0, 4096.0, 4096.0]
+
+
+def test_long_context_options_reach_the_model_and_every_engine_call(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    data = tmp_path / "data.json"
+    stratified(data)
+    loaded: list[object] = []
+    seen: list[object] = []
+
+    def load(*args: object, **kwargs: object) -> tuple[object, dict]:
+        loaded.append(kwargs.get("attention"))
+        return object(), {"vocab_size": 100}
+
+    def verify(model: object, pair: object, **kwargs: object) -> dict:
+        seen.append(kwargs.get("policy_logits_only"))
+        return {"passed": True}
+
+    def bench(model: object, pairs: list, **kwargs: object) -> dict:
+        seen.append(kwargs.get("policy_logits_only"))
+        return {"complete": True, "status": "complete"}
+
+    monkeypatch.setattr("experiments.train_cost.run.load_model", load)
+    monkeypatch.setattr("experiments.train_cost.engine.verify_equivalence", verify)
+    monkeypatch.setattr("experiments.train_cost.engine.benchmark", bench)
+    out = tmp_path / "out"
+    options = ["--attention", "sdpa_repeat_kv", "--policy-logits-only"]
+    main(["--data", str(data), "--out", str(out), "--device", "cpu", *options])
+    report = json.loads((out / "results.json").read_text())
+    assert loaded == ["sdpa_repeat_kv"] and seen == [True] * 6
+    assert report["training_settings"]["attention"] == "sdpa_repeat_kv"
+    assert report["training_settings"]["policy_logits_only"] is True
+
+
+def test_default_settings_keep_the_stage_one_and_two_path(tmp_path: Path) -> None:
+    data = tmp_path / "data.json"
+    stratified(data)
+    main(["--data", str(data), "--out", str(tmp_path / "out"), "--check-only"])
+    settings = json.loads((tmp_path / "out" / "results.json").read_text())["training_settings"]
+    assert settings["attention"] == "sdpa" and settings["policy_logits_only"] is False
+
+
+def test_groups_option_runs_only_the_listed_cells(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    data = tmp_path / "data.json"
+    stratified(data)
+    benchmarked: list[list[str]] = []
+    monkeypatch.setattr("experiments.train_cost.run.load_model", lambda *a, **k: (object(), {"vocab_size": 100}))
+    monkeypatch.setattr("experiments.train_cost.engine.verify_equivalence", lambda *a, **k: {"passed": True})
+
+    def bench(model: object, pairs: list, **kwargs: object) -> dict:
+        benchmarked.append([pair.group for pair in pairs])
+        return {"complete": True, "status": "complete"}
+
+    monkeypatch.setattr("experiments.train_cost.engine.benchmark", bench)
+    out = tmp_path / "out"
+    main(["--data", str(data), "--out", str(out), "--device", "cpu", "--groups", "fixture|4-8,other|4-8"])
+    report = json.loads((out / "results.json").read_text())
+    assert benchmarked == [["fixture|4-8"], ["other|4-8"]]
+    assert report["data_summary"]["rollouts"] == 2 and report["training_settings"]["groups"] == "fixture|4-8,other|4-8"
+
+
+def test_unknown_group_is_rejected_before_model_loading(tmp_path: Path) -> None:
+    data = tmp_path / "data.json"
+    stratified(data)
+    with pytest.raises(SystemExit):
+        main(["--data", str(data), "--out", str(tmp_path / "out"), "--groups", "missing|0-4"])
+    assert not (tmp_path / "out").exists()

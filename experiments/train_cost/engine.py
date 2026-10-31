@@ -60,19 +60,21 @@ def _policy_count(row: SampleRow) -> int:
     return count
 
 
-def policy_loss(model: Any, row: SampleRow, *, device: Any) -> Any:
+def policy_loss(model: Any, row: SampleRow, *, device: Any, policy_logits_only: bool = False) -> Any:
     """Return CE sum over policy response targets using their causal predecessors.
 
     The full prompt and observations remain model context. Their target labels are
     ignored, while response policy tokens (including the first) are shifted by one.
     The caller owns autocast and backward so rows can be accumulated without padding.
+
+    `policy_logits_only` passes the supervised positions as `logits_to_keep`, so the LM
+    head runs only there instead of over the whole row (about 4.6 GiB of fp16 logits at
+    16k tokens). The loss and gradients are the same; only the cost changes.
     """
     torch = _torch()
     _policy_count(row)
     tokens = row.prompt_token_ids + row.response_token_ids
     input_ids = torch.tensor([tokens], dtype=torch.long, device=device)
-    outputs = model(input_ids=input_ids)
-    logits = outputs.logits
     labels = torch.tensor(
         [
             [-100] * len(row.prompt_token_ids)
@@ -85,6 +87,12 @@ def policy_loss(model: Any, row: SampleRow, *, device: Any) -> Any:
     # Explicit shifting is independent of each model family's built-in label handling.
     shifted_labels = labels[:, 1:]
     supervised = shifted_labels != -100
+    if policy_logits_only:
+        # Position i predicts token i + 1, so the kept logits are exactly the supervised predecessors.
+        positions = supervised[0].nonzero().flatten()
+        logits = model(input_ids=input_ids, logits_to_keep=positions).logits[0]
+        return torch.nn.functional.cross_entropy(logits.float(), shifted_labels[supervised], reduction="sum")
+    logits = model(input_ids=input_ids).logits
     return torch.nn.functional.cross_entropy(
         logits[:, :-1, :][supervised].float(), shifted_labels[supervised], reduction="sum"
     )
@@ -165,6 +173,7 @@ def verify_equivalence(
     atol: float,
     deadline: float | None = None,
     loss_scale: float = 1.0,
+    policy_logits_only: bool = False,
 ) -> dict[str, Any]:
     """Compare normalized CE and every trainable gradient without an optimizer step.
 
@@ -190,6 +199,7 @@ def verify_equivalence(
     snapshot = _snapshot(model, parameters)
     losses: dict[str, float] = {}
     gradients: dict[str, list[Any]] = {}
+    seconds: dict[str, float] = {}
     try:
         model.train()
         for mode in _MODES:
@@ -197,15 +207,20 @@ def verify_equivalence(
             for parameter in parameters:
                 parameter.grad = None
             total_loss = 0.0
+            _sync(torch, device)
+            started = time.monotonic()
             for row in getattr(pair, mode):
                 _check_deadline(deadline)
                 with _autocast(torch, device):
-                    loss = policy_loss(model, row, device=device) / policy_tokens
+                    loss = policy_loss(model, row, device=device, policy_logits_only=policy_logits_only) / policy_tokens
                 _finite(torch, loss, "loss")
                 _check_deadline(deadline)
                 (loss * loss_scale).backward()
                 _check_deadline(deadline)
                 total_loss += float(loss.detach().item())
+            _sync(torch, device)
+            # Forward + backward only (no optimizer step); a cost probe, not the benchmark's timing.
+            seconds[mode] = time.monotonic() - started
             _finite_gradients(torch, parameters)
             losses[mode] = total_loss
             gradients[mode] = [
@@ -248,6 +263,8 @@ def verify_equivalence(
             "atol": atol,
             "loss_scale": float(loss_scale),
             "gradient_metrics": metrics,
+            "seconds": seconds,
+            "policy_logits_only": policy_logits_only,
         }
     finally:
         _restore(torch, parameters, snapshot)
@@ -309,13 +326,21 @@ def gradient_diagnostics(
     rtol: float,
     atol: float,
     deadline: float | None = None,
+    policy_logits_only: bool = False,
 ) -> dict[str, Any]:
     """Run the gradient check once per loss scale; overflow is recorded, never retried or raised."""
     results: list[dict[str, Any]] = []
     for scale in loss_scales:
         try:
             result = verify_equivalence(
-                model, pair, device=device, rtol=rtol, atol=atol, deadline=deadline, loss_scale=scale
+                model,
+                pair,
+                device=device,
+                rtol=rtol,
+                atol=atol,
+                deadline=deadline,
+                loss_scale=scale,
+                policy_logits_only=policy_logits_only,
             )
             results.append({"status": "ok", **result})
         except FloatingPointError as error:
@@ -356,6 +381,7 @@ def _train_rollout(
     scaler: Any,
     deadline: float | None,
     record: dict[str, Any],
+    policy_logits_only: bool = False,
 ) -> None:
     _check_deadline(deadline)
     optimizer.zero_grad(set_to_none=True)
@@ -363,7 +389,7 @@ def _train_rollout(
     for row in getattr(pair, mode):
         _check_deadline(deadline)
         with _autocast(torch, device):
-            loss = policy_loss(model, row, device=device) / policy_tokens
+            loss = policy_loss(model, row, device=device, policy_logits_only=policy_logits_only) / policy_tokens
         record["processed_tokens"] += len(row.prompt_token_ids) + len(row.response_token_ids)
         record["rows"] += 1
         _finite(torch, loss, "loss")
@@ -420,6 +446,7 @@ def benchmark(
     learning_rate: float = 1e-4,
     deadline: float | None = None,
     on_record: Callable[[dict[str, Any]], None] | None = None,
+    policy_logits_only: bool = False,
 ) -> dict[str, Any]:
     """Measure AB/BA conditions; only fully completed pairs yield a speed ratio.
 
@@ -483,6 +510,7 @@ def benchmark(
                             scaler=scaler,
                             deadline=deadline,
                             record=warmup_record,
+                            policy_logits_only=policy_logits_only,
                         )
                     _sync(torch, device)
                     _check_deadline(deadline)
@@ -510,6 +538,7 @@ def benchmark(
                             scaler=scaler,
                             deadline=deadline,
                             record=record,
+                            policy_logits_only=policy_logits_only,
                         )
                         marks.append((begin, _mark(torch, device)))
                     _sync(torch, device)

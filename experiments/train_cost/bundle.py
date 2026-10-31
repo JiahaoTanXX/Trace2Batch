@@ -26,6 +26,7 @@ SOURCE_FILES = (
     "experiments/train_cost/data.py",
     "experiments/train_cost/engine.py",
     "experiments/train_cost/run.py",
+    "experiments/train_cost/attention.py",
 )
 MODEL_REPO = "Qwen/Qwen3-0.6B"
 MODEL_REVISION = "c1899de289a04d12100db370d81485cdf75e47ca"
@@ -34,9 +35,19 @@ MAX_INPUT_BYTES = 16 * 1024 * 1024
 # Token-ID JSON compresses about 20x; 8 MiB uncompressed still stays far below the payload limit.
 MAX_DATA_BYTES = 8 * 1024 * 1024
 MAX_PAYLOAD_BYTES = 8 * 1024 * 1024
+# The largest script Kaggle has accepted so far is about 401 KB; a 1.3 MB script was rejected with HTTP 400.
+MAX_SCRIPT_BYTES = 450 * 1024
 SESSION_LINE = "SESSION_LIMIT_SECONDS = 3600\n"
 RUN_MODE_LINE = 'RUN_MODE = "benchmark"\n'
 RUN_MODES = ("benchmark", "diagnose")
+RUN_ARGS_LINE = "RUN_ARGS: list[list[str]] = [[]]\n"
+# Extra run.py options a bundle may bake in, each with the pattern its value must match (None: a bare flag).
+RUN_OPTIONS: dict[str, str | None] = {
+    "--attention": r"sdpa|sdpa_repeat_kv",
+    "--policy-logits-only": None,
+    "--loss-scales": r"[0-9.]+(,[0-9.]+)*",
+    "--groups": r"[A-Za-z0-9_.-]+\|[0-9]+-[0-9]+(\|k[0-9]+)?(,[A-Za-z0-9_.-]+\|[0-9]+-[0-9]+(\|k[0-9]+)?)*",
+}
 # Explicit scale limits; each is a reviewed experiment, never an implicit default.
 PROFILES: dict[str, dict[str, Any]] = {
     "pilot": {
@@ -47,6 +58,15 @@ PROFILES: dict[str, dict[str, Any]] = {
         "max_per_group": 4,
         "max_turns": 4,
         "strata": False,
+    },
+    "long": {
+        "slug": "trace2batch-p3-long",
+        "title": "Trace2Batch P3 Long",
+        "max_context": 16384,
+        "max_rollouts": 48,
+        "max_per_group": 6,
+        "max_turns": 20,
+        "strata": True,
     },
     "stratified": {
         "slug": "trace2batch-p3-stratified",
@@ -247,8 +267,13 @@ def build_bundle(
     profile: str = "pilot",
     session_limit_minutes: int = 60,
     run_mode: str = "benchmark",
+    run_args: list[list[str]] | None = None,
 ) -> dict[str, Any]:
-    """Validate local inputs, then write exactly pilot.py and private metadata."""
+    """Validate local inputs, then write exactly pilot.py and private metadata.
+
+    `run_args` lists one run.py invocation per entry (extra options only, from RUN_OPTIONS); the driver runs them
+    in order, each into its own output directory. The default is a single run with no extra options.
+    """
     if not re.fullmatch(r"[a-z0-9][a-z0-9_-]{0,49}", owner):
         raise ValueError("owner must be an account slug")
     if profile not in PROFILES:
@@ -259,6 +284,8 @@ def build_bundle(
     session_limit_seconds = session_limit_minutes * 60
     if run_mode not in RUN_MODES:
         raise ValueError(f"run_mode must be one of {RUN_MODES}")
+    run_args = [[]] if run_args is None else run_args
+    _check_run_args(run_args)
     root = Path(source_root).resolve() if source_root is not None else Path(__file__).resolve().parents[2]
     contents = {name: _python_source(root / name) for name in SOURCE_FILES}
     contents["data.json"] = _prepared_data(Path(data_path), profile)
@@ -269,15 +296,21 @@ def build_bundle(
         any(template.count(marker) != 1 for marker in markers)
         or template.count(SESSION_LINE) != 1
         or template.count(RUN_MODE_LINE) != 1
+        or template.count(RUN_ARGS_LINE) != 1
     ):
-        raise ValueError("Driver template must contain each payload marker, session limit and run mode exactly once")
+        raise ValueError(
+            "Driver template must contain each payload marker, session limit, run mode and run args exactly once"
+        )
     template = template.replace(SESSION_LINE, f"SESSION_LIMIT_SECONDS = {session_limit_seconds}\n")
     template = template.replace(RUN_MODE_LINE, f'RUN_MODE = "{run_mode}"\n')
+    template = template.replace(RUN_ARGS_LINE, f"RUN_ARGS: list[list[str]] = {json.dumps(run_args)}\n")
     stream = io.BytesIO()
     with zipfile.ZipFile(stream, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
         for name, content in contents.items():
             info = zipfile.ZipInfo(name, date_time=(2026, 1, 1, 0, 0, 0))
-            info.compress_type = zipfile.ZIP_DEFLATED
+            # Each turn repeats the whole earlier context, which lies beyond DEFLATE's 32 KiB window at long
+            # context; LZMA's large window shrinks stage-3 data about 5x (Kaggle rejected a 1.3 MB script).
+            info.compress_type = zipfile.ZIP_LZMA if name == "data.json" else zipfile.ZIP_DEFLATED
             info.external_attr = 0o100644 << 16
             archive.writestr(info, content)
     payload = stream.getvalue()
@@ -286,6 +319,8 @@ def build_bundle(
     digest = hashlib.sha256(payload).hexdigest()
     script = template.replace(markers[0], base64.b64encode(payload).decode("ascii")).replace(markers[1], digest)
     ast.parse(script, filename="pilot.py")
+    if len(script.encode("utf-8")) > MAX_SCRIPT_BYTES:
+        raise ValueError("The bundled script exceeds the size Kaggle is known to accept; split the data")
     metadata = {
         "id": f"{owner}/{PROFILES[profile]['slug']}",
         "title": PROFILES[profile]["title"],
@@ -313,7 +348,30 @@ def build_bundle(
         "profile": profile,
         "session_limit_seconds": session_limit_seconds,
         "run_mode": run_mode,
+        "run_args": run_args,
     }
+
+
+def _check_run_args(run_args: Any) -> None:
+    if not isinstance(run_args, list) or not 1 <= len(run_args) <= 4:
+        raise ValueError("run_args must list 1 to 4 runs")
+    for run in run_args:
+        if not isinstance(run, list) or not all(isinstance(item, str) for item in run):
+            raise ValueError("each run in run_args must be a list of strings")
+        index = 0
+        seen: set[str] = set()
+        while index < len(run):
+            option = run[index]
+            if option not in RUN_OPTIONS or option in seen:
+                raise ValueError(f"run option not allowed or repeated: {option!r}")
+            seen.add(option)
+            pattern = RUN_OPTIONS[option]
+            if pattern is None:
+                index += 1
+                continue
+            if index + 1 >= len(run) or not re.fullmatch(pattern, run[index + 1]):
+                raise ValueError(f"invalid value for {option}")
+            index += 2
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -325,6 +383,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--profile", choices=sorted(PROFILES), default="pilot")
     parser.add_argument("--session-limit-minutes", type=int, default=60)
     parser.add_argument("--run-mode", choices=RUN_MODES, default="benchmark")
+    parser.add_argument("--run-args", default=None, help='JSON list of runs, e.g. [["--attention", "sdpa_repeat_kv"]]')
     args = parser.parse_args(argv)
     try:
         result = build_bundle(
@@ -335,6 +394,7 @@ def main(argv: list[str] | None = None) -> int:
             profile=args.profile,
             session_limit_minutes=args.session_limit_minutes,
             run_mode=args.run_mode,
+            run_args=None if args.run_args is None else json.loads(args.run_args),
         )
     except (OSError, ValueError) as exc:
         parser.error(str(exc))

@@ -26,6 +26,8 @@ from typing import Any, cast
 
 MODEL_REPO = "Qwen/Qwen3-0.6B"
 MODEL_REVISION = "c1899de289a04d12100db370d81485cdf75e47ca"
+# "sdpa" 是第一、二阶段的路径; "sdpa_repeat_kv" (第三阶段) 显式复制 KV 头并强制 memory-efficient 内核。
+ATTENTION_CHOICES = ("sdpa", "sdpa_repeat_kv")
 
 
 def atomic_write(path: Path, report: dict[str, Any]) -> None:
@@ -55,9 +57,14 @@ def _versions() -> dict[str, Any]:
     return packages
 
 
-def load_model(device: str, *, seed: int, gradient_checkpointing: bool, cpu_threads: int) -> tuple[Any, dict[str, Any]]:
+def load_model(
+    device: str, *, seed: int, gradient_checkpointing: bool, cpu_threads: int, attention: str = "sdpa"
+) -> tuple[Any, dict[str, Any]]:
     """仅加载固定的小模型; CUDA 不可用时在下载前失败。"""
     import torch
+
+    if attention not in ATTENTION_CHOICES:
+        raise ValueError(f"attention 必须是 {ATTENTION_CHOICES} 之一。")
 
     if device == "cuda" and not torch.cuda.is_available():
         raise RuntimeError("CUDA 不可用, 停止而不下载模型。")
@@ -69,6 +76,11 @@ def load_model(device: str, *, seed: int, gradient_checkpointing: bool, cpu_thre
     from peft import LoraConfig, TaskType, get_peft_model
     from transformers import AutoModelForCausalLM
 
+    if attention != "sdpa":
+        from experiments.train_cost import attention as long_attention
+
+        long_attention.register()
+
     cache = Path(os.environ.get("TRACE2BATCH_HF_CACHE", Path.home() / ".cache" / "trace2batch-hf" / "hub"))
     # 自动模型的第三方类型声明不能完整表达 PEFT 和 torch 的训练接口。
     base: Any = cast(Any, AutoModelForCausalLM).from_pretrained(
@@ -77,7 +89,7 @@ def load_model(device: str, *, seed: int, gradient_checkpointing: bool, cpu_thre
         trust_remote_code=False,
         cache_dir=cache,
         dtype=torch.float16 if device == "cuda" else torch.float32,
-        attn_implementation="sdpa",
+        attn_implementation=attention,
     )
     base.config.use_cache = False
     base.config.attention_dropout = 0.0
@@ -139,6 +151,15 @@ def _parser() -> argparse.ArgumentParser:
         help="诊断模式: 对每一对样本在多个 loss scale 下比较梯度, 不做计时, 核对结果不作为停止条件。",
     )
     parser.add_argument("--loss-scales", default="1,256,4096,65536", help="诊断模式使用的 loss scale, 逗号分隔")
+    parser.add_argument("--groups", default=None, help="只运行这些分组 (逗号分隔, 例如 dataset|lo-hi|k8)")
+    parser.add_argument(
+        "--attention", choices=ATTENTION_CHOICES, default="sdpa", help="长上下文用 sdpa_repeat_kv (第三阶段)"
+    )
+    parser.add_argument(
+        "--policy-logits-only",
+        action="store_true",
+        help="只在监督位置计算 logits; loss 与梯度不变, 长上下文时省下全序列 logits 的显存",
+    )
     return parser
 
 
@@ -176,6 +197,7 @@ def _diagnose(
                 rtol=0.05 if cuda else 1e-3,
                 atol=1e-3 if cuda else 1e-5,
                 deadline=deadline,
+                policy_logits_only=args.policy_logits_only,
             )
             entry["seconds"] = time.monotonic() - started
             entry["turns"] = len(pair.transition)
@@ -209,6 +231,12 @@ def main(argv: Sequence[str] | None = None) -> None:
     started = time.monotonic()
     deadline = started + args.time_budget_seconds
     pairs, prepared = load_pairs(args.data)
+    if args.groups is not None:
+        wanted = args.groups.split(",")
+        missing = sorted(set(wanted) - {pair.group for pair in pairs})
+        if missing:
+            parser.error(f"--groups 中的分组不在数据里: {missing}")
+        pairs = [pair for pair in pairs if pair.group in wanted]
     model_spec = prepared.get("model", {})
     if model_spec.get("repo") != MODEL_REPO or model_spec.get("revision") != MODEL_REVISION:
         raise ValueError("模型 model 必须是已固定 revision 的 Qwen3-0.6B。")
@@ -245,6 +273,9 @@ def main(argv: Sequence[str] | None = None) -> None:
             "cpu_threads": args.cpu_threads if args.device == "cpu" else None,
             "gradient_checkpointing": args.gradient_checkpointing,
             "time_budget_seconds": args.time_budget_seconds,
+            "attention": args.attention,
+            "policy_logits_only": args.policy_logits_only,
+            "groups": args.groups,
             "microbatch": 1,
             "optimizer": "AdamW",
             "optimizer_steps_per_rollout": 1,
@@ -270,6 +301,7 @@ def main(argv: Sequence[str] | None = None) -> None:
             seed=args.seed,
             gradient_checkpointing=args.gradient_checkpointing,
             cpu_threads=args.cpu_threads,
+            attention=args.attention,
         )
         report["model_runtime"] = info
         report["model_load_seconds"] = time.monotonic() - started
@@ -295,6 +327,7 @@ def main(argv: Sequence[str] | None = None) -> None:
                 atol=1e-3 if args.device == "cuda" else 1e-5,
                 deadline=deadline,
                 loss_scale=GATE_LOSS_SCALE,
+                policy_logits_only=args.policy_logits_only,
             )
             report["verification"][cell] = check
             atomic_write(output, report)
@@ -315,6 +348,7 @@ def main(argv: Sequence[str] | None = None) -> None:
                 learning_rate=args.learning_rate,
                 deadline=deadline,
                 on_record=save_record,
+                policy_logits_only=args.policy_logits_only,
             )
             report["benchmark"][cell] = result
             atomic_write(output, report)
