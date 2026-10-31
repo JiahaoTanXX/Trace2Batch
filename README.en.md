@@ -22,7 +22,7 @@ Common training frameworks (agent-lightning, for example) report only *how many*
 | ✅ **TITO** | In multi-turn rollouts on a real vLLM server, token-in-token-out keeps **528 / 528** trajectories fully mergeable; server re-rendering manages 63.6% / 77.3% |
 | 🔬 **New finding** | TITO is not free: the model continues its own non-canonical splits from context. Once a trajectory has had one, later turns repeat it **10.5 / 24.8 points** more often than under re-render-driven rollouts (both 95% CIs above 0) |
 | 🎯 **Real GRPO** | In multi-turn tool-use GRPO with live vLLM rollouts and a LoRA adapter hot-loaded every step (4 runs, 15,360 rollouts), both collection paths lift held-out success from 3–7% to about **78%** (all 95% CIs above 0). Re-rendering splits each rollout into **2.05–2.07** rows and spends **1.24–1.71×** the update time. Within 60 steps, non-canonical splits were not reinforced; they fell in all 4 runs |
-| ⏱️ **Training cost** | In a real LoRA training loop, failed merges make training **1.5–4.2×** slower, reaching **4.0–5.2×** at 8 turns. The gap is almost entirely explained by token inflation (r = 0.987) |
+| ⏱️ **Training cost** | In a real LoRA training loop, failed merges make training **1.5–4.2×** slower, reaching **4.0–5.2×** at 8 turns. The gap is almost entirely explained by token inflation (r = 0.987). With memory-efficient attention the benchmark extends to **16k** context on a single T4 (peak memory < 8 GiB), where 8-turn SWE-smith trajectories are still **4.1–4.6×** slower |
 | ✂️ **Truncation** | At the same per-row length, dynamic budget allocation raises policy-token retention from 26.3% to **54.6%** |
 | 🌐 **Upstream** | Reported as microsoft/agent-lightning issue [#645](https://github.com/microsoft/agent-lightning/issues/645); the maintainer confirmed seeing the same phenomenon in their own experiments |
 
@@ -134,6 +134,25 @@ The [training-cost benchmark](experiments/train_cost/README.md) measures both re
 - The speedup tracks the processed-token ratio closely (r = **0.987**) and comes to about 0.82× that ratio.
 - Peak memory is essentially the same for both representations. Merging saves **time**, not memory.
 
+### Extending to 16k context
+
+Real SWE-style trajectories often exceed 8k tokens. On a T4 the default path falls back to the math attention kernel and computes vocabulary logits over the whole row, so peak memory already reaches 10.5 GiB at about 6k. Stage 3 (`--attention sdpa_repeat_kv --policy-logits-only`) makes two changes:
+- it repeats the KV heads explicitly and forces the memory-efficient kernel;
+- it computes logits only at supervised positions.
+
+Neither change alters the loss or gradients (relative L2 on the order of 1e-6 on the real model). On the same 5k sample, memory drops from 7.56 GiB to 2.95 GiB, and the two representations run 3.8× and 5.1× faster. With this path, turns are fixed at k = 4 / 6 / 8 across four windows (4–6k, 6–8k, 8–12k, 12–16k): 18 cells and 107 rollouts from SWE-smith and nebius.
+
+| SWE-smith speed ratio | 4–6k | 6–8k | 8–12k | 12–16k |
+|---|---:|---:|---:|---:|
+| k = 4 | 2.11 | 1.82 | 1.89 | 1.75 |
+| k = 6 | 3.52 | 3.51 | 2.86 | 2.86 |
+| k = 8 | 4.50 | 4.39 | 4.55 | 4.13 |
+
+- **Turns still decide.** In all 7 dataset × window combinations, the speedup rises monotonically with the number of turns.
+- **Length weakens it only slightly.** Under the pre-registered rule all five slopes are negative, but from 4–6k to 12–16k the drop is only 8–19%, and most groups are not monotonic.
+- **The mechanism matches the prediction.** The ratio of the time gain to the token gain falls from a per-window median of 0.89 to 0.84. When the speedup is fit as a mix of the token ratio and the squared-cost ratio, the squared term's weight rises from 0.43 to 0.70, because attention's quadratic cost takes a larger share as rows grow.
+- Peak memory at 16k context stays at or below 4.7 GiB. The highest cell, 7.5 GiB, is the one with the most policy tokens in a single row (3,366).
+
 ## 6. Truncation: the real constraint is per-row length
 
 About **80% of a merged response is tool observations**, so they consume most of the length budget. When the budget overflows, default tail truncation drops the late generations closest to the reward. We added `truncation_strategy` (`truncate` / `split_on_budget` / `drop`) and `max_total_length`:
@@ -220,7 +239,7 @@ Building on Section 1, we filed issue [#645](https://github.com/microsoft/agent-
 - The real-sampling experiments use small models (0.5B–1.5B) in fp16 on T4, with one run per configuration.
 - In the multi-turn rollouts, tool observations come from the dataset and are therefore off-policy. The clustering comparison is observational, because the two drivers' samples stop being paired after their first divergence. Qwen3's re-render-driven run completed only 64 SWE-smith trajectories.
 - The patches deliberately depart from Qwen3's official advice not to keep reasoning in history; their effect on model quality has not been evaluated.
-- The training-cost benchmark is a masked-CE + LoRA reference loop, not full-parameter training. The truncation study is a data-level comparison.
+- The training-cost benchmark is a masked-CE + LoRA reference loop, not full-parameter training. The truncation study is a data-level comparison. The 16k extension uses a different compute path, so its speed ratios are compared only within that study; it has 6 rollouts per cell and one seed, and only SWE-smith reaches 12–16k.
 - The GRPO study uses a small purpose-built environment and a 0.6B model, so its conclusions are limited to that environment. It has 2 seeds per arm, 60 steps, no KL term, and fp16 on T4. The shortage tasks were not learned.
 
 ## Quick start
