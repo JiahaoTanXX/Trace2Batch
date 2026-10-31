@@ -69,7 +69,8 @@ def render(messages: list[dict[str, Any]], template: str, generation_prompt: boo
         for call in message.get("tool_calls") or []:
             arguments = call["function"]["arguments"]
             arguments = json.loads(arguments) if isinstance(arguments, str) else arguments
-            newline = "\n" if template == "official" or not body.endswith("\n") else ""
+            # 与真实 Qwen 模板一致: 只有 content 非空时才在第一个工具调用前插入换行。
+            newline = "\n" if body and (template == "official" or not body.endswith("\n")) else ""
             payload = json.dumps({"name": call["function"]["name"], "arguments": arguments}, separators=(",", ":"))
             body += f"{newline}<tool_call>{payload}</tool_call>"
         text += f"<|im_start|>{role}\n{body}<|im_end|>\n"

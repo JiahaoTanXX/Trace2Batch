@@ -98,8 +98,15 @@ class VllmServer:
         return list(response["tokens"])
 
     def complete(
-        self, prompt_ids: list[int], seed: int, sampling: dict[str, float], max_tokens: int, stop_ids: Sequence[int]
+        self,
+        prompt_ids: list[int],
+        seed: int,
+        sampling: dict[str, float],
+        max_tokens: int,
+        stop_ids: Sequence[int],
+        logprobs: bool = False,
     ) -> dict[str, Any]:
+        """logprobs=True 时额外返回每个采样 token 的 logprob(choices[0].logprobs.token_logprobs)。"""
         return self.post(
             "/v1/completions",
             {
@@ -111,16 +118,31 @@ class VllmServer:
                 "return_token_ids": True,
                 "skip_special_tokens": False,
                 "stop_token_ids": list(stop_ids),
+                **({"logprobs": 0} if logprobs else {}),
             },
         )
 
     def chat(
-        self, messages: list[dict[str, Any]], tools: Any, seed: int, sampling: dict[str, float], max_tokens: int
+        self,
+        messages: list[dict[str, Any]],
+        tools: Any,
+        seed: int,
+        sampling: dict[str, float],
+        max_tokens: int,
+        logprobs: bool = False,
     ) -> dict[str, Any]:
+        """logprobs=True 时额外返回每个采样 token 的 logprob(choices[0].logprobs.content[i].logprob)。"""
         fields = self._chat_fields(messages, tools, self.tito_pipeline)
         return self.post(
             "/v1/chat/completions",
-            {**fields, **sampling, "max_tokens": max_tokens, "seed": seed, "return_token_ids": True},
+            {
+                **fields,
+                **sampling,
+                "max_tokens": max_tokens,
+                "seed": seed,
+                "return_token_ids": True,
+                **({"logprobs": True, "top_logprobs": 0} if logprobs else {}),
+            },
         )
 
 
