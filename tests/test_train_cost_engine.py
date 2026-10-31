@@ -581,9 +581,8 @@ def test_repeat_kv_attention_matches_sdpa_and_is_used():
         masks.append(args[4])
         return original(*args, **kwargs)
 
-    from transformers import AttentionInterface
-
-    AttentionInterface.register(name, spy)
+    transformers = pytest.importorskip("transformers")
+    transformers.AttentionInterface.register(name, spy)
     try:
         ids = torch.tensor([[1 + index % 60 for index in range(50)]])
         torch.testing.assert_close(candidate(input_ids=ids).logits, reference(input_ids=ids).logits)
