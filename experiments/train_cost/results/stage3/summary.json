@@ -1,0 +1,1554 @@
+{
+ "cells": {
+  "nebius_swe_agent|4096-6144|k6": {
+   "dataset": "nebius_swe_agent",
+   "gate": {
+    "cosine": 0.9999944639195646,
+    "relative_l2_error": 0.0033739754502832278
+   },
+   "k": 6,
+   "peak_allocated_gib": 2.499270439147949,
+   "processed_token_ratio": 3.8392869178405338,
+   "repeat_spread": 0.0028048635569012373,
+   "seconds_by_mode": {
+    "trajectory": 33.01747554600024,
+    "transition": 109.28331020199994
+   },
+   "speed_over_token": 0.8621034983824815,
+   "speed_ratio": 3.3098626831644187,
+   "square_ratio": 2.700813992804652,
+   "token_ratio_check": 3.8392869178405338,
+   "window": "4096-6144"
+  },
+  "nebius_swe_agent|4096-6144|k8": {
+   "dataset": "nebius_swe_agent",
+   "gate": {
+    "cosine": 0.9999531935262371,
+    "relative_l2_error": 0.00967543989746566
+   },
+   "k": 8,
+   "peak_allocated_gib": 2.970454216003418,
+   "processed_token_ratio": 5.06802637632265,
+   "repeat_spread": 0.00139753780267707,
+   "seconds_by_mode": {
+    "trajectory": 39.40997671100013,
+    "transition": 169.20152824299976
+   },
+   "speed_over_token": 0.8471478960921397,
+   "speed_ratio": 4.293367882041204,
+   "square_ratio": 3.509057050284989,
+   "token_ratio_check": 5.06802637632265,
+   "window": "4096-6144"
+  },
+  "nebius_swe_agent|6144-8192|k6": {
+   "dataset": "nebius_swe_agent",
+   "gate": {
+    "cosine": 0.9999655918037262,
+    "relative_l2_error": 0.008426834625650133
+   },
+   "k": 6,
+   "peak_allocated_gib": 4.208630084991455,
+   "processed_token_ratio": 3.377798896666821,
+   "repeat_spread": 0.0009961271593471983,
+   "seconds_by_mode": {
+    "trajectory": 57.776337814999806,
+    "transition": 159.90251759000012
+   },
+   "speed_over_token": 0.8193538555660078,
+   "speed_ratio": 2.767612549310567,
+   "square_ratio": 2.2983267305363966,
+   "token_ratio_check": 3.377798896666821,
+   "window": "6144-8192"
+  },
+  "nebius_swe_agent|6144-8192|k8": {
+   "dataset": "nebius_swe_agent",
+   "gate": {
+    "cosine": 0.9999760351778283,
+    "relative_l2_error": 0.006923424461409329
+   },
+   "k": 8,
+   "peak_allocated_gib": 3.088805675506592,
+   "processed_token_ratio": 4.864554560084549,
+   "repeat_spread": 0.0038603908294500876,
+   "seconds_by_mode": {
+    "trajectory": 56.83780847299977,
+    "transition": 229.90447359999962
+   },
+   "speed_over_token": 0.8315091241561697,
+   "speed_ratio": 4.044921501665804,
+   "square_ratio": 3.4217809298833926,
+   "token_ratio_check": 4.864554560084549,
+   "window": "6144-8192"
+  },
+  "nebius_swe_agent|8192-12288|k6": {
+   "dataset": "nebius_swe_agent",
+   "gate": {
+    "cosine": 0.9999698230280996,
+    "relative_l2_error": 0.007770646178401074
+   },
+   "k": 6,
+   "peak_allocated_gib": 6.0165228843688965,
+   "processed_token_ratio": 3.8063120277281435,
+   "repeat_spread": 0.0006595618707342137,
+   "seconds_by_mode": {
+    "trajectory": 72.3542965659999,
+    "transition": 233.33542921099934
+   },
+   "speed_over_token": 0.8472507721631938,
+   "speed_ratio": 3.2249008045867216,
+   "square_ratio": 2.9181873675696077,
+   "token_ratio_check": 3.8063120277281435,
+   "window": "8192-12288"
+  },
+  "nebius_swe_agent|8192-12288|k8": {
+   "dataset": "nebius_swe_agent",
+   "gate": {
+    "cosine": 0.9999651647320457,
+    "relative_l2_error": 0.008352089578905871
+   },
+   "k": 8,
+   "peak_allocated_gib": 4.942976474761963,
+   "processed_token_ratio": 4.125871573029606,
+   "repeat_spread": 0.0024747441068215317,
+   "seconds_by_mode": {
+    "trajectory": 87.90169448200004,
+    "transition": 287.76056166800004
+   },
+   "speed_over_token": 0.7934477263193697,
+   "speed_ratio": 3.2736634187060623,
+   "square_ratio": 2.773583042688389,
+   "token_ratio_check": 4.125871573029606,
+   "window": "8192-12288"
+  },
+  "swe_smith_tool|12288-16384|k4": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.9999816030444811,
+    "relative_l2_error": 0.006095676730682606
+   },
+   "k": 4,
+   "peak_allocated_gib": 3.0564827919006348,
+   "processed_token_ratio": 2.1733094820931913,
+   "repeat_spread": 0.00396244428861381,
+   "seconds_by_mode": {
+    "trajectory": 159.03369701299994,
+    "transition": 278.44316563599995
+   },
+   "speed_over_token": 0.8056118259890169,
+   "speed_ratio": 1.7508438203083405,
+   "square_ratio": 1.5794584951567456,
+   "token_ratio_check": 2.1733094820931913,
+   "window": "12288-16384"
+  },
+  "swe_smith_tool|12288-16384|k6": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.9999929381868043,
+    "relative_l2_error": 0.003759214374497929
+   },
+   "k": 6,
+   "peak_allocated_gib": 4.614164352416992,
+   "processed_token_ratio": 3.3719446145151415,
+   "repeat_spread": 0.003181379417015082,
+   "seconds_by_mode": {
+    "trajectory": 175.89643873599994,
+    "transition": 503.43960700700006
+   },
+   "speed_over_token": 0.8488088528724258,
+   "speed_ratio": 2.8621364401959513,
+   "square_ratio": 2.6850129819711475,
+   "token_ratio_check": 3.3719446145151415,
+   "window": "12288-16384"
+  },
+  "swe_smith_tool|12288-16384|k8": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.999959457787071,
+    "relative_l2_error": 0.009005770700704225
+   },
+   "k": 8,
+   "peak_allocated_gib": 4.281060218811035,
+   "processed_token_ratio": 4.9166124081480795,
+   "repeat_spread": 0.00035362017005050283,
+   "seconds_by_mode": {
+    "trajectory": 174.247945351,
+    "transition": 719.5315105589999
+   },
+   "speed_over_token": 0.8398779492914941,
+   "speed_ratio": 4.129354346816523,
+   "square_ratio": 3.8635925500607917,
+   "token_ratio_check": 4.9166124081480795,
+   "window": "12288-16384"
+  },
+  "swe_smith_tool|4096-6144|k4": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.9999577496561832,
+    "relative_l2_error": 0.009192798170520588
+   },
+   "k": 4,
+   "peak_allocated_gib": 1.9474830627441406,
+   "processed_token_ratio": 2.3357259067853384,
+   "repeat_spread": 0.0048442811500888725,
+   "seconds_by_mode": {
+    "trajectory": 37.01271630999986,
+    "transition": 78.23201117100007
+   },
+   "speed_over_token": 0.9049230672068007,
+   "speed_ratio": 2.1136522517225744,
+   "square_ratio": 1.8228763188512118,
+   "token_ratio_check": 2.3357259067853384,
+   "window": "4096-6144"
+  },
+  "swe_smith_tool|4096-6144|k6": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.9995995726733952,
+    "relative_l2_error": 0.028718997351354015
+   },
+   "k": 6,
+   "peak_allocated_gib": 2.4068984985351562,
+   "processed_token_ratio": 3.8667985599844323,
+   "repeat_spread": 0.0017670970176727897,
+   "seconds_by_mode": {
+    "trajectory": 34.855563298000106,
+    "transition": 122.50196552199986
+   },
+   "speed_over_token": 0.9089069054830022,
+   "speed_ratio": 3.5145599132815795,
+   "square_ratio": 3.1136819901884105,
+   "token_ratio_check": 3.8667985599844323,
+   "window": "4096-6144"
+  },
+  "swe_smith_tool|4096-6144|k8": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.9999797466423421,
+    "relative_l2_error": 0.006365058039938143
+   },
+   "k": 8,
+   "peak_allocated_gib": 2.953425884246826,
+   "processed_token_ratio": 5.029066307514016,
+   "repeat_spread": 0.0023292232595317876,
+   "seconds_by_mode": {
+    "trajectory": 38.17311601500023,
+    "transition": 171.71538403599993
+   },
+   "speed_over_token": 0.8944668124532545,
+   "speed_ratio": 4.498332909698121,
+   "square_ratio": 3.9627939498429026,
+   "token_ratio_check": 5.029066307514016,
+   "window": "4096-6144"
+  },
+  "swe_smith_tool|6144-8192|k4": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.9996401659168227,
+    "relative_l2_error": 0.026881362067273318
+   },
+   "k": 4,
+   "peak_allocated_gib": 2.3869271278381348,
+   "processed_token_ratio": 2.1387785102326755,
+   "repeat_spread": 0.04832264245018186,
+   "seconds_by_mode": {
+    "trajectory": 61.358392114000026,
+    "transition": 111.39339829800008
+   },
+   "speed_over_token": 0.8488279490200789,
+   "speed_ratio": 1.8154549762490217,
+   "square_ratio": 1.7450323410883983,
+   "token_ratio_check": 2.1387785102326755,
+   "window": "6144-8192"
+  },
+  "swe_smith_tool|6144-8192|k6": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.9999926130443889,
+    "relative_l2_error": 0.003845165264755379
+   },
+   "k": 6,
+   "peak_allocated_gib": 3.469188690185547,
+   "processed_token_ratio": 3.9352015598784744,
+   "repeat_spread": 0.0008197465921605501,
+   "seconds_by_mode": {
+    "trajectory": 59.56574902800003,
+    "transition": 208.88123422699982
+   },
+   "speed_over_token": 0.8911192715744951,
+   "speed_ratio": 3.506733947537723,
+   "square_ratio": 3.211674303095363,
+   "token_ratio_check": 3.9352015598784744,
+   "window": "6144-8192"
+  },
+  "swe_smith_tool|6144-8192|k8": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.999988160297745,
+    "relative_l2_error": 0.00486728813263066
+   },
+   "k": 8,
+   "peak_allocated_gib": 3.882327079772949,
+   "processed_token_ratio": 5.009524249849739,
+   "repeat_spread": 0.0019350908890123021,
+   "seconds_by_mode": {
+    "trajectory": 60.47697834100006,
+    "transition": 265.6771896449999
+   },
+   "speed_over_token": 0.8769356006103296,
+   "speed_ratio": 4.393030156813992,
+   "square_ratio": 3.9814650147863677,
+   "token_ratio_check": 5.009524249849739,
+   "window": "6144-8192"
+  },
+  "swe_smith_tool|8192-12288|k4": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.9999871347145611,
+    "relative_l2_error": 0.005081622380380297
+   },
+   "k": 4,
+   "peak_allocated_gib": 2.680145740509033,
+   "processed_token_ratio": 2.1783200773313887,
+   "repeat_spread": 0.00013806525941767198,
+   "seconds_by_mode": {
+    "trajectory": 93.06606948300032,
+    "transition": 175.79894736299957
+   },
+   "speed_over_token": 0.8671679205774996,
+   "speed_ratio": 1.8889692918116785,
+   "square_ratio": 1.7247370357221792,
+   "token_ratio_check": 2.1783200773313887,
+   "window": "8192-12288"
+  },
+  "swe_smith_tool|8192-12288|k6": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.9999977385958052,
+    "relative_l2_error": 0.002127487594441943
+   },
+   "k": 6,
+   "peak_allocated_gib": 3.9881114959716797,
+   "processed_token_ratio": 3.3234841081868924,
+   "repeat_spread": 0.002174767380227259,
+   "seconds_by_mode": {
+    "trajectory": 98.86466869800006,
+    "transition": 282.87265929599994
+   },
+   "speed_over_token": 0.860907024622226,
+   "speed_ratio": 2.86121081495843,
+   "square_ratio": 2.624170981320643,
+   "token_ratio_check": 3.3234841081868924,
+   "window": "8192-12288"
+  },
+  "swe_smith_tool|8192-12288|k8": {
+   "dataset": "swe_smith_tool",
+   "gate": {
+    "cosine": 0.9999972416370697,
+    "relative_l2_error": 0.0023495759461711705
+   },
+   "k": 8,
+   "peak_allocated_gib": 7.506012916564941,
+   "processed_token_ratio": 5.228234621250635,
+   "repeat_spread": 0.0006973791230855588,
+   "seconds_by_mode": {
+    "trajectory": 103.52059951900037,
+    "transition": 471.32015263400035
+   },
+   "speed_over_token": 0.8708315650371989,
+   "speed_ratio": 4.552911737605358,
+   "square_ratio": 4.2565415877077095,
+   "token_ratio_check": 5.228234621250635,
+   "window": "8192-12288"
+  }
+ },
+ "fields": {
+  "speed": "transition seconds / trajectory seconds for one rollout, summed over both repeats",
+  "square": "sum of squared transition row lengths / squared trajectory row length",
+  "token": "sum of transition row lengths / trajectory row length"
+ },
+ "rollouts": [
+  {
+   "cell": "swe_smith_tool|12288-16384|k4",
+   "final_context": 12820,
+   "session": "A",
+   "speed": 1.5193203255893724,
+   "square": 1.3625685904191238,
+   "token": 1.8965678627145086,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k4",
+   "final_context": 12849,
+   "session": "A",
+   "speed": 2.166053352172459,
+   "square": 1.970428142941425,
+   "token": 2.5703945832360495,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k4",
+   "final_context": 14893,
+   "session": "A",
+   "speed": 1.7520195699097376,
+   "square": 1.57942689544828,
+   "token": 2.2164775397837913,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k4",
+   "final_context": 13269,
+   "session": "A",
+   "speed": 1.4676904677319387,
+   "square": 1.3350046122666215,
+   "token": 1.8048081995628908,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k4",
+   "final_context": 14115,
+   "session": "A",
+   "speed": 1.9652305248075597,
+   "square": 1.7669550196760606,
+   "token": 2.506340772228126,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k4",
+   "final_context": 13671,
+   "session": "A",
+   "speed": 1.623588044766425,
+   "square": 1.4552725594946556,
+   "token": 2.026406261429303,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k8",
+   "final_context": 13785,
+   "session": "A",
+   "speed": 4.360404899643786,
+   "square": 4.039403719144555,
+   "token": 5.289082335872325,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k8",
+   "final_context": 14271,
+   "session": "A",
+   "speed": 3.808642488460377,
+   "square": 3.5133196666324285,
+   "token": 4.6638637796930835,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k8",
+   "final_context": 15606,
+   "session": "A",
+   "speed": 3.3606481038980416,
+   "square": 3.0975566604254134,
+   "token": 4.145136485966936,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k8",
+   "final_context": 13049,
+   "session": "A",
+   "speed": 4.39978808934682,
+   "square": 4.115927550054338,
+   "token": 5.165759828339336,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k8",
+   "final_context": 14626,
+   "session": "A",
+   "speed": 4.398237683552842,
+   "square": 4.22500797915571,
+   "token": 4.979693696157527,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k8",
+   "final_context": 14671,
+   "session": "A",
+   "speed": 4.5935456687917835,
+   "square": 4.347770598998716,
+   "token": 5.34864699066185,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k4",
+   "final_context": 12030,
+   "session": "A",
+   "speed": 1.7677794786246948,
+   "square": 1.640338776223752,
+   "token": 2.050872817955112,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k4",
+   "final_context": 10761,
+   "session": "A",
+   "speed": 1.5176477243328734,
+   "square": 1.3429942961311425,
+   "token": 1.8261314004274696,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k4",
+   "final_context": 9640,
+   "session": "A",
+   "speed": 2.272617912314656,
+   "square": 2.1497202290766344,
+   "token": 2.4679460580912864,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k4",
+   "final_context": 8404,
+   "session": "A",
+   "speed": 1.9476220520764274,
+   "square": 1.7427151737086735,
+   "token": 2.2266777724892908,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k4",
+   "final_context": 9009,
+   "session": "A",
+   "speed": 2.4242739001884206,
+   "square": 2.2923355797148672,
+   "token": 2.685980685980686,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k4",
+   "final_context": 9123,
+   "session": "A",
+   "speed": 1.5732685171588234,
+   "square": 1.3593472064329786,
+   "token": 1.909898059848734,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k8",
+   "final_context": 11661,
+   "session": "A",
+   "speed": 4.414833909201824,
+   "square": 4.168541850688755,
+   "token": 5.158133950776091,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k8",
+   "final_context": 8764,
+   "session": "A",
+   "speed": 5.102118553911669,
+   "square": 4.69940112511642,
+   "token": 5.7919899589228665,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k8",
+   "final_context": 11290,
+   "session": "A",
+   "speed": 3.502037268923738,
+   "square": 3.1194021296976953,
+   "token": 4.418689105403011,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k8",
+   "final_context": 9696,
+   "session": "A",
+   "speed": 5.443084049246271,
+   "square": 5.183627458313591,
+   "token": 5.925226897689769,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k8",
+   "final_context": 11589,
+   "session": "A",
+   "speed": 5.358216635145245,
+   "square": 5.189838993315814,
+   "token": 5.833635343860557,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k8",
+   "final_context": 9944,
+   "session": "A",
+   "speed": 3.7112043363838376,
+   "square": 3.350335794366392,
+   "token": 4.3475462590506835,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k8",
+   "final_context": 5320,
+   "session": "B",
+   "speed": 4.033647625743909,
+   "square": 3.200984439482164,
+   "token": 4.794736842105263,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k8",
+   "final_context": 5437,
+   "session": "B",
+   "speed": 4.561316713695401,
+   "square": 3.7091631874449043,
+   "token": 5.312120654772853,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k8",
+   "final_context": 5777,
+   "session": "B",
+   "speed": 4.502749614742754,
+   "square": 3.764573296559099,
+   "token": 5.291154578500952,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k8",
+   "final_context": 5157,
+   "session": "B",
+   "speed": 3.876123889649944,
+   "square": 3.088631513805653,
+   "token": 4.698274190420787,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k8",
+   "final_context": 4805,
+   "session": "B",
+   "speed": 5.3119737297133005,
+   "square": 4.750720817393432,
+   "token": 5.926534859521332,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k8",
+   "final_context": 6109,
+   "session": "B",
+   "speed": 3.693191036335604,
+   "square": 2.8871321963754384,
+   "token": 4.514650515632673,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k8",
+   "final_context": 7836,
+   "session": "B",
+   "speed": 3.9888463143550767,
+   "square": 3.436557764311312,
+   "token": 4.838820826952527,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k8",
+   "final_context": 6472,
+   "session": "B",
+   "speed": 4.03197723746658,
+   "square": 3.3331401618228793,
+   "token": 4.919035846724351,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k8",
+   "final_context": 6159,
+   "session": "B",
+   "speed": 3.638999945286395,
+   "square": 2.84002981445238,
+   "token": 4.469394382204904,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k8",
+   "final_context": 6951,
+   "session": "B",
+   "speed": 4.9603431689209865,
+   "square": 4.480093974714714,
+   "token": 5.682779456193353,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k8",
+   "final_context": 7087,
+   "session": "B",
+   "speed": 3.4065670091932914,
+   "square": 2.696377098286333,
+   "token": 4.270918583321575,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k8",
+   "final_context": 7128,
+   "session": "B",
+   "speed": 4.191346042523941,
+   "square": 3.6220078757080723,
+   "token": 4.9771324354657684,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k8",
+   "final_context": 9526,
+   "session": "B",
+   "speed": 3.782214151583306,
+   "square": 3.380868933842466,
+   "token": 4.707117363006509,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k8",
+   "final_context": 10592,
+   "session": "B",
+   "speed": 1.8589507236229978,
+   "square": 1.3962394967900302,
+   "token": 2.652284743202417,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k8",
+   "final_context": 9474,
+   "session": "B",
+   "speed": 3.406725390173939,
+   "square": 2.9578569398002217,
+   "token": 4.208254169305468,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k8",
+   "final_context": 8312,
+   "session": "B",
+   "speed": 3.2290640320339037,
+   "square": 2.635353072682236,
+   "token": 4.0424687199230025,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k8",
+   "final_context": 8488,
+   "session": "B",
+   "speed": 3.6638849845814945,
+   "square": 3.1102307709903254,
+   "token": 4.496465598491989,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k8",
+   "final_context": 8394,
+   "session": "B",
+   "speed": 4.189231600142883,
+   "square": 3.741136605568644,
+   "token": 4.9405527757922325,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k4",
+   "final_context": 5744,
+   "session": "B",
+   "speed": 2.1831523133582142,
+   "square": 1.9382613006377976,
+   "token": 2.377785515320334,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k4",
+   "final_context": 4519,
+   "session": "B",
+   "speed": 2.1450270733205663,
+   "square": 1.7470783166704706,
+   "token": 2.4228811684000884,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k4",
+   "final_context": 4249,
+   "session": "B",
+   "speed": 1.6388687730344376,
+   "square": 1.2738727554075133,
+   "token": 1.8032478230171805,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k4",
+   "final_context": 5669,
+   "session": "B",
+   "speed": 2.115239047895762,
+   "square": 1.8159824262955113,
+   "token": 2.3439760098782854,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k4",
+   "final_context": 5831,
+   "session": "B",
+   "speed": 1.9465233362732732,
+   "square": 1.6278848457823976,
+   "token": 2.232207168581718,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k4",
+   "final_context": 5335,
+   "session": "B",
+   "speed": 2.551264856047236,
+   "square": 2.332464837165752,
+   "token": 2.745079662605436,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k8",
+   "final_context": 4991,
+   "session": "B",
+   "speed": 3.867989285005932,
+   "square": 3.047944926393455,
+   "token": 4.507112803045482,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k8",
+   "final_context": 5810,
+   "session": "B",
+   "speed": 4.799611507531261,
+   "square": 4.273628707107752,
+   "token": 5.298795180722892,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k8",
+   "final_context": 6002,
+   "session": "B",
+   "speed": 5.05395194359134,
+   "square": 4.689330425346388,
+   "token": 5.54481839386871,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k8",
+   "final_context": 4214,
+   "session": "B",
+   "speed": 4.104339014988911,
+   "square": 3.388616808076858,
+   "token": 4.739914570479354,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k8",
+   "final_context": 5439,
+   "session": "B",
+   "speed": 3.960193905565524,
+   "square": 3.418571300456101,
+   "token": 4.447324875896305,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k8",
+   "final_context": 5471,
+   "session": "B",
+   "speed": 4.886665065567171,
+   "square": 4.377714922379816,
+   "token": 5.45403034180223,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k4",
+   "final_context": 6191,
+   "session": "B",
+   "speed": 1.3345945175581093,
+   "square": 1.17517680912009,
+   "token": 1.6591826845420772,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k4",
+   "final_context": 7281,
+   "session": "B",
+   "speed": 1.7877996059995607,
+   "square": 1.719171411685531,
+   "token": 2.1759373712402144,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k4",
+   "final_context": 7973,
+   "session": "B",
+   "speed": 1.981944443587086,
+   "square": 1.9718077106748508,
+   "token": 2.3092938668004517,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k4",
+   "final_context": 7792,
+   "session": "B",
+   "speed": 2.118434659714098,
+   "square": 2.0970411822634913,
+   "token": 2.455723819301848,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k4",
+   "final_context": 8024,
+   "session": "B",
+   "speed": 1.4748471892043329,
+   "square": 1.3506015012042636,
+   "token": 1.784272183449651,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k4",
+   "final_context": 6276,
+   "session": "B",
+   "speed": 2.1510790960777704,
+   "square": 2.070505448132455,
+   "token": 2.411886551943913,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k8",
+   "final_context": 7024,
+   "session": "B",
+   "speed": 4.504119808248742,
+   "square": 4.040478183974502,
+   "token": 5.143365603644647,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k8",
+   "final_context": 6310,
+   "session": "B",
+   "speed": 5.262838042854587,
+   "square": 4.901578105339297,
+   "token": 5.697305863708399,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k8",
+   "final_context": 6483,
+   "session": "B",
+   "speed": 4.8373440859578425,
+   "square": 4.384818120525427,
+   "token": 5.520283819219497,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k8",
+   "final_context": 7891,
+   "session": "B",
+   "speed": 4.630534437332652,
+   "square": 4.288613996676713,
+   "token": 5.199847928019262,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k8",
+   "final_context": 8081,
+   "session": "B",
+   "speed": 4.094158494911502,
+   "square": 3.8456633729877763,
+   "token": 4.621086499195644,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k8",
+   "final_context": 7469,
+   "session": "B",
+   "speed": 3.3425240514015635,
+   "square": 2.78480573275416,
+   "token": 4.078457624849378,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k6",
+   "final_context": 4465,
+   "session": "K6",
+   "speed": 3.470156567254438,
+   "square": 2.7995296000120384,
+   "token": 3.985666293393057,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k6",
+   "final_context": 5359,
+   "session": "K6",
+   "speed": 3.0402962118140637,
+   "square": 2.4140852145318616,
+   "token": 3.5637245754805003,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k6",
+   "final_context": 5404,
+   "session": "K6",
+   "speed": 3.2618408737768103,
+   "square": 2.7141783288525483,
+   "token": 3.799777942264989,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k6",
+   "final_context": 5440,
+   "session": "K6",
+   "speed": 3.2908012856513196,
+   "square": 2.739450286548443,
+   "token": 3.819485294117647,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k6",
+   "final_context": 4626,
+   "session": "K6",
+   "speed": 3.510320782370319,
+   "square": 2.895400094841671,
+   "token": 4.001513186338089,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k6",
+   "final_context": 4380,
+   "session": "K6",
+   "speed": 3.378230014235125,
+   "square": 2.730459227288839,
+   "token": 3.9292237442922375,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k6",
+   "final_context": 8028,
+   "session": "K6",
+   "speed": 2.3801016432451334,
+   "square": 1.9388964111409768,
+   "token": 3.028151469855506,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k6",
+   "final_context": 7782,
+   "session": "K6",
+   "speed": 2.8279277790540984,
+   "square": 2.4132157808902197,
+   "token": 3.4599074787972244,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k6",
+   "final_context": 6739,
+   "session": "K6",
+   "speed": 2.7361059695726486,
+   "square": 2.2446908308541302,
+   "token": 3.328832170945244,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k6",
+   "final_context": 6917,
+   "session": "K6",
+   "speed": 2.8671950824626307,
+   "square": 2.393938357762728,
+   "token": 3.4455688882463495,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k6",
+   "final_context": 7163,
+   "session": "K6",
+   "speed": 2.883574838681419,
+   "square": 2.3956461931339383,
+   "token": 3.443529247521988,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k6",
+   "final_context": 6513,
+   "session": "K6",
+   "speed": 3.016768054873285,
+   "square": 2.5122676967104187,
+   "token": 3.617073545217258,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k6",
+   "final_context": 8902,
+   "session": "K6",
+   "speed": 2.097410409751024,
+   "square": 1.6978713166221813,
+   "token": 2.7746573803639634,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k6",
+   "final_context": 9992,
+   "session": "K6",
+   "speed": 3.1792380935522027,
+   "square": 2.850416051415993,
+   "token": 3.842173738991193,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k6",
+   "final_context": 8611,
+   "session": "K6",
+   "speed": 3.975429480657249,
+   "square": 3.702335871693282,
+   "token": 4.467193125072582,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k6",
+   "final_context": 8689,
+   "session": "K6",
+   "speed": 3.9450970624784767,
+   "square": 3.665444994756931,
+   "token": 4.440902290252043,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k6",
+   "final_context": 10257,
+   "session": "K6",
+   "speed": 3.0637240373914234,
+   "square": 2.812774235063233,
+   "token": 3.57433947548016,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k6",
+   "final_context": 13880,
+   "session": "K6",
+   "speed": 3.3832799724102656,
+   "square": 3.1930496370703185,
+   "token": 3.887319884726225,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k6",
+   "final_context": 16349,
+   "session": "K6",
+   "speed": 2.251947085205212,
+   "square": 2.075827984921879,
+   "token": 2.7947275062694965,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k6",
+   "final_context": 12887,
+   "session": "K6",
+   "speed": 3.345502448185533,
+   "square": 3.1409168842498887,
+   "token": 3.9121595406223326,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k6",
+   "final_context": 13229,
+   "session": "K6",
+   "speed": 2.6431702676974274,
+   "square": 2.4689839558533735,
+   "token": 3.134250510242649,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k6",
+   "final_context": 14634,
+   "session": "K6",
+   "speed": 2.546919688205338,
+   "square": 2.3987534369899755,
+   "token": 2.978953122864562,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k6",
+   "final_context": 13953,
+   "session": "K6",
+   "speed": 3.269076645993568,
+   "square": 3.138817028380269,
+   "token": 3.674191930050885,
+   "window": "12288-16384"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k6",
+   "final_context": 4181,
+   "session": "K6",
+   "speed": 3.1107858526912096,
+   "square": 2.560777474161451,
+   "token": 3.427170533365224,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k6",
+   "final_context": 5800,
+   "session": "K6",
+   "speed": 3.3817043930554336,
+   "square": 3.0685730677764567,
+   "token": 3.7055172413793103,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k6",
+   "final_context": 5068,
+   "session": "K6",
+   "speed": 3.8063877060664786,
+   "square": 3.334662520268936,
+   "token": 4.211325966850829,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k6",
+   "final_context": 5053,
+   "session": "K6",
+   "speed": 4.055698717244486,
+   "square": 3.7192841962668504,
+   "token": 4.3960023748268355,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k6",
+   "final_context": 4711,
+   "session": "K6",
+   "speed": 2.967489308172232,
+   "square": 2.4005038677729416,
+   "token": 3.303120356612184,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k6",
+   "final_context": 6020,
+   "session": "K6",
+   "speed": 3.6196693603112298,
+   "square": 3.2757128232580213,
+   "token": 4.034385382059801,
+   "window": "4096-6144"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k6",
+   "final_context": 7537,
+   "session": "K6",
+   "speed": 3.3103395505641084,
+   "square": 2.9382631725678507,
+   "token": 3.8015125381451504,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k6",
+   "final_context": 7123,
+   "session": "K6",
+   "speed": 4.03690411610389,
+   "square": 3.817100668033463,
+   "token": 4.411203144742384,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k6",
+   "final_context": 7603,
+   "session": "K6",
+   "speed": 3.0884859449062074,
+   "square": 2.900469381786117,
+   "token": 3.3490727344469287,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k6",
+   "final_context": 7377,
+   "session": "K6",
+   "speed": 3.331414128426595,
+   "square": 3.005936277732822,
+   "token": 3.781754100582893,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k6",
+   "final_context": 6336,
+   "session": "K6",
+   "speed": 3.938013423257699,
+   "square": 3.5007783056655573,
+   "token": 4.5093118686868685,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k6",
+   "final_context": 8130,
+   "session": "K6",
+   "speed": 3.48379842595194,
+   "square": 3.2478867087563863,
+   "token": 3.882041820418204,
+   "window": "6144-8192"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k6",
+   "final_context": 10660,
+   "session": "K6",
+   "speed": 3.058960153874919,
+   "square": 2.863908414264544,
+   "token": 3.545684803001876,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k6",
+   "final_context": 10880,
+   "session": "K6",
+   "speed": 3.0302061820489468,
+   "square": 2.8464773717966048,
+   "token": 3.405606617647059,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k6",
+   "final_context": 8941,
+   "session": "K6",
+   "speed": 3.28072485320264,
+   "square": 3.0212084136895085,
+   "token": 3.6976848227267642,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k6",
+   "final_context": 10161,
+   "session": "K6",
+   "speed": 2.2640751602828906,
+   "square": 2.033709690090323,
+   "token": 2.6385198307253224,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k6",
+   "final_context": 8590,
+   "session": "K6",
+   "speed": 3.2114122664406324,
+   "square": 2.9064901522061146,
+   "token": 3.770896391152503,
+   "window": "8192-12288"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k6",
+   "final_context": 11145,
+   "session": "K6",
+   "speed": 2.5053165166645366,
+   "square": 2.260540390838897,
+   "token": 3.0102288021534322,
+   "window": "8192-12288"
+  }
+ ],
+ "rules": {
+  "Q1_length": {
+   "groups": {
+    "nebius_swe_agent|k6": {
+     "slope_per_1k_tokens": -0.003532198159121227,
+     "speed_ratio": [
+      3.31,
+      2.768,
+      3.225
+     ],
+     "windows": [
+      "4096-6144",
+      "6144-8192",
+      "8192-12288"
+     ]
+    },
+    "nebius_swe_agent|k8": {
+     "slope_per_1k_tokens": -0.20325836056501162,
+     "speed_ratio": [
+      4.293,
+      4.045,
+      3.274
+     ],
+     "windows": [
+      "4096-6144",
+      "6144-8192",
+      "8192-12288"
+     ]
+    },
+    "swe_smith_tool|k4": {
+     "slope_per_1k_tokens": -0.030620129204206863,
+     "speed_ratio": [
+      2.114,
+      1.815,
+      1.889,
+      1.751
+     ],
+     "windows": [
+      "4096-6144",
+      "6144-8192",
+      "8192-12288",
+      "12288-16384"
+     ]
+    },
+    "swe_smith_tool|k6": {
+     "slope_per_1k_tokens": -0.08279157889486197,
+     "speed_ratio": [
+      3.515,
+      3.507,
+      2.861,
+      2.862
+     ],
+     "windows": [
+      "4096-6144",
+      "6144-8192",
+      "8192-12288",
+      "12288-16384"
+     ]
+    },
+    "swe_smith_tool|k8": {
+     "slope_per_1k_tokens": -0.03353661006989836,
+     "speed_ratio": [
+      4.498,
+      4.393,
+      4.553,
+      4.129
+     ],
+     "windows": [
+      "4096-6144",
+      "6144-8192",
+      "8192-12288",
+      "12288-16384"
+     ]
+    }
+   },
+   "verdict": "speed ratio falls with length"
+  },
+  "Q2_mechanism": {
+   "fit_by_window": {
+    "12288-16384": {
+     "rollouts": 18,
+     "square_weight": 0.7003951339884882,
+     "token_weight": 0.29120833768909743
+    },
+    "4096-6144": {
+     "rollouts": 30,
+     "square_weight": 0.42723724631688165,
+     "token_weight": 0.5593697517537958
+    },
+    "6144-8192": {
+     "rollouts": 30,
+     "square_weight": 0.4826958805056016,
+     "token_weight": 0.49232137212726373
+    },
+    "8192-12288": {
+     "rollouts": 29,
+     "square_weight": 0.6025647642657039,
+     "token_weight": 0.3862900341434356
+    }
+   },
+   "groups": {
+    "nebius_swe_agent|k6": {
+     "monotonic_decrease": false,
+     "speed_over_token": [
+      0.862,
+      0.819,
+      0.847
+     ]
+    },
+    "nebius_swe_agent|k8": {
+     "monotonic_decrease": true,
+     "speed_over_token": [
+      0.847,
+      0.832,
+      0.793
+     ]
+    },
+    "swe_smith_tool|k4": {
+     "monotonic_decrease": false,
+     "speed_over_token": [
+      0.905,
+      0.849,
+      0.867,
+      0.806
+     ]
+    },
+    "swe_smith_tool|k6": {
+     "monotonic_decrease": true,
+     "speed_over_token": [
+      0.909,
+      0.891,
+      0.861,
+      0.849
+     ]
+    },
+    "swe_smith_tool|k8": {
+     "monotonic_decrease": true,
+     "speed_over_token": [
+      0.894,
+      0.877,
+      0.871,
+      0.84
+     ]
+    }
+   },
+   "monotonic_groups": "3/5",
+   "rollout_correlation_speed_vs_token": 0.9896439449751088,
+   "verdict": "gain relative to tokens shrinks with length"
+  },
+  "Q3_turns": {
+   "nebius_swe_agent|4096-6144": {
+    "by_k": {
+     "k6": 3.31,
+     "k8": 4.293
+    },
+    "increasing": true
+   },
+   "nebius_swe_agent|6144-8192": {
+    "by_k": {
+     "k6": 2.768,
+     "k8": 4.045
+    },
+    "increasing": true
+   },
+   "nebius_swe_agent|8192-12288": {
+    "by_k": {
+     "k6": 3.225,
+     "k8": 3.274
+    },
+    "increasing": true
+   },
+   "swe_smith_tool|12288-16384": {
+    "by_k": {
+     "k4": 1.751,
+     "k6": 2.862,
+     "k8": 4.129
+    },
+    "increasing": true
+   },
+   "swe_smith_tool|4096-6144": {
+    "by_k": {
+     "k4": 2.114,
+     "k6": 3.515,
+     "k8": 4.498
+    },
+    "increasing": true
+   },
+   "swe_smith_tool|6144-8192": {
+    "by_k": {
+     "k4": 1.815,
+     "k6": 3.507,
+     "k8": 4.393
+    },
+    "increasing": true
+   },
+   "swe_smith_tool|8192-12288": {
+    "by_k": {
+     "k4": 1.889,
+     "k6": 2.861,
+     "k8": 4.553
+    },
+    "increasing": true
+   }
+  }
+ },
+ "sessions": {
+  "A": {
+   "elapsed_seconds": 2760.981294057,
+   "torch": "2.11.0+cu128"
+  },
+  "B": {
+   "elapsed_seconds": 2148.134393516,
+   "torch": "2.11.0+cu128"
+  },
+  "K6": {
+   "elapsed_seconds": 2713.921696764,
+   "torch": "2.11.0+cu128"
+  }
+ },
+ "stage": "P3-A stage 3 (long context, sdpa_repeat_kv + policy_logits_only)"
+}

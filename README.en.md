@@ -231,7 +231,21 @@ Building on Section 1, we filed issue [#645](https://github.com/microsoft/agent-
 - Dataset and tokenizer revisions and sampling seeds are pinned, and sample ids are saved, so every study reruns with a single command. Repeated runs give identical merge and attribution results.
 - Attribution counts are cross-checked one by one against the sample builder's mismatch counts.
 - Testing and CI: offline tests by default, plus opt-in real-tokenizer tests; ruff and pyright; GitHub Actions on Python 3.12 / 3.13.
-- Full reports and result data will be published once the project is complete. Every study can be rerun locally with the commands below; results go to `results/` in each experiment directory.
+- Each study's full report and result data live in its directory:
+
+  | Study | Report | Result data |
+  |---|---|---|
+  | 1. Template prefix diagnosis | [REPORT](experiments/template_prefix/REPORT.md) (data notes in [DATA.md](experiments/template_prefix/DATA.md)) | [`results/`](experiments/template_prefix/results/) |
+  | 2. Real sampling (CPU) | [REPORT](experiments/real_sampling/REPORT.md) | [`results/`](experiments/real_sampling/results/) |
+  | 2. Real vLLM sampling (GPU) | [REPORT](experiments/vllm_sampling/REPORT.md) | [`results/`](experiments/vllm_sampling/results/) |
+  | 3. Template patches | [REPORT](experiments/template_patch/REPORT.md) | [`results/`](experiments/template_patch/results/) (v1), [`results_v2/`](experiments/template_patch/results_v2/) |
+  | 4. TITO offline validation | — | [`results/`](experiments/tito/results/) |
+  | 4. TITO on real vLLM | [REPORT](experiments/tito_vllm/REPORT.md) | [`results/`](experiments/tito_vllm/results/) |
+  | 5. Training cost (P3-A) | [REPORT](experiments/train_cost/REPORT.md) | [`results/`](experiments/train_cost/results/) |
+  | 6. Truncation | [REPORT](experiments/truncation/REPORT.md) | [`results/`](experiments/truncation/results/) |
+  | 7. GRPO (P3-B) | [REPORT](experiments/grpo/REPORT.md) | [`results/`](experiments/grpo/results/) |
+
+  The reports are in Chinese. CPU studies can be rerun locally with the commands below; GPU results come from Kaggle T4s, and the submission drivers are not in the repository. The results contain trajectory excerpts from SWE-smith (MIT), Toucan (Apache-2.0) and nebius SWE-agent (CC-BY-4.0, attribution: Nebius), plus text the models generated on those trajectories.
 
 ## Limitations
 

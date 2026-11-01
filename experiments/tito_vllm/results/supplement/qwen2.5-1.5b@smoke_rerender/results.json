@@ -1,0 +1,99 @@
+{
+ "complete": true,
+ "rollouts": {
+  "toucan_qwen3": [
+   {
+    "driver": "rerender",
+    "index": 0,
+    "pipelines": {
+     "rerender": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 354,
+      "total_tokens": 988
+     }
+    },
+    "sample_id": "5e4b21a0-885b-5cf0-9697-05b24116a47c",
+    "seconds": 5.792,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "finish_reason": "tool_calls",
+      "in_response": null,
+      "kind": null,
+      "prompt_tokens": 382,
+      "sampled_tokens": 41,
+      "segments": [],
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tool_calls": 1,
+      "turn": 0
+     },
+     {
+      "checked": false,
+      "finish_reason": "stop",
+      "kind": null,
+      "prompt_tokens": 675,
+      "sampled_tokens": 313,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tool_calls": 0,
+      "turn": 1
+     }
+    ]
+   }
+  ]
+ },
+ "schema_version": 1,
+ "settings": {
+  "concurrency": 16,
+  "dataset_weights": null,
+  "datasets": [
+   "toucan_qwen3"
+  ],
+  "driver": "rerender",
+  "max_tokens": 1024,
+  "max_turns": 8,
+  "model": "qwen2.5-1.5b",
+  "parser_check": true,
+  "samples": 300,
+  "sampling": {
+   "repetition_penalty": 1.0,
+   "temperature": 1.0,
+   "top_k": -1,
+   "top_p": 1.0
+  },
+  "seed": 0,
+  "start_index": 0,
+  "time_budget_seconds": 600.0,
+  "trajectories_per_dataset": 1,
+  "v2_template": "experiments/template_patch/templates/qwen2.5_tool_newline.jinja"
+ },
+ "summaries": {
+  "toucan_qwen3": {
+   "failed_rollouts": 0,
+   "failure_examples": [],
+   "fully_mergeable": 1,
+   "merge_checks": 1,
+   "policy_tokens": 354,
+   "prompt_tokens_max": 675,
+   "retoken_in_response": 0,
+   "rows": 1,
+   "seconds": 5.8,
+   "self_retoken_turns": 0,
+   "stop_reasons": {
+    "max_turns_or_end": 1
+   },
+   "stop_token_appended": 0,
+   "stopped_by_time_budget": false,
+   "total_tokens": 988,
+   "trajectories": 1,
+   "turn_kinds": {
+    "prefix_ok": 1
+   },
+   "turns": 2,
+   "with_tool_calls": 1
+  }
+ }
+}

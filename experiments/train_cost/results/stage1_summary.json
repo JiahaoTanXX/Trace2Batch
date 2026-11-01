@@ -1,0 +1,867 @@
+{
+ "cells": {
+  "nebius_swe_agent|0-2048": {
+   "cosine": 0.9999757292297385,
+   "max_repeat_difference": 0.0010286280788243752,
+   "peak_allocated_gib": {
+    "trajectory": 2.412898540496826,
+    "transition": 2.417171001434326
+   },
+   "policy_tokens_per_condition": 631,
+   "processed_token_ratio": 1.9487728545544392,
+   "relative_l2_error": 0.007006969851295432,
+   "rows_per_condition": {
+    "trajectory": 6,
+    "transition": 12
+   },
+   "run": "s2",
+   "seconds_by_mode": {
+    "trajectory": 33.04194407399973,
+    "transition": 63.204163880000124
+   },
+   "speed_ratio": 1.9128464033003023,
+   "verification_passed": true
+  },
+  "nebius_swe_agent|2048-4096": {
+   "cosine": 0.9999714074216332,
+   "max_repeat_difference": 0.007219333405347451,
+   "peak_allocated_gib": {
+    "trajectory": 5.5378851890563965,
+    "transition": 5.5421576499938965
+   },
+   "policy_tokens_per_condition": 2890,
+   "processed_token_ratio": 4.978890843440422,
+   "relative_l2_error": 0.0075748517908499,
+   "rows_per_condition": {
+    "trajectory": 6,
+    "transition": 38
+   },
+   "run": "s2",
+   "seconds_by_mode": {
+    "trajectory": 94.0524852589997,
+    "transition": 390.8777022280001
+   },
+   "speed_ratio": 4.155952935763574,
+   "verification_passed": true
+  },
+  "nebius_swe_agent|4096-6144": {
+   "cosine": 0.9999460437437196,
+   "max_repeat_difference": 0.0007967980514444636,
+   "peak_allocated_gib": {
+    "trajectory": 10.548060894012451,
+    "transition": 10.552333354949951
+   },
+   "policy_tokens_per_condition": 3923,
+   "processed_token_ratio": 4.270817591053348,
+   "relative_l2_error": 0.010400489146223268,
+   "rows_per_condition": {
+    "trajectory": 6,
+    "transition": 40
+   },
+   "run": "s1",
+   "seconds_by_mode": {
+    "trajectory": 192.08424708300015,
+    "transition": 600.5292702979999
+   },
+   "speed_ratio": 3.126384799470357,
+   "verification_passed": true
+  },
+  "swe_smith_tool|0-2048": {
+   "cosine": 0.9999576764680721,
+   "max_repeat_difference": 0.040293743866187386,
+   "peak_allocated_gib": {
+    "trajectory": 2.3804659843444824,
+    "transition": 2.3847384452819824
+   },
+   "policy_tokens_per_condition": 973,
+   "processed_token_ratio": 1.8248925921104022,
+   "relative_l2_error": 0.009240477926111376,
+   "rows_per_condition": {
+    "trajectory": 6,
+    "transition": 14
+   },
+   "run": "s2",
+   "seconds_by_mode": {
+    "trajectory": 15.027060938999966,
+    "transition": 25.69167302699998
+   },
+   "speed_ratio": 1.7096938071450805,
+   "verification_passed": true
+  },
+  "swe_smith_tool|2048-4096": {
+   "cosine": 0.9999870265624645,
+   "max_repeat_difference": 0.009350995165952471,
+   "peak_allocated_gib": {
+    "trajectory": 4.603098392486572,
+    "transition": 4.607370853424072
+   },
+   "policy_tokens_per_condition": 1520,
+   "processed_token_ratio": 2.2460290252542565,
+   "relative_l2_error": 0.005094525366265015,
+   "rows_per_condition": {
+    "trajectory": 6,
+    "transition": 19
+   },
+   "run": "s2",
+   "seconds_by_mode": {
+    "trajectory": 64.45609166999998,
+    "transition": 128.35561718099996
+   },
+   "speed_ratio": 1.9913651891608712,
+   "verification_passed": true
+  },
+  "swe_smith_tool|4096-6144": {
+   "cosine": 0.9999990182110501,
+   "max_repeat_difference": 0.0032859440861190367,
+   "peak_allocated_gib": {
+    "trajectory": 10.033342361450195,
+    "transition": 10.037614822387695
+   },
+   "policy_tokens_per_condition": 1843,
+   "processed_token_ratio": 2.2535474471050296,
+   "relative_l2_error": 0.001401481126606519,
+   "rows_per_condition": {
+    "trajectory": 6,
+    "transition": 21
+   },
+   "run": "s2",
+   "seconds_by_mode": {
+    "trajectory": 193.44587298800002,
+    "transition": 372.49733707100006
+   },
+   "speed_ratio": 1.925589475326295,
+   "verification_passed": true
+  },
+  "toucan_qwen3|0-2048": {
+   "cosine": 0.9999988666293985,
+   "max_repeat_difference": 0.06375304845138717,
+   "peak_allocated_gib": {
+    "trajectory": 1.7918310165405273,
+    "transition": 1.7512602806091309
+   },
+   "policy_tokens_per_condition": 906,
+   "processed_token_ratio": 1.614934522151017,
+   "relative_l2_error": 0.0015131998980294932,
+   "rows_per_condition": {
+    "trajectory": 6,
+    "transition": 12
+   },
+   "run": "s2",
+   "seconds_by_mode": {
+    "trajectory": 6.335076453000056,
+    "transition": 9.825111148000133
+   },
+   "speed_ratio": 1.5509064840641862,
+   "verification_passed": true
+  },
+  "toucan_qwen3|2048-4096": {
+   "cosine": 0.9999993387837132,
+   "max_repeat_difference": 0.0077813585071506855,
+   "peak_allocated_gib": {
+    "trajectory": 4.781904220581055,
+    "transition": 4.786176681518555
+   },
+   "policy_tokens_per_condition": 978,
+   "processed_token_ratio": 1.8391200636098595,
+   "relative_l2_error": 0.0011529201961017724,
+   "rows_per_condition": {
+    "trajectory": 6,
+    "transition": 13
+   },
+   "run": "s2",
+   "seconds_by_mode": {
+    "trajectory": 73.13403249499993,
+    "transition": 124.36909097199987
+   },
+   "speed_ratio": 1.700563837779666,
+   "verification_passed": true
+  },
+  "toucan_qwen3|4096-6144": {
+   "cosine": 0.9999187279600348,
+   "max_repeat_difference": 0.00022036806371626358,
+   "peak_allocated_gib": {
+    "trajectory": 8.454450130462646,
+    "transition": 8.458722591400146
+   },
+   "policy_tokens_per_condition": 5614,
+   "processed_token_ratio": 2.2517898590996763,
+   "relative_l2_error": 0.012756277028693589,
+   "rows_per_condition": {
+    "trajectory": 6,
+    "transition": 20
+   },
+   "run": "s2",
+   "seconds_by_mode": {
+    "trajectory": 181.30813132700018,
+    "transition": 333.480807549
+   },
+   "speed_ratio": 1.8393042005796596,
+   "verification_passed": true
+  }
+ },
+ "gpu_minutes": {
+  "calibration_failed": 2.7158,
+  "diagnostic": 27.00998,
+  "s1_v2": 17.9548,
+  "s2_v3": 44.53416666666667,
+  "stage1_total_including_calibration_and_diagnostic": 92.21474666666667
+ },
+ "gradient_criterion": {
+  "loss_scale": 4096,
+  "max_loss_relative_error": 0.001,
+  "max_relative_l2_error": 0.02,
+  "min_cosine": 0.9998
+ },
+ "model": "Qwen/Qwen3-0.6B@c1899de2 + LoRA r8 q/v, fp16, gradient checkpointing, Tesla T4 (GPU 0)",
+ "rollouts": [
+  {
+   "cell": "swe_smith_tool|0-2048",
+   "dataset": "swe_smith_tool",
+   "final_context": 849,
+   "ratio": 1.443361883328542,
+   "sample_id": "conan-io__conan.86f29e13.pr_17092.mz3vj24e",
+   "stratum": "0-2048",
+   "token_ratio": 1.5512367491166077,
+   "trajectory_s": 0.6473433227539063,
+   "transition_s": 0.9343506774902344,
+   "turns": 2
+  },
+  {
+   "cell": "swe_smith_tool|0-2048",
+   "dataset": "swe_smith_tool",
+   "final_context": 1991,
+   "ratio": 1.8893151817405391,
+   "sample_id": "python__mypy.e93f06ce.pr_12943.mz3vj24e",
+   "stratum": "0-2048",
+   "token_ratio": 1.956303365143144,
+   "trajectory_s": 2.4003395996093753,
+   "transition_s": 4.534998046875,
+   "turns": 2
+  },
+  {
+   "cell": "swe_smith_tool|0-2048",
+   "dataset": "swe_smith_tool",
+   "final_context": 1421,
+   "ratio": 1.213053116055947,
+   "sample_id": "pygments__pygments.27649ebb.pr_2727.mz3vj24e",
+   "stratum": "0-2048",
+   "token_ratio": 1.3349753694581281,
+   "trajectory_s": 1.4094548950195311,
+   "transition_s": 1.70974365234375,
+   "turns": 2
+  },
+  {
+   "cell": "swe_smith_tool|0-2048",
+   "dataset": "swe_smith_tool",
+   "final_context": 1499,
+   "ratio": 1.9360324369582005,
+   "sample_id": "pallets__click.fde47b4b.pr_2604.mz3vj24e",
+   "stratum": "0-2048",
+   "token_ratio": 2.1807871914609738,
+   "trajectory_s": 1.5124891357421877,
+   "transition_s": 2.92822802734375,
+   "turns": 3
+  },
+  {
+   "cell": "swe_smith_tool|0-2048",
+   "dataset": "swe_smith_tool",
+   "final_context": 1033,
+   "ratio": 1.343993592661625,
+   "sample_id": "iterative__dvc.1d6ea681.pr_9979.mz3vj24e",
+   "stratum": "0-2048",
+   "token_ratio": 1.3949661181026138,
+   "trajectory_s": 0.8689072570800782,
+   "transition_s": 1.1678057861328126,
+   "turns": 2
+  },
+  {
+   "cell": "swe_smith_tool|0-2048",
+   "dataset": "swe_smith_tool",
+   "final_context": 888,
+   "ratio": 2.3258948640188315,
+   "sample_id": "rustedpy__result.0b855e1e.pr_121.mz3vj24e",
+   "stratum": "0-2048",
+   "token_ratio": 2.475225225225225,
+   "trajectory_s": 0.6749246215820313,
+   "transition_s": 1.5698037109374998,
+   "turns": 3
+  },
+  {
+   "cell": "swe_smith_tool|2048-4096",
+   "dataset": "swe_smith_tool",
+   "final_context": 2592,
+   "ratio": 1.117047794522431,
+   "sample_id": "dask__dask.5f61e423.pr_8484.mz3vj24e",
+   "stratum": "2048-4096",
+   "token_ratio": 1.2750771604938271,
+   "trajectory_s": 4.175400634765625,
+   "transition_s": 4.6641220703125,
+   "turns": 2
+  },
+  {
+   "cell": "swe_smith_tool|2048-4096",
+   "dataset": "swe_smith_tool",
+   "final_context": 3446,
+   "ratio": 1.309610893131085,
+   "sample_id": "pandas-dev__pandas.95280573.pr_48966.mz3vj24e",
+   "stratum": "2048-4096",
+   "token_ratio": 1.6892048752176436,
+   "trajectory_s": 7.067473388671875,
+   "transition_s": 9.25564013671875,
+   "turns": 3
+  },
+  {
+   "cell": "swe_smith_tool|2048-4096",
+   "dataset": "swe_smith_tool",
+   "final_context": 3612,
+   "ratio": 4.202429114748271,
+   "sample_id": "pylint-dev__astroid.b114f6b5.pr_2158.mz3vj24e",
+   "stratum": "2048-4096",
+   "token_ratio": 4.846068660022149,
+   "trajectory_s": 7.67065869140625,
+   "transition_s": 32.2353994140625,
+   "turns": 7
+  },
+  {
+   "cell": "swe_smith_tool|2048-4096",
+   "dataset": "swe_smith_tool",
+   "final_context": 2366,
+   "ratio": 1.447641410110855,
+   "sample_id": "pandas-dev__pandas.95280573.pr_54189.mz3vj24e",
+   "stratum": "2048-4096",
+   "token_ratio": 1.639475908706678,
+   "trajectory_s": 3.63373193359375,
+   "transition_s": 5.2603408203125,
+   "turns": 2
+  },
+  {
+   "cell": "swe_smith_tool|2048-4096",
+   "dataset": "swe_smith_tool",
+   "final_context": 2190,
+   "ratio": 1.3820556244968911,
+   "sample_id": "pandas-dev__pandas.95280573.pr_54655.mz3vj24e",
+   "stratum": "2048-4096",
+   "token_ratio": 1.5981735159817352,
+   "trajectory_s": 3.2866036376953125,
+   "transition_s": 4.54226904296875,
+   "turns": 2
+  },
+  {
+   "cell": "swe_smith_tool|2048-4096",
+   "dataset": "swe_smith_tool",
+   "final_context": 3296,
+   "ratio": 1.285672817686544,
+   "sample_id": "facebookresearch__hydra.0f03eb60.pr_2290.mz3vj24e",
+   "stratum": "2048-4096",
+   "token_ratio": 1.6083131067961165,
+   "trajectory_s": 6.3946035156250005,
+   "transition_s": 8.221367919921875,
+   "turns": 3
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144",
+   "dataset": "swe_smith_tool",
+   "final_context": 5199,
+   "ratio": 1.1912982235843024,
+   "sample_id": "getmoto__moto.694ce1f4.pr_8342.mz3vj24e",
+   "stratum": "4096-6144",
+   "token_ratio": 1.397384112329294,
+   "trajectory_s": 15.55413818359375,
+   "transition_s": 18.5296171875,
+   "turns": 2
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144",
+   "dataset": "swe_smith_tool",
+   "final_context": 4752,
+   "ratio": 3.114292035937873,
+   "sample_id": "encode__starlette.db5063c2.pr_2711.mz3vj24e",
+   "stratum": "4096-6144",
+   "token_ratio": 3.4255050505050506,
+   "trajectory_s": 12.69155322265625,
+   "transition_s": 39.525203125000004,
+   "turns": 5
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144",
+   "dataset": "swe_smith_tool",
+   "final_context": 5662,
+   "ratio": 1.325323793086945,
+   "sample_id": "iterative__dvc.1d6ea681.pr_9089.mz3vj24e",
+   "stratum": "4096-6144",
+   "token_ratio": 1.7400211939244083,
+   "trajectory_s": 18.3438876953125,
+   "transition_s": 24.3115908203125,
+   "turns": 3
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144",
+   "dataset": "swe_smith_tool",
+   "final_context": 5906,
+   "ratio": 1.0405386127074978,
+   "sample_id": "pydantic__pydantic.acb0f10f.pr_7101.mz3vj24e",
+   "stratum": "4096-6144",
+   "token_ratio": 1.1649170335252286,
+   "trajectory_s": 20.057025390625,
+   "transition_s": 20.870109375,
+   "turns": 2
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144",
+   "dataset": "swe_smith_tool",
+   "final_context": 5898,
+   "ratio": 3.3862676949442356,
+   "sample_id": "pallets__click.fde47b4b.pr_2555.mz3vj24e",
+   "stratum": "4096-6144",
+   "token_ratio": 3.9665988470668023,
+   "trajectory_s": 20.009315429687497,
+   "transition_s": 67.75689843750001,
+   "turns": 6
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144",
+   "dataset": "swe_smith_tool",
+   "final_context": 4155,
+   "ratio": 1.5154788603607954,
+   "sample_id": "pylint-dev__astroid.b114f6b5.pr_2181.mz3vj24e",
+   "stratum": "4096-6144",
+   "token_ratio": 1.8,
+   "trajectory_s": 10.06911328125,
+   "transition_s": 15.2595283203125,
+   "turns": 3
+  },
+  {
+   "cell": "toucan_qwen3|0-2048",
+   "dataset": "toucan_qwen3",
+   "final_context": 925,
+   "ratio": 1.3575953643915157,
+   "sample_id": "5e4b21a0-885b-5cf0-9697-05b24116a47c",
+   "stratum": "0-2048",
+   "token_ratio": 1.4443243243243242,
+   "trajectory_s": 0.8045576477050782,
+   "transition_s": 1.0922637329101563,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|0-2048",
+   "dataset": "toucan_qwen3",
+   "final_context": 918,
+   "ratio": 1.3800975133595448,
+   "sample_id": "c4f19755-79ef-59dc-aa6d-350a03e6a18e",
+   "stratum": "0-2048",
+   "token_ratio": 1.4128540305010893,
+   "trajectory_s": 0.7907257385253906,
+   "transition_s": 1.0912786254882811,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|0-2048",
+   "dataset": "toucan_qwen3",
+   "final_context": 396,
+   "ratio": 1.8307303544628617,
+   "sample_id": "d0772e91-cc09-510d-a996-4aa59baf633b",
+   "stratum": "0-2048",
+   "token_ratio": 1.7575757575757576,
+   "trajectory_s": 0.32624255371093747,
+   "transition_s": 0.5972621459960937,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|0-2048",
+   "dataset": "toucan_qwen3",
+   "final_context": 683,
+   "ratio": 1.8046373152102333,
+   "sample_id": "9f1824bd-74cc-5cbb-b4fb-af598ee75480",
+   "stratum": "0-2048",
+   "token_ratio": 1.9004392386530016,
+   "trajectory_s": 0.5148124084472656,
+   "transition_s": 0.9290496826171875,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|0-2048",
+   "dataset": "toucan_qwen3",
+   "final_context": 293,
+   "ratio": 1.4237852137163156,
+   "sample_id": "1b54ecf9-d87f-5293-afb6-cdfdf52a1275",
+   "stratum": "0-2048",
+   "token_ratio": 1.8873720136518772,
+   "trajectory_s": 0.4196292877197266,
+   "transition_s": 0.5974619750976562,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|0-2048",
+   "dataset": "toucan_qwen3",
+   "final_context": 374,
+   "ratio": 1.943137319273227,
+   "sample_id": "3b13b2a4-f1f0-57f0-b8e5-926248254fbb",
+   "stratum": "0-2048",
+   "token_ratio": 1.6470588235294117,
+   "trajectory_s": 0.3114100646972656,
+   "transition_s": 0.6051125183105469,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|2048-4096",
+   "dataset": "toucan_qwen3",
+   "final_context": 3006,
+   "ratio": 1.9291724365309078,
+   "sample_id": "7d191575-c669-52c5-95f8-86a720c704d1",
+   "stratum": "2048-4096",
+   "token_ratio": 1.961410512308716,
+   "trajectory_s": 5.55817333984375,
+   "transition_s": 10.7226748046875,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|2048-4096",
+   "dataset": "toucan_qwen3",
+   "final_context": 3232,
+   "ratio": 1.940923400901966,
+   "sample_id": "aaf4ad75-50d5-5903-b538-f8cf69044365",
+   "stratum": "2048-4096",
+   "token_ratio": 1.9591584158415842,
+   "trajectory_s": 6.1750966796875,
+   "transition_s": 11.9853896484375,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|2048-4096",
+   "dataset": "toucan_qwen3",
+   "final_context": 3709,
+   "ratio": 1.716667143077413,
+   "sample_id": "a8363b42-e489-5fff-8c12-789f95246441",
+   "stratum": "2048-4096",
+   "token_ratio": 1.8401186303585872,
+   "trajectory_s": 8.148086425781251,
+   "transition_s": 13.987552246093749,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|2048-4096",
+   "dataset": "toucan_qwen3",
+   "final_context": 2818,
+   "ratio": 1.219854573850646,
+   "sample_id": "3ec4242a-7632-52ef-bfa3-2f17627515ab",
+   "stratum": "2048-4096",
+   "token_ratio": 1.4162526614620299,
+   "trajectory_s": 5.042930908203125,
+   "transition_s": 6.151642333984375,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|2048-4096",
+   "dataset": "toucan_qwen3",
+   "final_context": 3407,
+   "ratio": 1.4734074087920226,
+   "sample_id": "b81df2c8-0cd0-55fa-9a53-754041ba3959",
+   "stratum": "2048-4096",
+   "token_ratio": 1.8623422365717641,
+   "trajectory_s": 7.0007089843750006,
+   "transition_s": 10.314896484375002,
+   "turns": 3
+  },
+  {
+   "cell": "toucan_qwen3|2048-4096",
+   "dataset": "toucan_qwen3",
+   "final_context": 2693,
+   "ratio": 1.9436565101293934,
+   "sample_id": "d5827230-14dc-5761-b326-5e8df428be8a",
+   "stratum": "2048-4096",
+   "token_ratio": 1.9702933531377647,
+   "trajectory_s": 4.642552978515625,
+   "transition_s": 9.0235283203125,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|4096-6144",
+   "dataset": "toucan_qwen3",
+   "final_context": 5341,
+   "ratio": 2.078965941486651,
+   "sample_id": "7685c082-3247-5770-adc8-0cf44f22343c",
+   "stratum": "4096-6144",
+   "token_ratio": 2.7041752480808836,
+   "trajectory_s": 16.48782421875,
+   "transition_s": 34.277625,
+   "turns": 4
+  },
+  {
+   "cell": "toucan_qwen3|4096-6144",
+   "dataset": "toucan_qwen3",
+   "final_context": 5322,
+   "ratio": 1.099816697846199,
+   "sample_id": "c8720826-96c0-5526-ac32-e64b88e26fb2",
+   "stratum": "4096-6144",
+   "token_ratio": 1.282412626832018,
+   "trajectory_s": 16.297427246093747,
+   "transition_s": 17.924182617187498,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|4096-6144",
+   "dataset": "toucan_qwen3",
+   "final_context": 5277,
+   "ratio": 3.5491795000296538,
+   "sample_id": "686d0e74-d072-593d-9e04-fb982982ef96",
+   "stratum": "4096-6144",
+   "token_ratio": 5.012886109531931,
+   "trajectory_s": 16.21055126953125,
+   "transition_s": 57.534156249999995,
+   "turns": 8
+  },
+  {
+   "cell": "toucan_qwen3|4096-6144",
+   "dataset": "toucan_qwen3",
+   "final_context": 4743,
+   "ratio": 1.0510285670578712,
+   "sample_id": "8cc807b1-bdf2-56f7-b41e-90ccf6c6fd1e",
+   "stratum": "4096-6144",
+   "token_ratio": 1.181741513809825,
+   "trajectory_s": 13.0868408203125,
+   "transition_s": 13.754643554687501,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|4096-6144",
+   "dataset": "toucan_qwen3",
+   "final_context": 5225,
+   "ratio": 1.9101911967315017,
+   "sample_id": "12483a29-784c-53a0-8ba8-a6036ff1e292",
+   "stratum": "4096-6144",
+   "token_ratio": 1.9598086124401914,
+   "trajectory_s": 15.77571240234375,
+   "transition_s": 30.134626953125,
+   "turns": 2
+  },
+  {
+   "cell": "toucan_qwen3|4096-6144",
+   "dataset": "toucan_qwen3",
+   "final_context": 4681,
+   "ratio": 1.0251026291858731,
+   "sample_id": "bcd43d21-3794-59c5-82bb-9d78e54fccf8",
+   "stratum": "4096-6144",
+   "token_ratio": 1.1352275154881435,
+   "trajectory_s": 12.7975615234375,
+   "transition_s": 13.11881396484375,
+   "turns": 2
+  },
+  {
+   "cell": "nebius_swe_agent|0-2048",
+   "dataset": "nebius_swe_agent",
+   "final_context": 2047,
+   "ratio": 1.88213545365712,
+   "sample_id": "1726:ifosch__accloudtant-104",
+   "stratum": "0-2048",
+   "token_ratio": 1.9198827552515876,
+   "trajectory_s": 2.7811507568359373,
+   "transition_s": 5.234502441406249,
+   "turns": 2
+  },
+  {
+   "cell": "nebius_swe_agent|0-2048",
+   "dataset": "nebius_swe_agent",
+   "final_context": 2039,
+   "ratio": 1.9193726648328795,
+   "sample_id": "2130:scrapy__w3lib-66",
+   "stratum": "0-2048",
+   "token_ratio": 1.9480137322216773,
+   "trajectory_s": 2.773372314453125,
+   "transition_s": 5.323135009765625,
+   "turns": 2
+  },
+  {
+   "cell": "nebius_swe_agent|0-2048",
+   "dataset": "nebius_swe_agent",
+   "final_context": 1995,
+   "ratio": 1.9158592450658196,
+   "sample_id": "3866:astropenguin__pandas-dataclasses-29",
+   "stratum": "0-2048",
+   "token_ratio": 1.9604010025062657,
+   "trajectory_s": 2.7072381591796875,
+   "transition_s": 5.1866872558593755,
+   "turns": 2
+  },
+  {
+   "cell": "nebius_swe_agent|0-2048",
+   "dataset": "nebius_swe_agent",
+   "final_context": 2011,
+   "ratio": 1.9129096266566887,
+   "sample_id": "4192:leovt__constructible-3",
+   "stratum": "0-2048",
+   "token_ratio": 1.9497762307309796,
+   "trajectory_s": 2.7378505859375,
+   "transition_s": 5.2372607421875,
+   "turns": 2
+  },
+  {
+   "cell": "nebius_swe_agent|0-2048",
+   "dataset": "nebius_swe_agent",
+   "final_context": 2007,
+   "ratio": 1.918937430801293,
+   "sample_id": "4486:nipy__nipype-2503",
+   "stratum": "0-2048",
+   "token_ratio": 1.9551569506726458,
+   "trajectory_s": 2.7216058349609376,
+   "transition_s": 5.222591308593749,
+   "turns": 2
+  },
+  {
+   "cell": "nebius_swe_agent|0-2048",
+   "dataset": "nebius_swe_agent",
+   "final_context": 2043,
+   "ratio": 1.9281382487997056,
+   "sample_id": "4488:nipy__nipype-2503",
+   "stratum": "0-2048",
+   "token_ratio": 1.9598629466470876,
+   "trajectory_s": 2.7998095703125,
+   "transition_s": 5.398419921875,
+   "turns": 2
+  },
+  {
+   "cell": "nebius_swe_agent|2048-4096",
+   "dataset": "nebius_swe_agent",
+   "final_context": 2975,
+   "ratio": 5.114115318820175,
+   "sample_id": "101:biolink__biolink-model-toolkit-52",
+   "stratum": "2048-4096",
+   "token_ratio": 5.882689075630252,
+   "trajectory_s": 5.53195458984375,
+   "transition_s": 28.291053710937497,
+   "turns": 7
+  },
+  {
+   "cell": "nebius_swe_agent|2048-4096",
+   "dataset": "nebius_swe_agent",
+   "final_context": 4028,
+   "ratio": 5.097998565204539,
+   "sample_id": "187:iterative__dvc-8904",
+   "stratum": "2048-4096",
+   "token_ratio": 5.820506454816286,
+   "trajectory_s": 9.4049228515625,
+   "transition_s": 47.946283203125,
+   "turns": 7
+  },
+  {
+   "cell": "nebius_swe_agent|2048-4096",
+   "dataset": "nebius_swe_agent",
+   "final_context": 3599,
+   "ratio": 3.7007038379791197,
+   "sample_id": "219:iterative__dvc-8904",
+   "stratum": "2048-4096",
+   "token_ratio": 4.260350097249236,
+   "trajectory_s": 7.77600390625,
+   "transition_s": 28.7766875,
+   "turns": 5
+  },
+  {
+   "cell": "nebius_swe_agent|2048-4096",
+   "dataset": "nebius_swe_agent",
+   "final_context": 3874,
+   "ratio": 3.860757083706004,
+   "sample_id": "271:ivankorobkov__python-inject-66",
+   "stratum": "2048-4096",
+   "token_ratio": 4.923076923076923,
+   "trajectory_s": 8.91224365234375,
+   "transition_s": 34.4080078125,
+   "turns": 7
+  },
+  {
+   "cell": "nebius_swe_agent|2048-4096",
+   "dataset": "nebius_swe_agent",
+   "final_context": 3031,
+   "ratio": 3.02322321544387,
+   "sample_id": "299:moogar0880__PyTrakt-120",
+   "stratum": "2048-4096",
+   "token_ratio": 3.4021774991751896,
+   "trajectory_s": 5.6483395996093755,
+   "transition_s": 17.076191406249997,
+   "turns": 4
+  },
+  {
+   "cell": "nebius_swe_agent|2048-4096",
+   "dataset": "nebius_swe_agent",
+   "final_context": 4095,
+   "ratio": 3.992913037679788,
+   "sample_id": "317:numpy__numpydoc-429",
+   "stratum": "2048-4096",
+   "token_ratio": 5.3457875457875454,
+   "trajectory_s": 9.753550781249999,
+   "transition_s": 38.945080078125,
+   "turns": 8
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144",
+   "dataset": "nebius_swe_agent",
+   "final_context": 6083,
+   "ratio": 2.2760789936489187,
+   "sample_id": "9:Stratoscale__skipper-164",
+   "stratum": "4096-6144",
+   "token_ratio": 3.125267137925366,
+   "trajectory_s": 19.5911220703125,
+   "transition_s": 44.590941406249996,
+   "turns": 5
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144",
+   "dataset": "nebius_swe_agent",
+   "final_context": 5335,
+   "ratio": 4.697960999895716,
+   "sample_id": "12:Textualize__textual-4125",
+   "stratum": "4096-6144",
+   "token_ratio": 6.512277413308341,
+   "trajectory_s": 14.99713037109375,
+   "transition_s": 70.45593359375,
+   "turns": 10
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144",
+   "dataset": "nebius_swe_agent",
+   "final_context": 5320,
+   "ratio": 3.3730456691773147,
+   "sample_id": "108:biolink__biolink-model-toolkit-52",
+   "stratum": "4096-6144",
+   "token_ratio": 4.794736842105263,
+   "trajectory_s": 14.6204111328125,
+   "transition_s": 49.315314453125,
+   "turns": 8
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144",
+   "dataset": "nebius_swe_agent",
+   "final_context": 5218,
+   "ratio": 1.925237752994774,
+   "sample_id": "115:common-workflow-language__cwltool-1469",
+   "stratum": "4096-6144",
+   "token_ratio": 2.547911077041012,
+   "trajectory_s": 14.31395654296875,
+   "transition_s": 27.55776953125,
+   "turns": 4
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144",
+   "dataset": "nebius_swe_agent",
+   "final_context": 6076,
+   "ratio": 2.9089374926218023,
+   "sample_id": "132:getlogbook__logbook-242",
+   "stratum": "4096-6144",
+   "token_ratio": 3.847761685319289,
+   "trajectory_s": 19.15880078125,
+   "transition_s": 55.731753906250006,
+   "turns": 6
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144",
+   "dataset": "nebius_swe_agent",
+   "final_context": 5053,
+   "ratio": 3.937767044718092,
+   "sample_id": "178:iterative__dvc-8904",
+   "stratum": "4096-6144",
+   "token_ratio": 5.019592321393231,
+   "trajectory_s": 13.36206103515625,
+   "transition_s": 52.61668359375,
+   "turns": 7
+  }
+ ],
+ "stage": "P3-A stage 1 (length-stratified, <=6144 tokens)"
+}

@@ -1,0 +1,7878 @@
+{
+ "complete": true,
+ "rollouts": {
+  "swe_smith_tool": [
+   {
+    "index": 64,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 480,
+      "total_tokens": 51328
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 480,
+      "total_tokens": 10476
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 480,
+      "total_tokens": 10476
+     }
+    },
+    "sample_id": "mido__mido.a0158ff9.pr_455.mz3vj24e",
+    "seconds": 1883.66,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 644,
+      "sampled_tokens": 29,
+      "seconds": 24.217,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 700,
+      "sampled_tokens": 56,
+      "seconds": 81.84,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1501,
+      "sampled_tokens": 54,
+      "seconds": 126.473,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7985,
+      "sampled_tokens": 53,
+      "seconds": 191.937,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9272,
+      "sampled_tokens": 74,
+      "seconds": 286.014,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10177,
+      "sampled_tokens": 69,
+      "seconds": 388.082,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10280,
+      "sampled_tokens": 70,
+      "seconds": 406.558,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 10401,
+      "sampled_tokens": 75,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 65,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 216,
+      "total_tokens": 59663
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 216,
+      "total_tokens": 12358
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 216,
+      "total_tokens": 12358
+     }
+    },
+    "sample_id": "tkrajina__gpxpy.09fc46b3.pr_282.mz3vj24e",
+    "seconds": 1110.856,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 906,
+      "sampled_tokens": 27,
+      "seconds": 23.719,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1568,
+      "sampled_tokens": 27,
+      "seconds": 41.198,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6929,
+      "sampled_tokens": 27,
+      "seconds": 43.465,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7040,
+      "sampled_tokens": 27,
+      "seconds": 94.4,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8064,
+      "sampled_tokens": 27,
+      "seconds": 124.066,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11116,
+      "sampled_tokens": 27,
+      "seconds": 223.468,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11605,
+      "sampled_tokens": 27,
+      "seconds": 237.469,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 12331,
+      "sampled_tokens": 27,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 66,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 1086,
+      "total_tokens": 73945
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 1086,
+      "total_tokens": 12741
+     },
+     "v2": {
+      "merge_mismatches": 1,
+      "n_rows": 2,
+      "policy_tokens": 1086,
+      "total_tokens": 14189
+     }
+    },
+    "sample_id": "python__mypy.e93f06ce.pr_11632.mz3vj24e",
+    "seconds": 2222.161,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1368,
+      "sampled_tokens": 80,
+      "seconds": 206.411,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 0,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n\n\n"
+       ]
+      ],
+      "prompt_tokens": 3082,
+      "sampled_tokens": 145,
+      "seconds": 340.38,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1444,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n\n\n"
+       ]
+      ],
+      "prompt_tokens": 8815,
+      "sampled_tokens": 253,
+      "seconds": 671.999,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1444,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n\n\n"
+       ]
+      ],
+      "prompt_tokens": 11171,
+      "sampled_tokens": 215,
+      "seconds": 722.964,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1444,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n\n\n"
+       ]
+      ],
+      "prompt_tokens": 11471,
+      "sampled_tokens": 164,
+      "seconds": 231.038,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1444,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n\n\n"
+       ]
+      ],
+      "prompt_tokens": 12123,
+      "sampled_tokens": 115,
+      "seconds": 21.18,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1444,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 12270,
+      "sampled_tokens": 44,
+      "seconds": 6.067,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1444,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 12671,
+      "sampled_tokens": 70,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1444,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 67,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 222,
+      "total_tokens": 41474
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 222,
+      "total_tokens": 7344
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 222,
+      "total_tokens": 7344
+     }
+    },
+    "sample_id": "pandas-dev__pandas.95280573.pr_54015.mz3vj24e",
+    "seconds": 1134.869,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1707,
+      "sampled_tokens": 25,
+      "seconds": 22.056,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1807,
+      "sampled_tokens": 29,
+      "seconds": 42.828,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4180,
+      "sampled_tokens": 29,
+      "seconds": 43.506,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5923,
+      "sampled_tokens": 29,
+      "seconds": 103.181,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6344,
+      "sampled_tokens": 27,
+      "seconds": 139.672,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6827,
+      "sampled_tokens": 29,
+      "seconds": 231.214,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7257,
+      "sampled_tokens": 29,
+      "seconds": 230.813,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 7319,
+      "sampled_tokens": 25,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 68,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 875,
+      "total_tokens": 44053
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 875,
+      "total_tokens": 8329
+     },
+     "v2": {
+      "merge_mismatches": 2,
+      "n_rows": 3,
+      "policy_tokens": 875,
+      "total_tokens": 22837
+     }
+    },
+    "sample_id": "getmoto__moto.694ce1f4.pr_7874.mz3vj24e",
+    "seconds": 2138.335,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 950,
+      "sampled_tokens": 25,
+      "seconds": 21.29,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1094,
+      "sampled_tokens": 29,
+      "seconds": 41.558,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4800,
+      "sampled_tokens": 29,
+      "seconds": 43.085,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6590,
+      "sampled_tokens": 29,
+      "seconds": 89.545,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6652,
+      "sampled_tokens": 348,
+      "seconds": 703.364,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7202,
+      "sampled_tokens": 308,
+      "seconds": 874.62,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 6898,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7721,
+      "sampled_tokens": 63,
+      "seconds": 249.692,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 6898,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 8285,
+      "sampled_tokens": 44,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 6898,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 69,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 609,
+      "total_tokens": 47164
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 609,
+      "total_tokens": 7656
+     },
+     "v2": {
+      "merge_mismatches": 1,
+      "n_rows": 2,
+      "policy_tokens": 609,
+      "total_tokens": 14402
+     }
+    },
+    "sample_id": "getmoto__moto.694ce1f4.pr_6913.mz3vj24e",
+    "seconds": 2179.465,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 800,
+      "sampled_tokens": 162,
+      "seconds": 577.228,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 3395,
+      "sampled_tokens": 25,
+      "seconds": 210.237,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "others_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        ",\n\"url\": \"https://github.com/moto/moto/problems_name_HERE?title=Fix%20SESV2%20Email%20Body%20Issue\"",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6693,
+      "sampled_tokens": 90,
+      "seconds": 410.949,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": true,
+      "v2_kind": "others_mismatch",
+      "v2_segments": [
+       [
+        ",\n\"url\": \"https://github.com/moto/moto/problems_name_HERE?title=Fix%20SESV2%20Email%20Body%20Issue\"",
+        ""
+       ]
+      ]
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6821,
+      "sampled_tokens": 52,
+      "seconds": 387.422,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 6709,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6962,
+      "sampled_tokens": 110,
+      "seconds": 412.855,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 6709,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7218,
+      "sampled_tokens": 56,
+      "seconds": 141.51,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 6709,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7362,
+      "sampled_tokens": 59,
+      "seconds": 24.702,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 6709,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 7601,
+      "sampled_tokens": 55,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 6709,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 70,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 322,
+      "total_tokens": 57531
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 322,
+      "total_tokens": 12353
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 322,
+      "total_tokens": 12353
+     }
+    },
+    "sample_id": "python__mypy.e93f06ce.pr_11567.mz3vj24e",
+    "seconds": 1521.079,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 865,
+      "sampled_tokens": 26,
+      "seconds": 24.87,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4340,
+      "sampled_tokens": 40,
+      "seconds": 60.312,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4553,
+      "sampled_tokens": 43,
+      "seconds": 80.902,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5437,
+      "sampled_tokens": 43,
+      "seconds": 160.668,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6130,
+      "sampled_tokens": 43,
+      "seconds": 216.479,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11761,
+      "sampled_tokens": 43,
+      "seconds": 262.702,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11923,
+      "sampled_tokens": 43,
+      "seconds": 341.324,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 12312,
+      "sampled_tokens": 41,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 71,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 5,
+      "n_rows": 6,
+      "policy_tokens": 126,
+      "total_tokens": 52618
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 126,
+      "total_tokens": 12893
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 126,
+      "total_tokens": 12893
+     }
+    },
+    "sample_id": "python__mypy.e93f06ce.pr_10036.mz3vj24e",
+    "seconds": 646.33,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 952,
+      "sampled_tokens": 51,
+      "seconds": 85.852,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4932,
+      "sampled_tokens": 15,
+      "seconds": 29.42,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10361,
+      "sampled_tokens": 15,
+      "seconds": 87.926,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11154,
+      "sampled_tokens": 15,
+      "seconds": 106.867,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 12275,
+      "sampled_tokens": 15,
+      "seconds": 150.455,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 12878,
+      "sampled_tokens": 15,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 72,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 1083,
+      "total_tokens": 39451
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 1083,
+      "total_tokens": 7890
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 1083,
+      "total_tokens": 7890
+     }
+    },
+    "sample_id": "agronholm__typeguard.b6a7e438.pr_350.mz3vj24e",
+    "seconds": 2239.021,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n\n\n"
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1368,
+      "sampled_tokens": 124,
+      "seconds": 443.085,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n\n\n"
+       ]
+      ],
+      "prompt_tokens": 1755,
+      "sampled_tokens": 145,
+      "seconds": 423.294,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n\n\n"
+       ]
+      ],
+      "prompt_tokens": 2086,
+      "sampled_tokens": 114,
+      "seconds": 486.703,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5170,
+      "sampled_tokens": 70,
+      "seconds": 445.255,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5915,
+      "sampled_tokens": 134,
+      "seconds": 342.807,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7191,
+      "sampled_tokens": 114,
+      "seconds": 37.929,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7337,
+      "sampled_tokens": 150,
+      "seconds": 23.746,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 7658,
+      "sampled_tokens": 232,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 73,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 492,
+      "total_tokens": 25904
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 492,
+      "total_tokens": 5789
+     },
+     "v2": {
+      "merge_mismatches": 5,
+      "n_rows": 6,
+      "policy_tokens": 492,
+      "total_tokens": 19344
+     }
+    },
+    "sample_id": "conan-io__conan.86f29e13.pr_11971.mz3vj24e",
+    "seconds": 1890.543,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": null,
+       "same_sample": false
+      },
+      "prompt_tokens": 1187,
+      "sampled_tokens": 31,
+      "seconds": 61.296,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1538,
+      "sampled_tokens": 52,
+      "seconds": 78.34,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1633,
+      "sampled_tokens": 45,
+      "seconds": 159.049,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1586,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1718,
+      "sampled_tokens": 45,
+      "seconds": 176.611,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1586,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2930,
+      "sampled_tokens": 45,
+      "seconds": 229.037,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1586,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5439,
+      "sampled_tokens": 15,
+      "seconds": 247.842,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1586,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5503,
+      "sampled_tokens": 46,
+      "seconds": 266.313,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1586,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 5576,
+      "sampled_tokens": 213,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 1586,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 74,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 603,
+      "total_tokens": 32844
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 603,
+      "total_tokens": 6851
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 603,
+      "total_tokens": 6851
+     }
+    },
+    "sample_id": "tox-dev__pipdeptree.c31b6418.pr_379.mz3vj24e",
+    "seconds": 2137.02,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 688,
+      "sampled_tokens": 24,
+      "seconds": 22.021,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 894,
+      "sampled_tokens": 69,
+      "seconds": 106.705,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1258,
+      "sampled_tokens": 29,
+      "seconds": 111.961,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4229,
+      "sampled_tokens": 174,
+      "seconds": 428.682,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5584,
+      "sampled_tokens": 30,
+      "seconds": 290.854,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6407,
+      "sampled_tokens": 100,
+      "seconds": 429.029,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6540,
+      "sampled_tokens": 79,
+      "seconds": 443.51,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 6753,
+      "sampled_tokens": 98,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 75,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 471,
+      "total_tokens": 39828
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 471,
+      "total_tokens": 8306
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 471,
+      "total_tokens": 8306
+     }
+    },
+    "sample_id": "tox-dev__pipdeptree.c31b6418.pr_342.mz3vj24e",
+    "seconds": 2103.643,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": null,
+       "same_sample": false
+      },
+      "prompt_tokens": 1608,
+      "sampled_tokens": 79,
+      "seconds": 159.441,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1869,
+      "sampled_tokens": 28,
+      "seconds": 111.969,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2192,
+      "sampled_tokens": 88,
+      "seconds": 271.817,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 3819,
+      "sampled_tokens": 28,
+      "seconds": 240.107,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6883,
+      "sampled_tokens": 83,
+      "seconds": 401.226,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7000,
+      "sampled_tokens": 41,
+      "seconds": 357.139,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7860,
+      "sampled_tokens": 56,
+      "seconds": 337.823,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 8238,
+      "sampled_tokens": 68,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 76,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 685,
+      "total_tokens": 47242
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 685,
+      "total_tokens": 11100
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 685,
+      "total_tokens": 11100
+     }
+    },
+    "sample_id": "pndurette__gTTS.dbcda4f3.pr_394.mz3vj24e",
+    "seconds": 2169.786,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 976,
+      "sampled_tokens": 59,
+      "seconds": 136.826,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1309,
+      "sampled_tokens": 29,
+      "seconds": 103.838,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2521,
+      "sampled_tokens": 29,
+      "seconds": 165.781,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4908,
+      "sampled_tokens": 143,
+      "seconds": 428.137,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5173,
+      "sampled_tokens": 105,
+      "seconds": 463.265,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10157,
+      "sampled_tokens": 115,
+      "seconds": 496.66,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10617,
+      "sampled_tokens": 113,
+      "seconds": 312.49,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 11008,
+      "sampled_tokens": 92,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 77,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 396,
+      "total_tokens": 40147
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 396,
+      "total_tokens": 7457
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 396,
+      "total_tokens": 7457
+     }
+    },
+    "sample_id": "pandas-dev__pandas.95280573.pr_55270.mz3vj24e",
+    "seconds": 1802.438,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1374,
+      "sampled_tokens": 27,
+      "seconds": 25.296,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2209,
+      "sampled_tokens": 49,
+      "seconds": 76.925,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4250,
+      "sampled_tokens": 41,
+      "seconds": 95.761,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4923,
+      "sampled_tokens": 70,
+      "seconds": 204.044,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5773,
+      "sampled_tokens": 60,
+      "seconds": 278.424,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6575,
+      "sampled_tokens": 60,
+      "seconds": 365.833,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7331,
+      "sampled_tokens": 60,
+      "seconds": 420.383,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 7428,
+      "sampled_tokens": 29,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 78,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 241,
+      "total_tokens": 87281
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 241,
+      "total_tokens": 22720
+     },
+     "v2": {
+      "merge_mismatches": 2,
+      "n_rows": 3,
+      "policy_tokens": 241,
+      "total_tokens": 33977
+     }
+    },
+    "sample_id": "pygments__pygments.27649ebb.pr_2596.mz3vj24e",
+    "seconds": 1686.013,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 662,
+      "sampled_tokens": 55,
+      "seconds": 105.17,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1604,
+      "sampled_tokens": 27,
+      "seconds": 64.402,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 713,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4586,
+      "sampled_tokens": 15,
+      "seconds": 92.586,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 713,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10469,
+      "sampled_tokens": 72,
+      "seconds": 239.927,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 713,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10580,
+      "sampled_tokens": 27,
+      "seconds": 211.558,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 713,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 15331,
+      "sampled_tokens": 15,
+      "seconds": 268.717,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 713,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 21219,
+      "sampled_tokens": 15,
+      "seconds": 359.012,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 713,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 22705,
+      "sampled_tokens": 15,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 713,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 79,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 507,
+      "total_tokens": 31477
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 507,
+      "total_tokens": 5618
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 507,
+      "total_tokens": 5618
+     }
+    },
+    "sample_id": "pydantic__pydantic.acb0f10f.pr_9111.mz3vj24e",
+    "seconds": 2002.835,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1029,
+      "sampled_tokens": 24,
+      "seconds": 22.316,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2330,
+      "sampled_tokens": 100,
+      "seconds": 173.057,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2836,
+      "sampled_tokens": 24,
+      "seconds": 103.922,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4252,
+      "sampled_tokens": 115,
+      "seconds": 314.741,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4589,
+      "sampled_tokens": 24,
+      "seconds": 288.552,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4987,
+      "sampled_tokens": 101,
+      "seconds": 479.625,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5466,
+      "sampled_tokens": 94,
+      "seconds": 467.111,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 5593,
+      "sampled_tokens": 25,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 80,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 502,
+      "total_tokens": 126492
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 502,
+      "total_tokens": 23946
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 502,
+      "total_tokens": 23946
+     }
+    },
+    "sample_id": "pdfminer__pdfminer.six.1a8bd2f7.pr_938.mz3vj24e",
+    "seconds": 1190.109,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 691,
+      "sampled_tokens": 24,
+      "seconds": 12.44,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1634,
+      "sampled_tokens": 75,
+      "seconds": 53.895,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5557,
+      "sampled_tokens": 63,
+      "seconds": 48.976,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 23424,
+      "sampled_tokens": 33,
+      "seconds": 138.796,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 23484,
+      "sampled_tokens": 131,
+      "seconds": 275.472,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 23676,
+      "sampled_tokens": 27,
+      "seconds": 165.2,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 23764,
+      "sampled_tokens": 75,
+      "seconds": 225.293,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 23872,
+      "sampled_tokens": 74,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 81,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 447,
+      "total_tokens": 44345
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 447,
+      "total_tokens": 8050
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 447,
+      "total_tokens": 8050
+     }
+    },
+    "sample_id": "pandas-dev__pandas.95280573.pr_52518.mz3vj24e",
+    "seconds": 990.106,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1692,
+      "sampled_tokens": 26,
+      "seconds": 14.87,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1792,
+      "sampled_tokens": 31,
+      "seconds": 10.738,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6100,
+      "sampled_tokens": 31,
+      "seconds": 39.76,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6164,
+      "sampled_tokens": 25,
+      "seconds": 23.49,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6599,
+      "sampled_tokens": 72,
+      "seconds": 138.035,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6728,
+      "sampled_tokens": 31,
+      "seconds": 149.833,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7085,
+      "sampled_tokens": 31,
+      "seconds": 105.553,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 7850,
+      "sampled_tokens": 200,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 82,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 822,
+      "total_tokens": 51100
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 822,
+      "total_tokens": 12091
+     },
+     "v2": {
+      "merge_mismatches": 1,
+      "n_rows": 2,
+      "policy_tokens": 822,
+      "total_tokens": 24108
+     }
+    },
+    "sample_id": "iterative__dvc.1d6ea681.pr_8177.mz3vj24e",
+    "seconds": 2303.676,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": null,
+       "same_sample": false
+      },
+      "prompt_tokens": 1256,
+      "sampled_tokens": 179,
+      "seconds": 553.358,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1959,
+      "sampled_tokens": 111,
+      "seconds": 361.314,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2115,
+      "sampled_tokens": 30,
+      "seconds": 86.273,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2922,
+      "sampled_tokens": 95,
+      "seconds": 309.481,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6687,
+      "sampled_tokens": 103,
+      "seconds": 268.098,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11502,
+      "sampled_tokens": 145,
+      "seconds": 310.58,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11888,
+      "sampled_tokens": 130,
+      "seconds": 335.17,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 12062,
+      "sampled_tokens": 29,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 11918,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 83,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 1103,
+      "total_tokens": 48985
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 1103,
+      "total_tokens": 9985
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 1103,
+      "total_tokens": 9985
+     }
+    },
+    "sample_id": "iterative__dvc.1d6ea681.pr_7907.mz3vj24e",
+    "seconds": 2282.04,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1615,
+      "sampled_tokens": 26,
+      "seconds": 13.286,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2165,
+      "sampled_tokens": 96,
+      "seconds": 75.931,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n\n\n"
+       ]
+      ],
+      "prompt_tokens": 2345,
+      "sampled_tokens": 128,
+      "seconds": 313.94,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5140,
+      "sampled_tokens": 180,
+      "seconds": 424.114,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8795,
+      "sampled_tokens": 90,
+      "seconds": 175.372,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8920,
+      "sampled_tokens": 67,
+      "seconds": 252.284,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9141,
+      "sampled_tokens": 404,
+      "seconds": 743.448,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 9873,
+      "sampled_tokens": 112,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 84,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 277,
+      "total_tokens": 53272
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 277,
+      "total_tokens": 9165
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 277,
+      "total_tokens": 9165
+     }
+    },
+    "sample_id": "cookiecutter__cookiecutter.b4451231.pr_1920.mz3vj24e",
+    "seconds": 578.783,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1018,
+      "sampled_tokens": 37,
+      "seconds": 23.14,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2225,
+      "sampled_tokens": 37,
+      "seconds": 32.406,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7785,
+      "sampled_tokens": 30,
+      "seconds": 33.344,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7848,
+      "sampled_tokens": 37,
+      "seconds": 14.783,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7940,
+      "sampled_tokens": 25,
+      "seconds": 107.045,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8320,
+      "sampled_tokens": 37,
+      "seconds": 165.757,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8843,
+      "sampled_tokens": 37,
+      "seconds": 70.249,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 9128,
+      "sampled_tokens": 37,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 85,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 495,
+      "total_tokens": 48335
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 495,
+      "total_tokens": 9770
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 495,
+      "total_tokens": 9770
+     }
+    },
+    "sample_id": "pandas-dev__pandas.95280573.pr_50331.mz3vj24e",
+    "seconds": 1105.18,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 700,
+      "sampled_tokens": 28,
+      "seconds": 19.424,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1536,
+      "sampled_tokens": 45,
+      "seconds": 17.632,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6635,
+      "sampled_tokens": 49,
+      "seconds": 55.506,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6917,
+      "sampled_tokens": 31,
+      "seconds": 23.794,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6982,
+      "sampled_tokens": 15,
+      "seconds": 125.329,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7408,
+      "sampled_tokens": 34,
+      "seconds": 154.517,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8176,
+      "sampled_tokens": 121,
+      "seconds": 274.791,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 9598,
+      "sampled_tokens": 172,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 86,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 910,
+      "total_tokens": 78490
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 910,
+      "total_tokens": 12291
+     },
+     "v2": {
+      "merge_mismatches": 1,
+      "n_rows": 2,
+      "policy_tokens": 910,
+      "total_tokens": 24156
+     }
+    },
+    "sample_id": "pandas-dev__pandas.95280573.pr_60828.mz3vj24e",
+    "seconds": 1975.977,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1306,
+      "sampled_tokens": 24,
+      "seconds": 12.709,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5622,
+      "sampled_tokens": 188,
+      "seconds": 253.156,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11390,
+      "sampled_tokens": 129,
+      "seconds": 267.422,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11546,
+      "sampled_tokens": 56,
+      "seconds": 293.711,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11669,
+      "sampled_tokens": 196,
+      "seconds": 393.099,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11920,
+      "sampled_tokens": 136,
+      "seconds": 253.84,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 11845,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 12083,
+      "sampled_tokens": 46,
+      "seconds": 176.026,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 11845,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 12156,
+      "sampled_tokens": 135,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 11845,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 87,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 1615,
+      "total_tokens": 71339
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 1615,
+      "total_tokens": 12828
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 1615,
+      "total_tokens": 12828
+     }
+    },
+    "sample_id": "pandas-dev__pandas.95280573.pr_48619.mz3vj24e",
+    "seconds": 2508.806,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1383,
+      "sampled_tokens": 315,
+      "seconds": 1101.302,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2506,
+      "sampled_tokens": 462,
+      "seconds": 888.882,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9279,
+      "sampled_tokens": 107,
+      "seconds": 244.417,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9446,
+      "sampled_tokens": 248,
+      "seconds": 126.96,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11168,
+      "sampled_tokens": 223,
+      "seconds": 90.669,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11424,
+      "sampled_tokens": 71,
+      "seconds": 14.33,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 11905,
+      "sampled_tokens": 86,
+      "seconds": 17.335,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 12725,
+      "sampled_tokens": 103,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 88,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 570,
+      "total_tokens": 50710
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 570,
+      "total_tokens": 9218
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 570,
+      "total_tokens": 9218
+     }
+    },
+    "sample_id": "Project-MONAI__MONAI.a09c1f08.pr_5183.mz3vj24e",
+    "seconds": 1446.298,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 734,
+      "sampled_tokens": 90,
+      "seconds": 101.984,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1524,
+      "sampled_tokens": 25,
+      "seconds": 104.401,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7062,
+      "sampled_tokens": 30,
+      "seconds": 68.771,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 7124,
+      "sampled_tokens": 136,
+      "seconds": 302.348,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8146,
+      "sampled_tokens": 15,
+      "seconds": 142.109,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8194,
+      "sampled_tokens": 25,
+      "seconds": 179.012,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8317,
+      "sampled_tokens": 182,
+      "seconds": 400.919,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 9151,
+      "sampled_tokens": 67,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 89,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 402,
+      "total_tokens": 70848
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 402,
+      "total_tokens": 14252
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 402,
+      "total_tokens": 14252
+     }
+    },
+    "sample_id": "getmoto__moto.694ce1f4.pr_5154.mz3vj24e",
+    "seconds": 1177.661,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 701,
+      "sampled_tokens": 78,
+      "seconds": 92.527,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 3848,
+      "sampled_tokens": 23,
+      "seconds": 10.39,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9135,
+      "sampled_tokens": 23,
+      "seconds": 104.025,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9193,
+      "sampled_tokens": 105,
+      "seconds": 264.632,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9499,
+      "sampled_tokens": 93,
+      "seconds": 255.369,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9811,
+      "sampled_tokens": 23,
+      "seconds": 174.053,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 14153,
+      "sampled_tokens": 23,
+      "seconds": 97.14,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 14218,
+      "sampled_tokens": 34,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 90,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 568,
+      "total_tokens": 30747
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 568,
+      "total_tokens": 6908
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 568,
+      "total_tokens": 6908
+     }
+    },
+    "sample_id": "Project-MONAI__MONAI.a09c1f08.pr_4601.mz3vj24e",
+    "seconds": 1427.812,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 840,
+      "sampled_tokens": 93,
+      "seconds": 114.863,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 965,
+      "sampled_tokens": 30,
+      "seconds": 111.975,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 3613,
+      "sampled_tokens": 32,
+      "seconds": 149.288,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4159,
+      "sampled_tokens": 93,
+      "seconds": 137.002,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4285,
+      "sampled_tokens": 25,
+      "seconds": 99.592,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n\n\n"
+       ]
+      ],
+      "prompt_tokens": 4706,
+      "sampled_tokens": 170,
+      "seconds": 479.772,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4908,
+      "sampled_tokens": 32,
+      "seconds": 145.679,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 6815,
+      "sampled_tokens": 93,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 91,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 371,
+      "total_tokens": 38366
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 371,
+      "total_tokens": 6677
+     },
+     "v2": {
+      "merge_mismatches": 1,
+      "n_rows": 2,
+      "policy_tokens": 371,
+      "total_tokens": 7575
+     }
+    },
+    "sample_id": "dbader__schedule.82a43db1.pr_569.mz3vj24e",
+    "seconds": 1100.281,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "\n\n",
+        "\n"
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 826,
+      "sampled_tokens": 72,
+      "seconds": 88.813,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 2,
+      "turn": 0,
+      "v2_in_response": true,
+      "v2_kind": "template_mismatch",
+      "v2_segments": [
+       [
+        "\n",
+        ""
+       ]
+      ]
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1171,
+      "sampled_tokens": 46,
+      "seconds": 37.511,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 872,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5558,
+      "sampled_tokens": 32,
+      "seconds": 148.245,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 872,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5664,
+      "sampled_tokens": 46,
+      "seconds": 160.696,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 872,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5866,
+      "sampled_tokens": 47,
+      "seconds": 135.654,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 872,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6122,
+      "sampled_tokens": 32,
+      "seconds": 202.17,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 872,
+      "tool_calls": 1,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6272,
+      "sampled_tokens": 47,
+      "seconds": 142.784,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 872,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 6628,
+      "sampled_tokens": 49,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 872,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 92,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 540,
+      "total_tokens": 63718
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 540,
+      "total_tokens": 10728
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 540,
+      "total_tokens": 10728
+     }
+    },
+    "sample_id": "pandas-dev__pandas.95280573.pr_54087.mz3vj24e",
+    "seconds": 1346.42,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1687,
+      "sampled_tokens": 33,
+      "seconds": 22.109,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2528,
+      "sampled_tokens": 33,
+      "seconds": 15.123,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8838,
+      "sampled_tokens": 77,
+      "seconds": 77.647,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9182,
+      "sampled_tokens": 80,
+      "seconds": 263.053,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9909,
+      "sampled_tokens": 33,
+      "seconds": 111.547,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 9976,
+      "sampled_tokens": 129,
+      "seconds": 394.154,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10516,
+      "sampled_tokens": 81,
+      "seconds": 221.041,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 10654,
+      "sampled_tokens": 74,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "failed": "TimeoutError: timed out",
+    "index": 93,
+    "sample_id": "mozillazg__python-pinyin.e42dede5.pr_318.mz3vj24e"
+   },
+   {
+    "index": 94,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 352,
+      "total_tokens": 62441
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 352,
+      "total_tokens": 11414
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 352,
+      "total_tokens": 11414
+     }
+    },
+    "sample_id": "pandas-dev__pandas.95280573.pr_53055.mz3vj24e",
+    "seconds": 720.001,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1578,
+      "sampled_tokens": 30,
+      "seconds": 20.722,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1979,
+      "sampled_tokens": 30,
+      "seconds": 11.743,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4747,
+      "sampled_tokens": 31,
+      "seconds": 39.45,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10358,
+      "sampled_tokens": 27,
+      "seconds": 22.45,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10634,
+      "sampled_tokens": 28,
+      "seconds": 21.018,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10765,
+      "sampled_tokens": 46,
+      "seconds": 159.723,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10844,
+      "sampled_tokens": 42,
+      "seconds": 160.474,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 11296,
+      "sampled_tokens": 118,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 95,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 1301,
+      "total_tokens": 34422
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 1301,
+      "total_tokens": 6227
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 1301,
+      "total_tokens": 6227
+     }
+    },
+    "sample_id": "marshmallow-code__apispec.8b421526.pr_904.mz3vj24e",
+    "seconds": 2439.474,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": null,
+       "same_sample": false
+      },
+      "prompt_tokens": 1195,
+      "sampled_tokens": 289,
+      "seconds": 982.396,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1850,
+      "sampled_tokens": 232,
+      "seconds": 483.279,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2214,
+      "sampled_tokens": 221,
+      "seconds": 451.837,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4752,
+      "sampled_tokens": 163,
+      "seconds": 351.444,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5392,
+      "sampled_tokens": 127,
+      "seconds": 71.204,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5773,
+      "sampled_tokens": 122,
+      "seconds": 38.675,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5928,
+      "sampled_tokens": 49,
+      "seconds": 9.966,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 6129,
+      "sampled_tokens": 98,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 96,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 639,
+      "total_tokens": 43156
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 639,
+      "total_tokens": 6720
+     },
+     "v2": {
+      "merge_mismatches": 3,
+      "n_rows": 4,
+      "policy_tokens": 639,
+      "total_tokens": 24371
+     }
+    },
+    "sample_id": "getmoto__moto.694ce1f4.pr_7934.mz3vj24e",
+    "seconds": 86.147,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1104,
+      "sampled_tokens": 24,
+      "seconds": 5.003,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5155,
+      "sampled_tokens": 95,
+      "seconds": 12.265,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5538,
+      "sampled_tokens": 24,
+      "seconds": 7.648,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 5193,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5828,
+      "sampled_tokens": 95,
+      "seconds": 18.442,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 5193,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5956,
+      "sampled_tokens": 25,
+      "seconds": 2.485,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 5193,
+      "tool_calls": 1,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6084,
+      "sampled_tokens": 137,
+      "seconds": 15.4,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 5193,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6377,
+      "sampled_tokens": 95,
+      "seconds": 8.861,
+      "self_retoken": true,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 5193,
+      "tool_calls": 1,
+      "turn": 6,
+      "v2_in_response": true,
+      "v2_kind": "retoken_mismatch",
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 6576,
+      "sampled_tokens": 144,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 5193,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 97,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 343,
+      "total_tokens": 49352
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 343,
+      "total_tokens": 9250
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 343,
+      "total_tokens": 9250
+     }
+    },
+    "sample_id": "iterative__dvc.1d6ea681.pr_3891.mz3vj24e",
+    "seconds": 60.235,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 623,
+      "sampled_tokens": 60,
+      "seconds": 14.575,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 918,
+      "sampled_tokens": 25,
+      "seconds": 2.666,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5351,
+      "sampled_tokens": 27,
+      "seconds": 8.46,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8070,
+      "sampled_tokens": 31,
+      "seconds": 12.004,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8134,
+      "sampled_tokens": 52,
+      "seconds": 5.176,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8208,
+      "sampled_tokens": 40,
+      "seconds": 4.184,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8628,
+      "sampled_tokens": 47,
+      "seconds": 5.6,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 9189,
+      "sampled_tokens": 61,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 98,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 721,
+      "total_tokens": 32926
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 721,
+      "total_tokens": 6803
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 721,
+      "total_tokens": 6803
+     }
+    },
+    "sample_id": "Project-MONAI__MONAI.a09c1f08.pr_6308.mz3vj24e",
+    "seconds": 102.554,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 758,
+      "sampled_tokens": 69,
+      "seconds": 16.109,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1527,
+      "sampled_tokens": 24,
+      "seconds": 7.282,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2093,
+      "sampled_tokens": 15,
+      "seconds": 2.447,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4735,
+      "sampled_tokens": 136,
+      "seconds": 23.043,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4904,
+      "sampled_tokens": 154,
+      "seconds": 16.591,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 5196,
+      "sampled_tokens": 179,
+      "seconds": 13.939,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 6364,
+      "sampled_tokens": 81,
+      "seconds": 10.691,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 6740,
+      "sampled_tokens": 63,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   },
+   {
+    "index": 99,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 7,
+      "n_rows": 8,
+      "policy_tokens": 883,
+      "total_tokens": 45786
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 883,
+      "total_tokens": 13862
+     },
+     "v2": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 883,
+      "total_tokens": 13862
+     }
+    },
+    "sample_id": "iterative__dvc.1d6ea681.pr_10044.mz3vj24e",
+    "seconds": 139.283,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 1004,
+      "sampled_tokens": 181,
+      "seconds": 52.751,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 0,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1709,
+      "sampled_tokens": 106,
+      "seconds": 12.126,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 1966,
+      "sampled_tokens": 86,
+      "seconds": 7.001,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 2,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 2136,
+      "sampled_tokens": 114,
+      "seconds": 10.574,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 3,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 4906,
+      "sampled_tokens": 123,
+      "seconds": 12.297,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 4,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 8585,
+      "sampled_tokens": 122,
+      "seconds": 14.985,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 5,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ]
+      ],
+      "prompt_tokens": 10919,
+      "sampled_tokens": 79,
+      "seconds": 13.521,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 6,
+      "v2_in_response": null,
+      "v2_kind": null,
+      "v2_segments": []
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 13790,
+      "sampled_tokens": 72,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 0,
+      "turn": 7,
+      "v2_kind": null
+     }
+    ]
+   }
+  ]
+ },
+ "schema_version": 1,
+ "settings": {
+  "concurrency": 16,
+  "dataset_weights": null,
+  "datasets": [
+   "swe_smith_tool"
+  ],
+  "driver": "tito",
+  "max_tokens": 1024,
+  "max_turns": 8,
+  "model": "qwen3-0.6b",
+  "parser_check": true,
+  "samples": 300,
+  "sampling": {
+   "repetition_penalty": 1.0,
+   "temperature": 1.0,
+   "top_k": -1,
+   "top_p": 1.0
+  },
+  "seed": 0,
+  "start_index": 64,
+  "time_budget_seconds": 9000.0,
+  "trajectories_per_dataset": 100,
+  "v2_template": "experiments/template_patch/templates/qwen3_prefix_stable_v2.jinja"
+ },
+ "summaries": {
+  "swe_smith_tool": {
+   "ends_with_endoftext": 0,
+   "failed_rollouts": 1,
+   "failure_examples": [
+    "TimeoutError: timed out"
+   ],
+   "fully_mergeable": {
+    "official": 0,
+    "tito": 35,
+    "v2": 26
+   },
+   "merge_checks": 243,
+   "parser_check": {
+    "same_sample=False,match=None": 4,
+    "same_sample=True,match=True": 31
+   },
+   "policy_tokens": 21275,
+   "prompt_tokens_max": 23872,
+   "retoken_in_response": {
+    "official": 0,
+    "v2": 15
+   },
+   "rows": {
+    "official": 278,
+    "tito": 35,
+    "v2": 52
+   },
+   "seconds": 4887.2,
+   "self_retoken_turns": 16,
+   "stop_reasons": {
+    "max_turns_or_end": 35
+   },
+   "stop_token_appended": 0,
+   "stopped_by_time_budget": false,
+   "tito_equals_v2_turns": 233,
+   "token_ratio_vs_tito": {
+    "official": 5.0457,
+    "tito": 1.0,
+    "v2": 1.2498
+   },
+   "total_tokens": {
+    "official": 1816780,
+    "tito": 360066,
+    "v2": 450011
+   },
+   "trajectories": 35,
+   "turn_kinds": {
+    "official": {
+     "others_mismatch": 1,
+     "template_mismatch": 242
+    },
+    "v2": {
+     "others_mismatch": 1,
+     "prefix_ok": 226,
+     "retoken_mismatch": 15,
+     "template_mismatch": 1
+    }
+   },
+   "turns": 278,
+   "with_tool_calls": 150
+  }
+ }
+}

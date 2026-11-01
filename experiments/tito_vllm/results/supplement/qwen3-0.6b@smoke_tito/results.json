@@ -1,0 +1,169 @@
+{
+ "complete": true,
+ "rollouts": {
+  "toucan_qwen3": [
+   {
+    "index": 0,
+    "pipelines": {
+     "official": {
+      "merge_mismatches": 1,
+      "n_rows": 2,
+      "policy_tokens": 199,
+      "total_tokens": 1227
+     },
+     "tito": {
+      "merge_mismatches": 0,
+      "n_rows": 1,
+      "policy_tokens": 199,
+      "total_tokens": 820
+     },
+     "v2": {
+      "merge_mismatches": 1,
+      "n_rows": 2,
+      "policy_tokens": 199,
+      "total_tokens": 1231
+     }
+    },
+    "sample_id": "5e4b21a0-885b-5cf0-9697-05b24116a47c",
+    "seconds": 2.309,
+    "stop_reason": "max_turns_or_end",
+    "turns": [
+     {
+      "checked": true,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_in_response": false,
+      "official_kind": "template_mismatch",
+      "official_segments": [
+       [
+        "<think>\n\n</think>\n\n",
+        ""
+       ],
+       [
+        "7620",
+        "762"
+       ]
+      ],
+      "parser_check": {
+       "match": true,
+       "same_sample": true
+      },
+      "prompt_tokens": 370,
+      "sampled_tokens": 42,
+      "seconds": 0.814,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": true,
+      "tito_v2_divergence": null,
+      "tool_calls": 1,
+      "turn": 0,
+      "v2_in_response": true,
+      "v2_kind": "template_mismatch",
+      "v2_segments": [
+       [
+        "7620",
+        "762"
+       ]
+      ]
+     },
+     {
+      "checked": false,
+      "ends_with_endoftext": false,
+      "finish_reason": "stop",
+      "official_kind": null,
+      "prompt_tokens": 663,
+      "sampled_tokens": 157,
+      "self_retoken": false,
+      "stop_token_appended": false,
+      "tito_equals_v2": false,
+      "tito_v2_divergence": 396,
+      "tool_calls": 0,
+      "turn": 1,
+      "v2_kind": null
+     }
+    ]
+   }
+  ]
+ },
+ "schema_version": 1,
+ "settings": {
+  "concurrency": 16,
+  "dataset_weights": null,
+  "datasets": [
+   "toucan_qwen3"
+  ],
+  "driver": "tito",
+  "max_tokens": 1024,
+  "max_turns": 8,
+  "model": "qwen3-0.6b",
+  "parser_check": true,
+  "samples": 300,
+  "sampling": {
+   "repetition_penalty": 1.0,
+   "temperature": 1.0,
+   "top_k": -1,
+   "top_p": 1.0
+  },
+  "seed": 0,
+  "start_index": 0,
+  "time_budget_seconds": 600.0,
+  "trajectories_per_dataset": 1,
+  "v2_template": "experiments/template_patch/templates/qwen3_prefix_stable_v2.jinja"
+ },
+ "summaries": {
+  "toucan_qwen3": {
+   "ends_with_endoftext": 0,
+   "failed_rollouts": 0,
+   "failure_examples": [],
+   "fully_mergeable": {
+    "official": 0,
+    "tito": 1,
+    "v2": 0
+   },
+   "merge_checks": 1,
+   "parser_check": {
+    "same_sample=True,match=True": 1
+   },
+   "policy_tokens": 199,
+   "prompt_tokens_max": 663,
+   "retoken_in_response": {
+    "official": 0,
+    "v2": 0
+   },
+   "rows": {
+    "official": 2,
+    "tito": 1,
+    "v2": 2
+   },
+   "seconds": 2.3,
+   "self_retoken_turns": 0,
+   "stop_reasons": {
+    "max_turns_or_end": 1
+   },
+   "stop_token_appended": 0,
+   "stopped_by_time_budget": false,
+   "tito_equals_v2_turns": 1,
+   "token_ratio_vs_tito": {
+    "official": 1.4963,
+    "tito": 1.0,
+    "v2": 1.5012
+   },
+   "total_tokens": {
+    "official": 1227,
+    "tito": 820,
+    "v2": 1231
+   },
+   "trajectories": 1,
+   "turn_kinds": {
+    "official": {
+     "template_mismatch": 1
+    },
+    "v2": {
+     "template_mismatch": 1
+    }
+   },
+   "turns": 2,
+   "with_tool_calls": 1
+  }
+ }
+}

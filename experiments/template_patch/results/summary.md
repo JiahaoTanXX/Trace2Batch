@@ -1,0 +1,35 @@
+| 数据集 | tokenizer 配置 | 采集方式 | 轨迹数 | 合并尝试 | 合并成功率 | 完整合并轨迹 | 行数/轨迹 | template | retoken | others |
+|---|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| swe_smith_tool | qwen3_no_think+patch | A_passthrough | 300 | 5416 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| swe_smith_tool | qwen3_no_think+patch | B_vllm_token_ids | 300 | 5416 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| swe_smith_tool | qwen3_no_think+patch | C_retokenized_text | 300 | 5416 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| swe_smith_tool | qwen3_think_keep[synthetic]+patch | A_passthrough | 300 | 5416 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| swe_smith_tool | qwen3_think_keep[synthetic]+patch | B_vllm_token_ids | 300 | 5416 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| swe_smith_tool | qwen3_think_keep[synthetic]+patch | C_retokenized_text | 300 | 5416 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| swe_smith_tool | qwen3_think_drop[synthetic]+patch | A_passthrough | 300 | 5416 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| swe_smith_tool | qwen3_think_drop[synthetic]+patch | B_vllm_token_ids | 300 | 5416 | 0.0% | 0.0% | 19.05 | 5416 (100.0%) | 0 (0.0%) | 0 (0.0%) |
+| swe_smith_tool | qwen3_think_drop[synthetic]+patch | C_retokenized_text | 300 | 5416 | 0.0% | 0.0% | 19.05 | 5416 (100.0%) | 0 (0.0%) | 0 (0.0%) |
+| swe_smith_tool | gpt-oss+patch | B_vllm_token_ids | 300 | 5416 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| swe_smith_tool | gpt-oss+patch | C_retokenized_text | 300 | 5416 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| toucan_qwen3 | qwen3_no_think+patch | A_passthrough | 300 | 421 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| toucan_qwen3 | qwen3_no_think+patch | B_vllm_token_ids | 300 | 421 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| toucan_qwen3 | qwen3_no_think+patch | C_retokenized_text | 300 | 421 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| toucan_qwen3 | qwen3_think_keep[synthetic]+patch | A_passthrough | 300 | 421 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| toucan_qwen3 | qwen3_think_keep[synthetic]+patch | B_vllm_token_ids | 300 | 421 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| toucan_qwen3 | qwen3_think_keep[synthetic]+patch | C_retokenized_text | 300 | 421 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| toucan_qwen3 | qwen3_think_drop[synthetic]+patch | A_passthrough | 300 | 421 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| toucan_qwen3 | qwen3_think_drop[synthetic]+patch | B_vllm_token_ids | 300 | 421 | 0.0% | 0.0% | 2.40 | 421 (100.0%) | 0 (0.0%) | 0 (0.0%) |
+| toucan_qwen3 | qwen3_think_drop[synthetic]+patch | C_retokenized_text | 300 | 421 | 0.0% | 0.0% | 2.40 | 421 (100.0%) | 0 (0.0%) | 0 (0.0%) |
+| toucan_qwen3 | gpt-oss+patch | B_vllm_token_ids | 298 | 419 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| toucan_qwen3 | gpt-oss+patch | C_retokenized_text | 298 | 419 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| nebius_swe_agent | qwen3_no_think+patch | A_passthrough | 300 | 6147 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| nebius_swe_agent | qwen3_no_think+patch | B_vllm_token_ids | 300 | 6147 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| nebius_swe_agent | qwen3_no_think+patch | C_retokenized_text | 300 | 6147 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| nebius_swe_agent | qwen3_think_keep[synthetic]+patch | A_passthrough | 300 | 6147 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| nebius_swe_agent | qwen3_think_keep[synthetic]+patch | B_vllm_token_ids | 300 | 6147 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| nebius_swe_agent | qwen3_think_keep[synthetic]+patch | C_retokenized_text | 300 | 6147 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| nebius_swe_agent | qwen3_think_drop[synthetic]+patch | A_passthrough | 300 | 6147 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| nebius_swe_agent | qwen3_think_drop[synthetic]+patch | B_vllm_token_ids | 300 | 6147 | 0.0% | 0.0% | 21.49 | 6147 (100.0%) | 0 (0.0%) | 0 (0.0%) |
+| nebius_swe_agent | qwen3_think_drop[synthetic]+patch | C_retokenized_text | 300 | 6147 | 0.0% | 0.0% | 21.49 | 6147 (100.0%) | 0 (0.0%) | 0 (0.0%) |
+| nebius_swe_agent | gpt-oss+patch | B_vllm_token_ids | 300 | 6147 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |
+| nebius_swe_agent | gpt-oss+patch | C_retokenized_text | 300 | 6147 | 100.0% | 100.0% | 1.00 | 0 (n/a) | 0 (n/a) | 0 (n/a) |

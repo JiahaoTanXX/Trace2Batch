@@ -1,0 +1,2384 @@
+{
+ "benchmark": {
+  "nebius_swe_agent|4096-6144|k6": {
+   "complete": true,
+   "policy_tokens_per_condition": 2994,
+   "records": [
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 1977961472,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 2994,
+     "policy_tokens_per_second": 54.75405730911326,
+     "processed_tokens": 113927,
+     "processed_tokens_per_second": 2083.488806631712,
+     "repeat": 0,
+     "rollout_ids": [
+      "516:pydantic__pydantic-758",
+      "660:scikit-hep__particle-494",
+      "748:springload__typed_environment_configuration-7",
+      "751:springload__typed_environment_configuration-7",
+      "825:timvink__mkdocs-table-reader-plugin-10",
+      "945:GreenBuildingRegistry__usaddress-scourgify-12"
+     ],
+     "rollout_seconds": [
+      8.1921494140625,
+      9.3565244140625,
+      10.1550009765625,
+      10.3432822265625,
+      8.802345703125,
+      7.8323427734375
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 54.68087932000026,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2683571200,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 2994,
+     "policy_tokens_per_second": 181.4827457614371,
+     "processed_tokens": 29674,
+     "processed_tokens_per_second": 1798.7037400550714,
+     "repeat": 0,
+     "rollout_ids": [
+      "516:pydantic__pydantic-758",
+      "660:scikit-hep__particle-494",
+      "748:springload__typed_environment_configuration-7",
+      "751:springload__typed_environment_configuration-7",
+      "825:timvink__mkdocs-table-reader-plugin-10",
+      "945:GreenBuildingRegistry__usaddress-scourgify-12"
+     ],
+     "rollout_seconds": [
+      2.345854736328125,
+      3.0763076171875,
+      3.11148388671875,
+      3.139949951171875,
+      2.507327880859375,
+      2.3165693359375
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 16.497436092000044,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2683571200,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 2994,
+     "policy_tokens_per_second": 181.23443399374125,
+     "processed_tokens": 29674,
+     "processed_tokens_per_second": 1796.2426834770467,
+     "repeat": 1,
+     "rollout_ids": [
+      "516:pydantic__pydantic-758",
+      "660:scikit-hep__particle-494",
+      "748:springload__typed_environment_configuration-7",
+      "751:springload__typed_environment_configuration-7",
+      "825:timvink__mkdocs-table-reader-plugin-10",
+      "945:GreenBuildingRegistry__usaddress-scourgify-12"
+     ],
+     "rollout_seconds": [
+      2.36674853515625,
+      3.072427978515625,
+      3.1171787109375,
+      3.13521630859375,
+      2.5051591796875,
+      2.32334814453125
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 16.520039454000198,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 1977961472,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 2994,
+     "policy_tokens_per_second": 54.832723591927234,
+     "processed_tokens": 113927,
+     "processed_tokens_per_second": 2086.482197948395,
+     "repeat": 1,
+     "rollout_ids": [
+      "516:pydantic__pydantic-758",
+      "660:scikit-hep__particle-494",
+      "748:springload__typed_environment_configuration-7",
+      "751:springload__typed_environment_configuration-7",
+      "825:timvink__mkdocs-table-reader-plugin-10",
+      "945:GreenBuildingRegistry__usaddress-scourgify-12"
+     ],
+     "rollout_seconds": [
+      8.16132177734375,
+      9.337453125,
+      10.1619052734375,
+      10.30704296875,
+      8.793091796875,
+      7.84236572265625
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 54.60243088199968,
+     "status": "complete"
+    }
+   ],
+   "repeats": 2,
+   "rollouts_per_condition": 6,
+   "seconds_by_mode": {
+    "trajectory": 33.01747554600024,
+    "transition": 109.28331020199994
+   },
+   "speed_ratio": 3.3098626831644187,
+   "speed_ratio_definition": "transition_seconds / trajectory_seconds",
+   "status": "complete"
+  },
+  "nebius_swe_agent|6144-8192|k6": {
+   "complete": true,
+   "policy_tokens_per_condition": 4530,
+   "records": [
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2776905728,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 4530,
+     "policy_tokens_per_second": 56.57367600824687,
+     "processed_tokens": 145725,
+     "processed_tokens_per_second": 1819.9114649672792,
+     "repeat": 0,
+     "rollout_ids": [
+      "605:scalableminds__cluster_tools-93",
+      "648:scikit-hep__particle-494",
+      "662:scikit-hep__particle-494",
+      "1067:Textualize__textual-2532",
+      "1085:Textualize__textual-2532",
+      "1168:agronholm__anyio-273"
+     ],
+     "rollout_seconds": [
+      13.627380859375,
+      15.4495439453125,
+      11.942876953125,
+      12.978103515625,
+      13.6316806640625,
+      12.44423046875
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 80.0725764990002,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 4518982144,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 4530,
+     "policy_tokens_per_second": 156.6519199647619,
+     "processed_tokens": 43142,
+     "processed_tokens_per_second": 1491.8934064282028,
+     "repeat": 0,
+     "rollout_ids": [
+      "605:scalableminds__cluster_tools-93",
+      "648:scikit-hep__particle-494",
+      "662:scikit-hep__particle-494",
+      "1067:Textualize__textual-2532",
+      "1085:Textualize__textual-2532",
+      "1168:agronholm__anyio-273"
+     ],
+     "rollout_seconds": [
+      5.71878515625,
+      5.456658203125,
+      4.36685498046875,
+      4.52797265625,
+      4.7250009765625,
+      4.12240771484375
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 28.917615570999715,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 4518982144,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 4530,
+     "policy_tokens_per_second": 156.9716067710453,
+     "processed_tokens": 43142,
+     "processed_tokens_per_second": 1494.9379821890586,
+     "repeat": 1,
+     "rollout_ids": [
+      "605:scalableminds__cluster_tools-93",
+      "648:scikit-hep__particle-494",
+      "662:scikit-hep__particle-494",
+      "1067:Textualize__textual-2532",
+      "1085:Textualize__textual-2532",
+      "1168:agronholm__anyio-273"
+     ],
+     "rollout_seconds": [
+      5.71376025390625,
+      5.4465693359375,
+      4.34909033203125,
+      4.513646484375,
+      4.71721923828125,
+      4.11873828125
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 28.85872224400009,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2776905728,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 4530,
+     "policy_tokens_per_second": 56.745626241113634,
+     "processed_tokens": 145725,
+     "processed_tokens_per_second": 1825.4429103722482,
+     "repeat": 1,
+     "rollout_ids": [
+      "605:scalableminds__cluster_tools-93",
+      "648:scikit-hep__particle-494",
+      "662:scikit-hep__particle-494",
+      "1067:Textualize__textual-2532",
+      "1085:Textualize__textual-2532",
+      "1168:agronholm__anyio-273"
+     ],
+     "rollout_seconds": [
+      13.5832392578125,
+      15.38399609375,
+      11.904873046875,
+      12.945982421875,
+      13.59566796875,
+      12.4173955078125
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 79.82994109099991,
+     "status": "complete"
+    }
+   ],
+   "repeats": 2,
+   "rollouts_per_condition": 6,
+   "seconds_by_mode": {
+    "trajectory": 57.776337814999806,
+    "transition": 159.90251759000012
+   },
+   "speed_ratio": 2.767612549310567,
+   "speed_ratio_definition": "transition_seconds / trajectory_seconds",
+   "status": "complete"
+  },
+  "nebius_swe_agent|8192-12288|k6": {
+   "complete": true,
+   "policy_tokens_per_condition": 6906,
+   "records": [
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 5,
+     "peak_allocated_bytes": 5799297024,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 6906,
+     "policy_tokens_per_second": 59.18246595823376,
+     "processed_tokens": 176807,
+     "processed_tokens_per_second": 1515.1859627392755,
+     "repeat": 0,
+     "rollout_ids": [
+      "1566:dwavesystems__dwave-cloud-client-307",
+      "3180:pydicom__pydicom-1539",
+      "3185:pydicom__pydicom-1539",
+      "3206:pydicom__pydicom-1539",
+      "3559:ContinualAI__avalanche-1216"
+     ],
+     "rollout_seconds": [
+      14.262794921875,
+      25.80373828125,
+      25.2476953125,
+      25.368423828125,
+      26.0092734375
+     ],
+     "rollouts": 5,
+     "rows": 30,
+     "seconds": 116.68996700599973,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 5,
+     "peak_allocated_bytes": 6460192256,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 6906,
+     "policy_tokens_per_second": 190.79467364516825,
+     "processed_tokens": 46451,
+     "processed_tokens_per_second": 1283.3193433958456,
+     "repeat": 0,
+     "rollout_ids": [
+      "1566:dwavesystems__dwave-cloud-client-307",
+      "3180:pydicom__pydicom-1539",
+      "3185:pydicom__pydicom-1539",
+      "3206:pydicom__pydicom-1539",
+      "3559:ContinualAI__avalanche-1216"
+     ],
+     "rollout_seconds": [
+      6.79507568359375,
+      8.11778515625,
+      6.3586650390625,
+      6.42855615234375,
+      8.4963466796875
+     ],
+     "rollouts": 5,
+     "rows": 5,
+     "seconds": 36.19597899700011,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 5,
+     "peak_allocated_bytes": 6460192256,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 6906,
+     "policy_tokens_per_second": 190.99339970178355,
+     "processed_tokens": 46451,
+     "processed_tokens_per_second": 1284.6560106498043,
+     "repeat": 1,
+     "rollout_ids": [
+      "1566:dwavesystems__dwave-cloud-client-307",
+      "3180:pydicom__pydicom-1539",
+      "3185:pydicom__pydicom-1539",
+      "3206:pydicom__pydicom-1539",
+      "3559:ContinualAI__avalanche-1216"
+     ],
+     "rollout_seconds": [
+      6.79203857421875,
+      8.1013720703125,
+      6.3471103515625,
+      6.43188818359375,
+      8.4863662109375
+     ],
+     "rollouts": 5,
+     "rows": 5,
+     "seconds": 36.15831756899979,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 5,
+     "peak_allocated_bytes": 5799297024,
+     "peak_reserved_bytes": 7455375360,
+     "phase": "measurement",
+     "policy_tokens": 6906,
+     "policy_tokens_per_second": 59.20504638116988,
+     "processed_tokens": 176807,
+     "processed_tokens_per_second": 1515.764065380177,
+     "repeat": 1,
+     "rollout_ids": [
+      "1566:dwavesystems__dwave-cloud-client-307",
+      "3180:pydicom__pydicom-1539",
+      "3185:pydicom__pydicom-1539",
+      "3206:pydicom__pydicom-1539",
+      "3559:ContinualAI__avalanche-1216"
+     ],
+     "rollout_seconds": [
+      14.2349599609375,
+      25.76082421875,
+      25.26321875,
+      25.36727734375,
+      26.021072265625
+     ],
+     "rollouts": 5,
+     "rows": 30,
+     "seconds": 116.6454622049996,
+     "status": "complete"
+    }
+   ],
+   "repeats": 2,
+   "rollouts_per_condition": 5,
+   "seconds_by_mode": {
+    "trajectory": 72.3542965659999,
+    "transition": 233.33542921099934
+   },
+   "speed_ratio": 3.2249008045867216,
+   "speed_ratio_definition": "transition_seconds / trajectory_seconds",
+   "status": "complete"
+  },
+  "swe_smith_tool|12288-16384|k6": {
+   "complete": true,
+   "policy_tokens_per_condition": 4937,
+   "records": [
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 4101279744,
+     "peak_reserved_bytes": 5209325568,
+     "phase": "measurement",
+     "policy_tokens": 4937,
+     "policy_tokens_per_second": 19.59181857001278,
+     "processed_tokens": 286386,
+     "processed_tokens_per_second": 1136.484211665319,
+     "repeat": 0,
+     "rollout_ids": [
+      "python__mypy.e93f06ce.pr_10036.mz3vj24e",
+      "pygments__pygments.27649ebb.pr_2596.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57018.mz3vj24e",
+      "encode__starlette.db5063c2.pr_1991.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57488.mz3vj24e",
+      "pydantic__pydantic.acb0f10f.pr_10082.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      47.70451171875,
+      42.1742734375,
+      41.66265625,
+      34.408859375,
+      39.45644921875,
+      46.58896875
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 251.99294197000006,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 4954421248,
+     "peak_reserved_bytes": 5628755968,
+     "phase": "measurement",
+     "policy_tokens": 4937,
+     "policy_tokens_per_second": 56.1637000918901,
+     "processed_tokens": 84932,
+     "processed_tokens_per_second": 966.1931084068078,
+     "repeat": 0,
+     "rollout_ids": [
+      "python__mypy.e93f06ce.pr_10036.mz3vj24e",
+      "pygments__pygments.27649ebb.pr_2596.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57018.mz3vj24e",
+      "encode__starlette.db5063c2.pr_1991.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57488.mz3vj24e",
+      "pydantic__pydantic.acb0f10f.pr_10082.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      14.0466494140625,
+      18.689708984375,
+      12.4349814453125,
+      13.0228349609375,
+      15.4562197265625,
+      14.254736328125
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 87.90375263600004,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 4954421248,
+     "peak_reserved_bytes": 5628755968,
+     "phase": "measurement",
+     "policy_tokens": 4937,
+     "policy_tokens_per_second": 56.10693591498403,
+     "processed_tokens": 84932,
+     "processed_tokens_per_second": 965.2165851998021,
+     "repeat": 1,
+     "rollout_ids": [
+      "python__mypy.e93f06ce.pr_10036.mz3vj24e",
+      "pygments__pygments.27649ebb.pr_2596.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57018.mz3vj24e",
+      "encode__starlette.db5063c2.pr_1991.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57488.mz3vj24e",
+      "pydantic__pydantic.acb0f10f.pr_10082.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      14.068994140625,
+      18.7202265625,
+      12.43934765625,
+      13.01639453125,
+      15.4846162109375,
+      14.2644560546875
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 87.9926860999999,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 4101279744,
+     "peak_reserved_bytes": 5628755968,
+     "phase": "measurement",
+     "policy_tokens": 4937,
+     "policy_tokens_per_second": 19.63438250124943,
+     "processed_tokens": 286386,
+     "processed_tokens_per_second": 1138.9532645336883,
+     "repeat": 1,
+     "rollout_ids": [
+      "python__mypy.e93f06ce.pr_10036.mz3vj24e",
+      "pygments__pygments.27649ebb.pr_2596.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57018.mz3vj24e",
+      "encode__starlette.db5063c2.pr_1991.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57488.mz3vj24e",
+      "pydantic__pydantic.acb0f10f.pr_10082.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      47.41858203125,
+      42.070921875,
+      41.55447265625,
+      34.4172578125,
+      39.347375,
+      46.64245703125
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 251.446665037,
+     "status": "complete"
+    }
+   ],
+   "repeats": 2,
+   "rollouts_per_condition": 6,
+   "seconds_by_mode": {
+    "trajectory": 175.89643873599994,
+    "transition": 503.43960700700006
+   },
+   "speed_ratio": 2.8621364401959513,
+   "speed_ratio_definition": "transition_seconds / trajectory_seconds",
+   "status": "complete"
+  },
+  "swe_smith_tool|4096-6144|k6": {
+   "complete": true,
+   "policy_tokens_per_condition": 2704,
+   "records": [
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2057968640,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 2704,
+     "policy_tokens_per_second": 44.154786824251865,
+     "processed_tokens": 119225,
+     "processed_tokens_per_second": 1946.8766490833686,
+     "repeat": 0,
+     "rollout_ids": [
+      "facebookresearch__hydra.0f03eb60.pr_2116.mz3vj24e",
+      "Project-MONAI__MONAI.a09c1f08.pr_8041.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_58088.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57489.mz3vj24e",
+      "pydantic__pydantic.acb0f10f.pr_8059.mz3vj24e",
+      "getmoto__moto.694ce1f4.pr_7704.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      6.72504443359375,
+      11.659552734375,
+      10.687412109375,
+      11.3931142578125,
+      7.53246044921875,
+      13.242404296875
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 61.2391134569998,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2584387584,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 2704,
+     "policy_tokens_per_second": 155.32190475933552,
+     "processed_tokens": 30833,
+     "processed_tokens_per_second": 1771.0947815993313,
+     "repeat": 0,
+     "rollout_ids": [
+      "facebookresearch__hydra.0f03eb60.pr_2116.mz3vj24e",
+      "Project-MONAI__MONAI.a09c1f08.pr_8041.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_58088.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57489.mz3vj24e",
+      "pydantic__pydantic.acb0f10f.pr_8059.mz3vj24e",
+      "getmoto__moto.694ce1f4.pr_7704.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      2.16340576171875,
+      3.441839599609375,
+      2.80868017578125,
+      2.805380126953125,
+      2.539857421875,
+      3.649923095703125
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 17.409006181000223,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2584387584,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 2704,
+     "policy_tokens_per_second": 154.98759909284502,
+     "processed_tokens": 30833,
+     "processed_tokens_per_second": 1767.2827821115718,
+     "repeat": 1,
+     "rollout_ids": [
+      "facebookresearch__hydra.0f03eb60.pr_2116.mz3vj24e",
+      "Project-MONAI__MONAI.a09c1f08.pr_8041.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_58088.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57489.mz3vj24e",
+      "pydantic__pydantic.acb0f10f.pr_8059.mz3vj24e",
+      "getmoto__moto.694ce1f4.pr_7704.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      2.165583984375,
+      3.456877197265625,
+      2.808578369140625,
+      2.805880859375,
+      2.540322265625,
+      3.669340576171875
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 17.446557116999884,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2057968640,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 2704,
+     "policy_tokens_per_second": 44.13767738287875,
+     "processed_tokens": 119225,
+     "processed_tokens_per_second": 1946.1222581263755,
+     "repeat": 1,
+     "rollout_ids": [
+      "facebookresearch__hydra.0f03eb60.pr_2116.mz3vj24e",
+      "Project-MONAI__MONAI.a09c1f08.pr_8041.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_58088.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_57489.mz3vj24e",
+      "pydantic__pydantic.acb0f10f.pr_8059.mz3vj24e",
+      "getmoto__moto.694ce1f4.pr_7704.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      6.741515625,
+      11.6698681640625,
+      10.6940517578125,
+      11.3644697265625,
+      7.54291845703125,
+      13.25091015625
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 61.26285206500006,
+     "status": "complete"
+    }
+   ],
+   "repeats": 2,
+   "rollouts_per_condition": 6,
+   "seconds_by_mode": {
+    "trajectory": 34.855563298000106,
+    "transition": 122.50196552199986
+   },
+   "speed_ratio": 3.5145599132815795,
+   "speed_ratio_definition": "transition_seconds / trajectory_seconds",
+   "status": "complete"
+  },
+  "swe_smith_tool|6144-8192|k6": {
+   "complete": true,
+   "policy_tokens_per_condition": 4372,
+   "records": [
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2743227392,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 4372,
+     "policy_tokens_per_second": 41.83529129951282,
+     "processed_tokens": 173566,
+     "processed_tokens_per_second": 1660.8380991974477,
+     "repeat": 0,
+     "rollout_ids": [
+      "pandas-dev__pandas.95280573.pr_54655.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_48022.mz3vj24e",
+      "conan-io__conan.86f29e13.pr_17092.mz3vj24e",
+      "dask__dask.5f61e423.pr_8685.mz3vj24e",
+      "iterative__dvc.1d6ea681.pr_10208.mz3vj24e",
+      "dask__dask.5f61e423.pr_8954.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      16.903912109375,
+      19.00427734375,
+      16.1849072265625,
+      16.522263671875,
+      15.56681640625,
+      20.324583984375
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 104.5050689069999,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 3725012992,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 4372,
+     "policy_tokens_per_second": 146.76535429722244,
+     "processed_tokens": 44106,
+     "processed_tokens_per_second": 1480.6113258539099,
+     "repeat": 0,
+     "rollout_ids": [
+      "pandas-dev__pandas.95280573.pr_54655.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_48022.mz3vj24e",
+      "conan-io__conan.86f29e13.pr_17092.mz3vj24e",
+      "dask__dask.5f61e423.pr_8685.mz3vj24e",
+      "iterative__dvc.1d6ea681.pr_10208.mz3vj24e",
+      "dask__dask.5f61e423.pr_8954.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      5.1082900390625,
+      4.70616552734375,
+      5.25024169921875,
+      4.9497197265625,
+      3.937495849609375,
+      5.8374521484375
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 29.789046747000157,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 3725012992,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 4372,
+     "policy_tokens_per_second": 146.82619850720397,
+     "processed_tokens": 44106,
+     "processed_tokens_per_second": 1481.225139835027,
+     "repeat": 1,
+     "rollout_ids": [
+      "pandas-dev__pandas.95280573.pr_54655.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_48022.mz3vj24e",
+      "conan-io__conan.86f29e13.pr_17092.mz3vj24e",
+      "dask__dask.5f61e423.pr_8685.mz3vj24e",
+      "iterative__dvc.1d6ea681.pr_10208.mz3vj24e",
+      "dask__dask.5f61e423.pr_8954.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      5.10188330078125,
+      4.71071044921875,
+      5.2263349609375,
+      4.95818505859375,
+      3.947023681640625,
+      5.83285791015625
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 29.77670228099987,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2743227392,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 4372,
+     "policy_tokens_per_second": 41.88695749260549,
+     "processed_tokens": 173566,
+     "processed_tokens_per_second": 1662.889218701181,
+     "repeat": 1,
+     "rollout_ids": [
+      "pandas-dev__pandas.95280573.pr_54655.mz3vj24e",
+      "pandas-dev__pandas.95280573.pr_48022.mz3vj24e",
+      "conan-io__conan.86f29e13.pr_17092.mz3vj24e",
+      "dask__dask.5f61e423.pr_8685.mz3vj24e",
+      "iterative__dvc.1d6ea681.pr_10208.mz3vj24e",
+      "dask__dask.5f61e423.pr_8954.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      16.895228515625,
+      19.010748046875,
+      16.1718525390625,
+      16.4850703125,
+      15.48252734375,
+      20.332423828125
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 104.37616531999993,
+     "status": "complete"
+    }
+   ],
+   "repeats": 2,
+   "rollouts_per_condition": 6,
+   "seconds_by_mode": {
+    "trajectory": 59.56574902800003,
+    "transition": 208.88123422699982
+   },
+   "speed_ratio": 3.506733947537723,
+   "speed_ratio_definition": "transition_seconds / trajectory_seconds",
+   "status": "complete"
+  },
+  "swe_smith_tool|8192-12288|k6": {
+   "complete": true,
+   "policy_tokens_per_condition": 4225,
+   "records": [
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2967343616,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 4225,
+     "policy_tokens_per_second": 29.90298857632587,
+     "processed_tokens": 200662,
+     "processed_tokens_per_second": 1420.2114777994561,
+     "repeat": 0,
+     "rollout_ids": [
+      "python__mypy.e93f06ce.pr_12943.mz3vj24e",
+      "pygments__pygments.27649ebb.pr_2727.mz3vj24e",
+      "getmoto__moto.694ce1f4.pr_8587.mz3vj24e",
+      "pallets__click.fde47b4b.pr_2604.mz3vj24e",
+      "Project-MONAI__MONAI.a09c1f08.pr_5423.mz3vj24e",
+      "iterative__dvc.1d6ea681.pr_8873.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      27.66421484375,
+      28.11371875,
+      21.978123046875,
+      18.738552734375,
+      20.456115234375,
+      24.3418671875
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 141.29022553100003,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 4282202112,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 4225,
+     "policy_tokens_per_second": 85.46572417402047,
+     "processed_tokens": 60377,
+     "processed_tokens_per_second": 1221.3405984508481,
+     "repeat": 0,
+     "rollout_ids": [
+      "python__mypy.e93f06ce.pr_12943.mz3vj24e",
+      "pygments__pygments.27649ebb.pr_2727.mz3vj24e",
+      "getmoto__moto.694ce1f4.pr_8587.mz3vj24e",
+      "pallets__click.fde47b4b.pr_2604.mz3vj24e",
+      "Project-MONAI__MONAI.a09c1f08.pr_5423.mz3vj24e",
+      "iterative__dvc.1d6ea681.pr_8873.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      9.0552861328125,
+      9.2877490234375,
+      6.70784814453125,
+      8.2928115234375,
+      6.3726181640625,
+      9.7193662109375
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 49.43502252899998,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "trajectory",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 4282202112,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 4225,
+     "policy_tokens_per_second": 85.47502010341556,
+     "processed_tokens": 60377,
+     "processed_tokens_per_second": 1221.473441132289,
+     "repeat": 1,
+     "rollout_ids": [
+      "python__mypy.e93f06ce.pr_12943.mz3vj24e",
+      "pygments__pygments.27649ebb.pr_2727.mz3vj24e",
+      "getmoto__moto.694ce1f4.pr_8587.mz3vj24e",
+      "pallets__click.fde47b4b.pr_2604.mz3vj24e",
+      "Project-MONAI__MONAI.a09c1f08.pr_5423.mz3vj24e",
+      "iterative__dvc.1d6ea681.pr_8873.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      9.0580458984375,
+      9.284705078125,
+      6.70898486328125,
+      8.28478125,
+      6.38127099609375,
+      9.712541015625
+     ],
+     "rollouts": 6,
+     "rows": 6,
+     "seconds": 49.42964616900008,
+     "status": "complete"
+    },
+    {
+     "complete": true,
+     "mode": "transition",
+     "optimizer_steps": 6,
+     "peak_allocated_bytes": 2967343616,
+     "peak_reserved_bytes": 5630853120,
+     "phase": "measurement",
+     "policy_tokens": 4225,
+     "policy_tokens_per_second": 29.841272590445097,
+     "processed_tokens": 200662,
+     "processed_tokens_per_second": 1417.2803409571347,
+     "repeat": 1,
+     "rollout_ids": [
+      "python__mypy.e93f06ce.pr_12943.mz3vj24e",
+      "pygments__pygments.27649ebb.pr_2727.mz3vj24e",
+      "getmoto__moto.694ce1f4.pr_8587.mz3vj24e",
+      "pallets__click.fde47b4b.pr_2604.mz3vj24e",
+      "Project-MONAI__MONAI.a09c1f08.pr_5423.mz3vj24e",
+      "iterative__dvc.1d6ea681.pr_8873.mz3vj24e"
+     ],
+     "rollout_seconds": [
+      27.74374609375,
+      28.164646484375,
+      22.038814453125,
+      18.79436328125,
+      20.501880859375,
+      24.3412109375
+     ],
+     "rollouts": 6,
+     "rows": 36,
+     "seconds": 141.5824337649999,
+     "status": "complete"
+    }
+   ],
+   "repeats": 2,
+   "rollouts_per_condition": 6,
+   "seconds_by_mode": {
+    "trajectory": 98.86466869800006,
+    "transition": 282.87265929599994
+   },
+   "speed_ratio": 2.86121081495843,
+   "speed_ratio_definition": "transition_seconds / trajectory_seconds",
+   "status": "complete"
+  }
+ },
+ "complete": true,
+ "data_settings": {
+  "candidate_pool_per_dataset": 300,
+  "datasets": [
+   {
+    "license": "MIT",
+    "name": "swe_smith_tool",
+    "repo": "SWE-bench/SWE-smith-trajectories",
+    "revision": "08e109b4a59eaeebf80e4675cd125d42e7ac99a4",
+    "shard": "data/tool-00004-of-00008.parquet",
+    "shard_sha256": "e41ffbd3f9d1571917ac5b9f4d0108ded4799d9776f597a054203467135a5715"
+   }
+  ],
+  "event_mode": "B_vllm_token_ids",
+  "excluded_inputs": [],
+  "extra_candidates": 0,
+  "fixed_template_date": "2026-10-16",
+  "local_files_only": true,
+  "max_total_length": 16384,
+  "max_turns": 8,
+  "samples_per_dataset": 6,
+  "seed": 0,
+  "selection_order": "highest turns first; exact k-turn prefix in window; pool then extras; each candidate once; excluded inputs skipped",
+  "turns": [
+   4,
+   6,
+   8
+  ],
+  "window": "12288-16384"
+ },
+ "data_summary": {
+  "cells": {
+   "nebius_swe_agent|4096-6144|k6": 6,
+   "nebius_swe_agent|6144-8192|k6": 6,
+   "nebius_swe_agent|8192-12288|k6": 5,
+   "swe_smith_tool|12288-16384|k6": 6,
+   "swe_smith_tool|4096-6144|k6": 6,
+   "swe_smith_tool|6144-8192|k6": 6,
+   "swe_smith_tool|8192-12288|k6": 6
+  },
+  "datasets": {
+   "nebius_swe_agent": 17,
+   "swe_smith_tool": 24
+  },
+  "policy_tokens": 30668,
+  "rollouts": 41
+ },
+ "elapsed_seconds": 2713.921696764,
+ "mode": "benchmark",
+ "model": {
+  "chat_template": "experiments/template_patch/templates/qwen3_prefix_stable_v2.jinja",
+  "end_markers": [
+   "<|im_end|>"
+  ],
+  "family": "Qwen",
+  "keep_reasoning_in_history": false,
+  "name": "qwen3-0.6b_no_think+patch2",
+  "passthrough": false,
+  "repo": "Qwen/Qwen3-0.6B",
+  "revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+  "string_tool_arguments": false,
+  "synthetic_reasoning": false,
+  "template_kwargs": {
+   "enable_thinking": false
+  },
+  "template_sha256": "d86138bb8d0f0e6cc688be4770e56bedeb3527ddd36772047b998577bcc491d4",
+  "tokenizer_class": "Qwen2Tokenizer",
+  "tokenizer_sha256": "41e00eccf531cffc2e562d38bdd879d41e5044ea279af5b73c6a32aabcc8fe04",
+  "tokenizers_version": "0.23.3",
+  "transformers_version": "5.20.0"
+ },
+ "model_load_seconds": 25.407052894999993,
+ "model_runtime": {
+  "attention_implementation": "sdpa_repeat_kv",
+  "cuda_version": "12.8",
+  "dropout": 0.0,
+  "dtype": "float16",
+  "gpu_memory_bytes": 15636037632,
+  "gpu_name": "Tesla T4",
+  "gradient_checkpointing": true,
+  "lora": {
+   "alpha": 16,
+   "bias": "none",
+   "r": 8,
+   "target_modules": [
+    "q_proj",
+    "v_proj"
+   ]
+  },
+  "total_parameters": 597196800,
+  "trainable_parameters": 1146880,
+  "vocab_size": 151936
+ },
+ "prepared_sha256": "02a027f8980ca01a98beaada3843af71dfd546c52e621227f2cfdb9da64d87a6",
+ "progress": [
+  {
+   "cell": "swe_smith_tool|12288-16384|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 4101279744,
+   "peak_reserved_bytes": 5209325568,
+   "phase": "measurement",
+   "policy_tokens": 4937,
+   "policy_tokens_per_second": 19.59181857001278,
+   "processed_tokens": 286386,
+   "processed_tokens_per_second": 1136.484211665319,
+   "repeat": 0,
+   "rollout_ids": [
+    "python__mypy.e93f06ce.pr_10036.mz3vj24e",
+    "pygments__pygments.27649ebb.pr_2596.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57018.mz3vj24e",
+    "encode__starlette.db5063c2.pr_1991.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57488.mz3vj24e",
+    "pydantic__pydantic.acb0f10f.pr_10082.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    47.70451171875,
+    42.1742734375,
+    41.66265625,
+    34.408859375,
+    39.45644921875,
+    46.58896875
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 251.99294197000006,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 4954421248,
+   "peak_reserved_bytes": 5628755968,
+   "phase": "measurement",
+   "policy_tokens": 4937,
+   "policy_tokens_per_second": 56.1637000918901,
+   "processed_tokens": 84932,
+   "processed_tokens_per_second": 966.1931084068078,
+   "repeat": 0,
+   "rollout_ids": [
+    "python__mypy.e93f06ce.pr_10036.mz3vj24e",
+    "pygments__pygments.27649ebb.pr_2596.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57018.mz3vj24e",
+    "encode__starlette.db5063c2.pr_1991.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57488.mz3vj24e",
+    "pydantic__pydantic.acb0f10f.pr_10082.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    14.0466494140625,
+    18.689708984375,
+    12.4349814453125,
+    13.0228349609375,
+    15.4562197265625,
+    14.254736328125
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 87.90375263600004,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 4954421248,
+   "peak_reserved_bytes": 5628755968,
+   "phase": "measurement",
+   "policy_tokens": 4937,
+   "policy_tokens_per_second": 56.10693591498403,
+   "processed_tokens": 84932,
+   "processed_tokens_per_second": 965.2165851998021,
+   "repeat": 1,
+   "rollout_ids": [
+    "python__mypy.e93f06ce.pr_10036.mz3vj24e",
+    "pygments__pygments.27649ebb.pr_2596.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57018.mz3vj24e",
+    "encode__starlette.db5063c2.pr_1991.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57488.mz3vj24e",
+    "pydantic__pydantic.acb0f10f.pr_10082.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    14.068994140625,
+    18.7202265625,
+    12.43934765625,
+    13.01639453125,
+    15.4846162109375,
+    14.2644560546875
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 87.9926860999999,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|12288-16384|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 4101279744,
+   "peak_reserved_bytes": 5628755968,
+   "phase": "measurement",
+   "policy_tokens": 4937,
+   "policy_tokens_per_second": 19.63438250124943,
+   "processed_tokens": 286386,
+   "processed_tokens_per_second": 1138.9532645336883,
+   "repeat": 1,
+   "rollout_ids": [
+    "python__mypy.e93f06ce.pr_10036.mz3vj24e",
+    "pygments__pygments.27649ebb.pr_2596.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57018.mz3vj24e",
+    "encode__starlette.db5063c2.pr_1991.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57488.mz3vj24e",
+    "pydantic__pydantic.acb0f10f.pr_10082.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    47.41858203125,
+    42.070921875,
+    41.55447265625,
+    34.4172578125,
+    39.347375,
+    46.64245703125
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 251.446665037,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2967343616,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 4225,
+   "policy_tokens_per_second": 29.90298857632587,
+   "processed_tokens": 200662,
+   "processed_tokens_per_second": 1420.2114777994561,
+   "repeat": 0,
+   "rollout_ids": [
+    "python__mypy.e93f06ce.pr_12943.mz3vj24e",
+    "pygments__pygments.27649ebb.pr_2727.mz3vj24e",
+    "getmoto__moto.694ce1f4.pr_8587.mz3vj24e",
+    "pallets__click.fde47b4b.pr_2604.mz3vj24e",
+    "Project-MONAI__MONAI.a09c1f08.pr_5423.mz3vj24e",
+    "iterative__dvc.1d6ea681.pr_8873.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    27.66421484375,
+    28.11371875,
+    21.978123046875,
+    18.738552734375,
+    20.456115234375,
+    24.3418671875
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 141.29022553100003,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 4282202112,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 4225,
+   "policy_tokens_per_second": 85.46572417402047,
+   "processed_tokens": 60377,
+   "processed_tokens_per_second": 1221.3405984508481,
+   "repeat": 0,
+   "rollout_ids": [
+    "python__mypy.e93f06ce.pr_12943.mz3vj24e",
+    "pygments__pygments.27649ebb.pr_2727.mz3vj24e",
+    "getmoto__moto.694ce1f4.pr_8587.mz3vj24e",
+    "pallets__click.fde47b4b.pr_2604.mz3vj24e",
+    "Project-MONAI__MONAI.a09c1f08.pr_5423.mz3vj24e",
+    "iterative__dvc.1d6ea681.pr_8873.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    9.0552861328125,
+    9.2877490234375,
+    6.70784814453125,
+    8.2928115234375,
+    6.3726181640625,
+    9.7193662109375
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 49.43502252899998,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 4282202112,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 4225,
+   "policy_tokens_per_second": 85.47502010341556,
+   "processed_tokens": 60377,
+   "processed_tokens_per_second": 1221.473441132289,
+   "repeat": 1,
+   "rollout_ids": [
+    "python__mypy.e93f06ce.pr_12943.mz3vj24e",
+    "pygments__pygments.27649ebb.pr_2727.mz3vj24e",
+    "getmoto__moto.694ce1f4.pr_8587.mz3vj24e",
+    "pallets__click.fde47b4b.pr_2604.mz3vj24e",
+    "Project-MONAI__MONAI.a09c1f08.pr_5423.mz3vj24e",
+    "iterative__dvc.1d6ea681.pr_8873.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    9.0580458984375,
+    9.284705078125,
+    6.70898486328125,
+    8.28478125,
+    6.38127099609375,
+    9.712541015625
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 49.42964616900008,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|8192-12288|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2967343616,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 4225,
+   "policy_tokens_per_second": 29.841272590445097,
+   "processed_tokens": 200662,
+   "processed_tokens_per_second": 1417.2803409571347,
+   "repeat": 1,
+   "rollout_ids": [
+    "python__mypy.e93f06ce.pr_12943.mz3vj24e",
+    "pygments__pygments.27649ebb.pr_2727.mz3vj24e",
+    "getmoto__moto.694ce1f4.pr_8587.mz3vj24e",
+    "pallets__click.fde47b4b.pr_2604.mz3vj24e",
+    "Project-MONAI__MONAI.a09c1f08.pr_5423.mz3vj24e",
+    "iterative__dvc.1d6ea681.pr_8873.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    27.74374609375,
+    28.164646484375,
+    22.038814453125,
+    18.79436328125,
+    20.501880859375,
+    24.3412109375
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 141.5824337649999,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2743227392,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 4372,
+   "policy_tokens_per_second": 41.83529129951282,
+   "processed_tokens": 173566,
+   "processed_tokens_per_second": 1660.8380991974477,
+   "repeat": 0,
+   "rollout_ids": [
+    "pandas-dev__pandas.95280573.pr_54655.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_48022.mz3vj24e",
+    "conan-io__conan.86f29e13.pr_17092.mz3vj24e",
+    "dask__dask.5f61e423.pr_8685.mz3vj24e",
+    "iterative__dvc.1d6ea681.pr_10208.mz3vj24e",
+    "dask__dask.5f61e423.pr_8954.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    16.903912109375,
+    19.00427734375,
+    16.1849072265625,
+    16.522263671875,
+    15.56681640625,
+    20.324583984375
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 104.5050689069999,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 3725012992,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 4372,
+   "policy_tokens_per_second": 146.76535429722244,
+   "processed_tokens": 44106,
+   "processed_tokens_per_second": 1480.6113258539099,
+   "repeat": 0,
+   "rollout_ids": [
+    "pandas-dev__pandas.95280573.pr_54655.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_48022.mz3vj24e",
+    "conan-io__conan.86f29e13.pr_17092.mz3vj24e",
+    "dask__dask.5f61e423.pr_8685.mz3vj24e",
+    "iterative__dvc.1d6ea681.pr_10208.mz3vj24e",
+    "dask__dask.5f61e423.pr_8954.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    5.1082900390625,
+    4.70616552734375,
+    5.25024169921875,
+    4.9497197265625,
+    3.937495849609375,
+    5.8374521484375
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 29.789046747000157,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 3725012992,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 4372,
+   "policy_tokens_per_second": 146.82619850720397,
+   "processed_tokens": 44106,
+   "processed_tokens_per_second": 1481.225139835027,
+   "repeat": 1,
+   "rollout_ids": [
+    "pandas-dev__pandas.95280573.pr_54655.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_48022.mz3vj24e",
+    "conan-io__conan.86f29e13.pr_17092.mz3vj24e",
+    "dask__dask.5f61e423.pr_8685.mz3vj24e",
+    "iterative__dvc.1d6ea681.pr_10208.mz3vj24e",
+    "dask__dask.5f61e423.pr_8954.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    5.10188330078125,
+    4.71071044921875,
+    5.2263349609375,
+    4.95818505859375,
+    3.947023681640625,
+    5.83285791015625
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 29.77670228099987,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|6144-8192|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2743227392,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 4372,
+   "policy_tokens_per_second": 41.88695749260549,
+   "processed_tokens": 173566,
+   "processed_tokens_per_second": 1662.889218701181,
+   "repeat": 1,
+   "rollout_ids": [
+    "pandas-dev__pandas.95280573.pr_54655.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_48022.mz3vj24e",
+    "conan-io__conan.86f29e13.pr_17092.mz3vj24e",
+    "dask__dask.5f61e423.pr_8685.mz3vj24e",
+    "iterative__dvc.1d6ea681.pr_10208.mz3vj24e",
+    "dask__dask.5f61e423.pr_8954.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    16.895228515625,
+    19.010748046875,
+    16.1718525390625,
+    16.4850703125,
+    15.48252734375,
+    20.332423828125
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 104.37616531999993,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2057968640,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 2704,
+   "policy_tokens_per_second": 44.154786824251865,
+   "processed_tokens": 119225,
+   "processed_tokens_per_second": 1946.8766490833686,
+   "repeat": 0,
+   "rollout_ids": [
+    "facebookresearch__hydra.0f03eb60.pr_2116.mz3vj24e",
+    "Project-MONAI__MONAI.a09c1f08.pr_8041.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_58088.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57489.mz3vj24e",
+    "pydantic__pydantic.acb0f10f.pr_8059.mz3vj24e",
+    "getmoto__moto.694ce1f4.pr_7704.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    6.72504443359375,
+    11.659552734375,
+    10.687412109375,
+    11.3931142578125,
+    7.53246044921875,
+    13.242404296875
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 61.2391134569998,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2584387584,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 2704,
+   "policy_tokens_per_second": 155.32190475933552,
+   "processed_tokens": 30833,
+   "processed_tokens_per_second": 1771.0947815993313,
+   "repeat": 0,
+   "rollout_ids": [
+    "facebookresearch__hydra.0f03eb60.pr_2116.mz3vj24e",
+    "Project-MONAI__MONAI.a09c1f08.pr_8041.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_58088.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57489.mz3vj24e",
+    "pydantic__pydantic.acb0f10f.pr_8059.mz3vj24e",
+    "getmoto__moto.694ce1f4.pr_7704.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    2.16340576171875,
+    3.441839599609375,
+    2.80868017578125,
+    2.805380126953125,
+    2.539857421875,
+    3.649923095703125
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 17.409006181000223,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2584387584,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 2704,
+   "policy_tokens_per_second": 154.98759909284502,
+   "processed_tokens": 30833,
+   "processed_tokens_per_second": 1767.2827821115718,
+   "repeat": 1,
+   "rollout_ids": [
+    "facebookresearch__hydra.0f03eb60.pr_2116.mz3vj24e",
+    "Project-MONAI__MONAI.a09c1f08.pr_8041.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_58088.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57489.mz3vj24e",
+    "pydantic__pydantic.acb0f10f.pr_8059.mz3vj24e",
+    "getmoto__moto.694ce1f4.pr_7704.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    2.165583984375,
+    3.456877197265625,
+    2.808578369140625,
+    2.805880859375,
+    2.540322265625,
+    3.669340576171875
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 17.446557116999884,
+   "status": "complete"
+  },
+  {
+   "cell": "swe_smith_tool|4096-6144|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2057968640,
+   "peak_reserved_bytes": 5630853120,
+   "phase": "measurement",
+   "policy_tokens": 2704,
+   "policy_tokens_per_second": 44.13767738287875,
+   "processed_tokens": 119225,
+   "processed_tokens_per_second": 1946.1222581263755,
+   "repeat": 1,
+   "rollout_ids": [
+    "facebookresearch__hydra.0f03eb60.pr_2116.mz3vj24e",
+    "Project-MONAI__MONAI.a09c1f08.pr_8041.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_58088.mz3vj24e",
+    "pandas-dev__pandas.95280573.pr_57489.mz3vj24e",
+    "pydantic__pydantic.acb0f10f.pr_8059.mz3vj24e",
+    "getmoto__moto.694ce1f4.pr_7704.mz3vj24e"
+   ],
+   "rollout_seconds": [
+    6.741515625,
+    11.6698681640625,
+    10.6940517578125,
+    11.3644697265625,
+    7.54291845703125,
+    13.25091015625
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 61.26285206500006,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 5,
+   "peak_allocated_bytes": 5799297024,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 6906,
+   "policy_tokens_per_second": 59.18246595823376,
+   "processed_tokens": 176807,
+   "processed_tokens_per_second": 1515.1859627392755,
+   "repeat": 0,
+   "rollout_ids": [
+    "1566:dwavesystems__dwave-cloud-client-307",
+    "3180:pydicom__pydicom-1539",
+    "3185:pydicom__pydicom-1539",
+    "3206:pydicom__pydicom-1539",
+    "3559:ContinualAI__avalanche-1216"
+   ],
+   "rollout_seconds": [
+    14.262794921875,
+    25.80373828125,
+    25.2476953125,
+    25.368423828125,
+    26.0092734375
+   ],
+   "rollouts": 5,
+   "rows": 30,
+   "seconds": 116.68996700599973,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 5,
+   "peak_allocated_bytes": 6460192256,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 6906,
+   "policy_tokens_per_second": 190.79467364516825,
+   "processed_tokens": 46451,
+   "processed_tokens_per_second": 1283.3193433958456,
+   "repeat": 0,
+   "rollout_ids": [
+    "1566:dwavesystems__dwave-cloud-client-307",
+    "3180:pydicom__pydicom-1539",
+    "3185:pydicom__pydicom-1539",
+    "3206:pydicom__pydicom-1539",
+    "3559:ContinualAI__avalanche-1216"
+   ],
+   "rollout_seconds": [
+    6.79507568359375,
+    8.11778515625,
+    6.3586650390625,
+    6.42855615234375,
+    8.4963466796875
+   ],
+   "rollouts": 5,
+   "rows": 5,
+   "seconds": 36.19597899700011,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 5,
+   "peak_allocated_bytes": 6460192256,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 6906,
+   "policy_tokens_per_second": 190.99339970178355,
+   "processed_tokens": 46451,
+   "processed_tokens_per_second": 1284.6560106498043,
+   "repeat": 1,
+   "rollout_ids": [
+    "1566:dwavesystems__dwave-cloud-client-307",
+    "3180:pydicom__pydicom-1539",
+    "3185:pydicom__pydicom-1539",
+    "3206:pydicom__pydicom-1539",
+    "3559:ContinualAI__avalanche-1216"
+   ],
+   "rollout_seconds": [
+    6.79203857421875,
+    8.1013720703125,
+    6.3471103515625,
+    6.43188818359375,
+    8.4863662109375
+   ],
+   "rollouts": 5,
+   "rows": 5,
+   "seconds": 36.15831756899979,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|8192-12288|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 5,
+   "peak_allocated_bytes": 5799297024,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 6906,
+   "policy_tokens_per_second": 59.20504638116988,
+   "processed_tokens": 176807,
+   "processed_tokens_per_second": 1515.764065380177,
+   "repeat": 1,
+   "rollout_ids": [
+    "1566:dwavesystems__dwave-cloud-client-307",
+    "3180:pydicom__pydicom-1539",
+    "3185:pydicom__pydicom-1539",
+    "3206:pydicom__pydicom-1539",
+    "3559:ContinualAI__avalanche-1216"
+   ],
+   "rollout_seconds": [
+    14.2349599609375,
+    25.76082421875,
+    25.26321875,
+    25.36727734375,
+    26.021072265625
+   ],
+   "rollouts": 5,
+   "rows": 30,
+   "seconds": 116.6454622049996,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2776905728,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 4530,
+   "policy_tokens_per_second": 56.57367600824687,
+   "processed_tokens": 145725,
+   "processed_tokens_per_second": 1819.9114649672792,
+   "repeat": 0,
+   "rollout_ids": [
+    "605:scalableminds__cluster_tools-93",
+    "648:scikit-hep__particle-494",
+    "662:scikit-hep__particle-494",
+    "1067:Textualize__textual-2532",
+    "1085:Textualize__textual-2532",
+    "1168:agronholm__anyio-273"
+   ],
+   "rollout_seconds": [
+    13.627380859375,
+    15.4495439453125,
+    11.942876953125,
+    12.978103515625,
+    13.6316806640625,
+    12.44423046875
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 80.0725764990002,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 4518982144,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 4530,
+   "policy_tokens_per_second": 156.6519199647619,
+   "processed_tokens": 43142,
+   "processed_tokens_per_second": 1491.8934064282028,
+   "repeat": 0,
+   "rollout_ids": [
+    "605:scalableminds__cluster_tools-93",
+    "648:scikit-hep__particle-494",
+    "662:scikit-hep__particle-494",
+    "1067:Textualize__textual-2532",
+    "1085:Textualize__textual-2532",
+    "1168:agronholm__anyio-273"
+   ],
+   "rollout_seconds": [
+    5.71878515625,
+    5.456658203125,
+    4.36685498046875,
+    4.52797265625,
+    4.7250009765625,
+    4.12240771484375
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 28.917615570999715,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 4518982144,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 4530,
+   "policy_tokens_per_second": 156.9716067710453,
+   "processed_tokens": 43142,
+   "processed_tokens_per_second": 1494.9379821890586,
+   "repeat": 1,
+   "rollout_ids": [
+    "605:scalableminds__cluster_tools-93",
+    "648:scikit-hep__particle-494",
+    "662:scikit-hep__particle-494",
+    "1067:Textualize__textual-2532",
+    "1085:Textualize__textual-2532",
+    "1168:agronholm__anyio-273"
+   ],
+   "rollout_seconds": [
+    5.71376025390625,
+    5.4465693359375,
+    4.34909033203125,
+    4.513646484375,
+    4.71721923828125,
+    4.11873828125
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 28.85872224400009,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|6144-8192|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2776905728,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 4530,
+   "policy_tokens_per_second": 56.745626241113634,
+   "processed_tokens": 145725,
+   "processed_tokens_per_second": 1825.4429103722482,
+   "repeat": 1,
+   "rollout_ids": [
+    "605:scalableminds__cluster_tools-93",
+    "648:scikit-hep__particle-494",
+    "662:scikit-hep__particle-494",
+    "1067:Textualize__textual-2532",
+    "1085:Textualize__textual-2532",
+    "1168:agronholm__anyio-273"
+   ],
+   "rollout_seconds": [
+    13.5832392578125,
+    15.38399609375,
+    11.904873046875,
+    12.945982421875,
+    13.59566796875,
+    12.4173955078125
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 79.82994109099991,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 1977961472,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 2994,
+   "policy_tokens_per_second": 54.75405730911326,
+   "processed_tokens": 113927,
+   "processed_tokens_per_second": 2083.488806631712,
+   "repeat": 0,
+   "rollout_ids": [
+    "516:pydantic__pydantic-758",
+    "660:scikit-hep__particle-494",
+    "748:springload__typed_environment_configuration-7",
+    "751:springload__typed_environment_configuration-7",
+    "825:timvink__mkdocs-table-reader-plugin-10",
+    "945:GreenBuildingRegistry__usaddress-scourgify-12"
+   ],
+   "rollout_seconds": [
+    8.1921494140625,
+    9.3565244140625,
+    10.1550009765625,
+    10.3432822265625,
+    8.802345703125,
+    7.8323427734375
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 54.68087932000026,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2683571200,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 2994,
+   "policy_tokens_per_second": 181.4827457614371,
+   "processed_tokens": 29674,
+   "processed_tokens_per_second": 1798.7037400550714,
+   "repeat": 0,
+   "rollout_ids": [
+    "516:pydantic__pydantic-758",
+    "660:scikit-hep__particle-494",
+    "748:springload__typed_environment_configuration-7",
+    "751:springload__typed_environment_configuration-7",
+    "825:timvink__mkdocs-table-reader-plugin-10",
+    "945:GreenBuildingRegistry__usaddress-scourgify-12"
+   ],
+   "rollout_seconds": [
+    2.345854736328125,
+    3.0763076171875,
+    3.11148388671875,
+    3.139949951171875,
+    2.507327880859375,
+    2.3165693359375
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 16.497436092000044,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k6",
+   "complete": true,
+   "mode": "trajectory",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 2683571200,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 2994,
+   "policy_tokens_per_second": 181.23443399374125,
+   "processed_tokens": 29674,
+   "processed_tokens_per_second": 1796.2426834770467,
+   "repeat": 1,
+   "rollout_ids": [
+    "516:pydantic__pydantic-758",
+    "660:scikit-hep__particle-494",
+    "748:springload__typed_environment_configuration-7",
+    "751:springload__typed_environment_configuration-7",
+    "825:timvink__mkdocs-table-reader-plugin-10",
+    "945:GreenBuildingRegistry__usaddress-scourgify-12"
+   ],
+   "rollout_seconds": [
+    2.36674853515625,
+    3.072427978515625,
+    3.1171787109375,
+    3.13521630859375,
+    2.5051591796875,
+    2.32334814453125
+   ],
+   "rollouts": 6,
+   "rows": 6,
+   "seconds": 16.520039454000198,
+   "status": "complete"
+  },
+  {
+   "cell": "nebius_swe_agent|4096-6144|k6",
+   "complete": true,
+   "mode": "transition",
+   "optimizer_steps": 6,
+   "peak_allocated_bytes": 1977961472,
+   "peak_reserved_bytes": 7455375360,
+   "phase": "measurement",
+   "policy_tokens": 2994,
+   "policy_tokens_per_second": 54.832723591927234,
+   "processed_tokens": 113927,
+   "processed_tokens_per_second": 2086.482197948395,
+   "repeat": 1,
+   "rollout_ids": [
+    "516:pydantic__pydantic-758",
+    "660:scikit-hep__particle-494",
+    "748:springload__typed_environment_configuration-7",
+    "751:springload__typed_environment_configuration-7",
+    "825:timvink__mkdocs-table-reader-plugin-10",
+    "945:GreenBuildingRegistry__usaddress-scourgify-12"
+   ],
+   "rollout_seconds": [
+    8.16132177734375,
+    9.337453125,
+    10.1619052734375,
+    10.30704296875,
+    8.793091796875,
+    7.84236572265625
+   ],
+   "rollouts": 6,
+   "rows": 36,
+   "seconds": 54.60243088199968,
+   "status": "complete"
+  }
+ ],
+ "schema_version": 1,
+ "selection": {
+  "nebius_swe_agent": {
+   "cells": {
+    "4096-6144|k6": 6,
+    "6144-8192|k6": 6,
+    "8192-12288|k6": 5
+   },
+   "decisions": [],
+   "rejected": {},
+   "selected": 17
+  },
+  "swe_smith_tool": {
+   "cells": {
+    "12288-16384|k6": 6,
+    "4096-6144|k6": 6,
+    "6144-8192|k6": 6,
+    "8192-12288|k6": 6
+   },
+   "decisions": [],
+   "rejected": {},
+   "selected": 24
+  }
+ },
+ "status": "complete",
+ "training_settings": {
+  "attention": "sdpa_repeat_kv",
+  "cpu_threads": null,
+  "device": "cuda",
+  "gradient_checkpointing": true,
+  "groups": null,
+  "learning_rate": 0.0001,
+  "loss_normalization": "per_rollout_policy_token",
+  "microbatch": 1,
+  "optimizer": "AdamW",
+  "optimizer_steps_per_rollout": 1,
+  "policy_logits_only": true,
+  "repeats": 2,
+  "seed": 0,
+  "time_budget_seconds": 4795.0,
+  "warmup_rollouts": 1
+ },
+ "verification": {
+  "nebius_swe_agent|4096-6144|k6": {
+   "atol": 0.001,
+   "criterion": {
+    "max_loss_relative_error": 0.001,
+    "max_relative_l2_error": 0.05,
+    "min_cosine": 0.999
+   },
+   "dataset": "nebius_swe_agent",
+   "elementwise_close": true,
+   "gradient_metrics": {
+    "cosine": 0.9999944639195646,
+    "difference_norm": 0.006565982720681058,
+    "elements": 1146880,
+    "elements_outside_tolerance": 0,
+    "relative_l2_error": 0.0033739754502832278,
+    "trajectory_grad_norm": 1.9460671298393346,
+    "trajectory_zero_fraction": 0.4000034877232143,
+    "transition_grad_norm": 1.9471426380158698,
+    "transition_zero_fraction": 0.40000784737723216
+   },
+   "gradient_presence_mismatches": 0,
+   "gradients_close": true,
+   "loss_abs_error": 0.00011934340000152588,
+   "loss_close": true,
+   "loss_scale": 4096.0,
+   "max_gradient_abs_error": 0.00036144256591796875,
+   "passed": true,
+   "policy_logits_only": true,
+   "policy_tokens": 455,
+   "rtol": 0.05,
+   "sample_id": "516:pydantic__pydantic-758",
+   "seconds": {
+    "trajectory": 2.3181696299998293,
+    "transition": 8.137521216000096
+   },
+   "trajectory_loss": 1.1250028610229492,
+   "transition_loss": 1.1248835176229477
+  },
+  "nebius_swe_agent|6144-8192|k6": {
+   "atol": 0.001,
+   "criterion": {
+    "max_loss_relative_error": 0.001,
+    "max_relative_l2_error": 0.05,
+    "min_cosine": 0.999
+   },
+   "dataset": "nebius_swe_agent",
+   "elementwise_close": true,
+   "gradient_metrics": {
+    "cosine": 0.9999655918037262,
+    "difference_norm": 0.0045068873133723795,
+    "elements": 1146880,
+    "elements_outside_tolerance": 0,
+    "relative_l2_error": 0.008426834625650133,
+    "trajectory_grad_norm": 0.5348256508623096,
+    "trajectory_zero_fraction": 0.400006103515625,
+    "transition_grad_norm": 0.5340146352430936,
+    "transition_zero_fraction": 0.400006103515625
+   },
+   "gradient_presence_mismatches": 0,
+   "gradients_close": true,
+   "loss_abs_error": 9.544752538204193e-05,
+   "loss_close": true,
+   "loss_scale": 4096.0,
+   "max_gradient_abs_error": 0.0002346038818359375,
+   "passed": true,
+   "policy_logits_only": true,
+   "policy_tokens": 1540,
+   "rtol": 0.05,
+   "sample_id": "605:scalableminds__cluster_tools-93",
+   "seconds": {
+    "trajectory": 5.675813527000173,
+    "transition": 13.555792110999846
+   },
+   "trajectory_loss": 0.37377065420150757,
+   "transition_loss": 0.3736752066761255
+  },
+  "nebius_swe_agent|8192-12288|k6": {
+   "atol": 0.001,
+   "criterion": {
+    "max_loss_relative_error": 0.001,
+    "max_relative_l2_error": 0.05,
+    "min_cosine": 0.999
+   },
+   "dataset": "nebius_swe_agent",
+   "elementwise_close": true,
+   "gradient_metrics": {
+    "cosine": 0.9999698230280996,
+    "difference_norm": 0.002938678035947874,
+    "elements": 1146880,
+    "elements_outside_tolerance": 0,
+    "relative_l2_error": 0.007770646178401074,
+    "trajectory_grad_norm": 0.3781767910262195,
+    "trajectory_zero_fraction": 0.40000435965401787,
+    "transition_grad_norm": 0.3782307809681529,
+    "transition_zero_fraction": 0.40000435965401787
+   },
+   "gradient_presence_mismatches": 0,
+   "gradients_close": true,
+   "loss_abs_error": 5.980581045150757e-05,
+   "loss_close": true,
+   "loss_scale": 4096.0,
+   "max_gradient_abs_error": 0.00023698806762695312,
+   "passed": true,
+   "policy_logits_only": true,
+   "policy_tokens": 2575,
+   "rtol": 0.05,
+   "sample_id": "1566:dwavesystems__dwave-cloud-client-307",
+   "seconds": {
+    "trajectory": 6.7447126259999095,
+    "transition": 14.193064138999944
+   },
+   "trajectory_loss": 0.2515120506286621,
+   "transition_loss": 0.2515718564391136
+  },
+  "swe_smith_tool|12288-16384|k6": {
+   "atol": 0.001,
+   "criterion": {
+    "max_loss_relative_error": 0.001,
+    "max_relative_l2_error": 0.05,
+    "min_cosine": 0.999
+   },
+   "dataset": "swe_smith_tool",
+   "elementwise_close": true,
+   "gradient_metrics": {
+    "cosine": 0.9999929381868043,
+    "difference_norm": 0.0028765692292118047,
+    "elements": 1146880,
+    "elements_outside_tolerance": 0,
+    "relative_l2_error": 0.003759214374497929,
+    "trajectory_grad_norm": 0.7652048919386226,
+    "trajectory_zero_fraction": 0.4000026157924107,
+    "transition_grad_norm": 0.7652684241852372,
+    "transition_zero_fraction": 0.40000523158482143
+   },
+   "gradient_presence_mismatches": 0,
+   "gradients_close": true,
+   "loss_abs_error": 2.8112903237342834e-05,
+   "loss_close": true,
+   "loss_scale": 4096.0,
+   "max_gradient_abs_error": 0.00012755393981933594,
+   "passed": true,
+   "policy_logits_only": true,
+   "policy_tokens": 1335,
+   "rtol": 0.05,
+   "sample_id": "python__mypy.e93f06ce.pr_10036.mz3vj24e",
+   "seconds": {
+    "trajectory": 13.10333937300004,
+    "transition": 44.05933870000001
+   },
+   "trajectory_loss": 0.9222896695137024,
+   "transition_loss": 0.9223177824169397
+  },
+  "swe_smith_tool|4096-6144|k6": {
+   "atol": 0.001,
+   "criterion": {
+    "max_loss_relative_error": 0.001,
+    "max_relative_l2_error": 0.05,
+    "min_cosine": 0.999
+   },
+   "dataset": "swe_smith_tool",
+   "elementwise_close": false,
+   "gradient_metrics": {
+    "cosine": 0.9995995726733952,
+    "difference_norm": 0.04959491543343269,
+    "elements": 1146880,
+    "elements_outside_tolerance": 60,
+    "relative_l2_error": 0.028718997351354015,
+    "trajectory_grad_norm": 1.7269027475673497,
+    "trajectory_zero_fraction": 0.40000435965401787,
+    "transition_grad_norm": 1.717735955829199,
+    "transition_zero_fraction": 0.40001220703125
+   },
+   "gradient_presence_mismatches": 0,
+   "gradients_close": true,
+   "loss_abs_error": 0.00010714679956436157,
+   "loss_close": true,
+   "loss_scale": 4096.0,
+   "max_gradient_abs_error": 0.005988597869873047,
+   "passed": true,
+   "policy_logits_only": true,
+   "policy_tokens": 388,
+   "rtol": 0.05,
+   "sample_id": "facebookresearch__hydra.0f03eb60.pr_2116.mz3vj24e",
+   "seconds": {
+    "trajectory": 2.1277685109998856,
+    "transition": 6.66638811599978
+   },
+   "trajectory_loss": 1.0754172801971436,
+   "transition_loss": 1.075524426996708
+  },
+  "swe_smith_tool|6144-8192|k6": {
+   "atol": 0.001,
+   "criterion": {
+    "max_loss_relative_error": 0.001,
+    "max_relative_l2_error": 0.05,
+    "min_cosine": 0.999
+   },
+   "dataset": "swe_smith_tool",
+   "elementwise_close": true,
+   "gradient_metrics": {
+    "cosine": 0.9999926130443889,
+    "difference_norm": 0.004374346794512096,
+    "elements": 1146880,
+    "elements_outside_tolerance": 0,
+    "relative_l2_error": 0.003845165264755379,
+    "trajectory_grad_norm": 1.1376225710263153,
+    "trajectory_zero_fraction": 0.40000697544642855,
+    "transition_grad_norm": 1.137492494634642,
+    "transition_zero_fraction": 0.400006103515625
+   },
+   "gradient_presence_mismatches": 0,
+   "gradients_close": true,
+   "loss_abs_error": 3.170222043991089e-05,
+   "loss_close": true,
+   "loss_scale": 4096.0,
+   "max_gradient_abs_error": 0.0006447434425354004,
+   "passed": true,
+   "policy_logits_only": true,
+   "policy_tokens": 624,
+   "rtol": 0.05,
+   "sample_id": "pandas-dev__pandas.95280573.pr_54655.mz3vj24e",
+   "seconds": {
+    "trajectory": 5.066967512999781,
+    "transition": 16.830638364999913
+   },
+   "trajectory_loss": 0.9508048892021179,
+   "transition_loss": 0.9508365914225578
+  },
+  "swe_smith_tool|8192-12288|k6": {
+   "atol": 0.001,
+   "criterion": {
+    "max_loss_relative_error": 0.001,
+    "max_relative_l2_error": 0.05,
+    "min_cosine": 0.999
+   },
+   "dataset": "swe_smith_tool",
+   "elementwise_close": true,
+   "gradient_metrics": {
+    "cosine": 0.9999977385958052,
+    "difference_norm": 0.0018203252027262542,
+    "elements": 1146880,
+    "elements_outside_tolerance": 0,
+    "relative_l2_error": 0.002127487594441943,
+    "trajectory_grad_norm": 0.8556220057319488,
+    "trajectory_zero_fraction": 0.4000026157924107,
+    "transition_grad_norm": 0.8556699602048662,
+    "transition_zero_fraction": 0.4000026157924107
+   },
+   "gradient_presence_mismatches": 0,
+   "gradients_close": true,
+   "loss_abs_error": 2.6931986212730408e-05,
+   "loss_close": true,
+   "loss_scale": 4096.0,
+   "max_gradient_abs_error": 7.322430610656738e-05,
+   "passed": true,
+   "policy_logits_only": true,
+   "policy_tokens": 990,
+   "rtol": 0.05,
+   "sample_id": "python__mypy.e93f06ce.pr_12943.mz3vj24e",
+   "seconds": {
+    "trajectory": 8.959405679999918,
+    "transition": 27.51516317000005
+   },
+   "trajectory_loss": 0.8143014907836914,
+   "transition_loss": 0.8143284227699041
+  }
+ },
+ "versions": {
+  "accelerate": "1.14.0",
+  "peft": "0.21.2",
+  "platform": "Linux",
+  "python": "3.13.15",
+  "safetensors": "0.8.0",
+  "torch": "2.11.0+cu128",
+  "transformers": "5.20.0"
+ }
+}

@@ -1,0 +1,28 @@
+{
+ "adapter_dir": "/tmp/grpo-adapters",
+ "adapter_prefix": "tito0_",
+ "base_url": "http://127.0.0.1:8000",
+ "baseline_tasks": 50,
+ "choose_from": null,
+ "compare_every": 10,
+ "concurrency": 32,
+ "difficulties": [
+  3
+ ],
+ "driver": "tito",
+ "eval_every": 20,
+ "eval_tasks": 200,
+ "group_size": 8,
+ "logprob_rollouts": 4,
+ "lora_rank": 16,
+ "lr": 1e-05,
+ "max_tokens": 512,
+ "max_turns": 10,
+ "mode": "train",
+ "model": "qwen3-0.6b",
+ "seed": 0,
+ "steps": 60,
+ "tasks_per_step": 8,
+ "time_budget_seconds": 7200.0,
+ "train_device": "cuda:0"
+}

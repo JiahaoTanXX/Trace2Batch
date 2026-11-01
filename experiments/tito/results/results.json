@@ -1,0 +1,115 @@
+{
+ "results": {
+  "nebius_swe_agent": {
+   "qwen2.5": {
+    "merge_attempts": 6147,
+    "prompts_identical_to_rerender": 6447,
+    "rerender_merge_mismatches": 0,
+    "rerender_policy_tokens": 697126,
+    "tito_merge_mismatches": 0,
+    "tito_policy_tokens": 697126,
+    "trajectories": 300,
+    "trajectories_identical_to_rerender": 300,
+    "turns": 6447
+   },
+   "qwen3_no_think": {
+    "merge_attempts": 6147,
+    "prompts_identical_to_rerender": 300,
+    "rerender_merge_mismatches": 6147,
+    "rerender_policy_tokens": 697126,
+    "tito_merge_mismatches": 0,
+    "tito_policy_tokens": 697126,
+    "trajectories": 300,
+    "trajectories_identical_to_rerender": 0,
+    "turns": 6447
+   },
+   "qwen3_no_think+patch": {
+    "merge_attempts": 6147,
+    "prompts_identical_to_rerender": 6447,
+    "rerender_merge_mismatches": 0,
+    "rerender_policy_tokens": 697126,
+    "tito_merge_mismatches": 0,
+    "tito_policy_tokens": 697126,
+    "trajectories": 300,
+    "trajectories_identical_to_rerender": 300,
+    "turns": 6447
+   }
+  },
+  "swe_smith_tool": {
+   "qwen2.5": {
+    "merge_attempts": 5416,
+    "prompts_identical_to_rerender": 5716,
+    "rerender_merge_mismatches": 0,
+    "rerender_policy_tokens": 904497,
+    "tito_merge_mismatches": 0,
+    "tito_policy_tokens": 904497,
+    "trajectories": 300,
+    "trajectories_identical_to_rerender": 300,
+    "turns": 5716
+   },
+   "qwen3_no_think": {
+    "merge_attempts": 5416,
+    "prompts_identical_to_rerender": 300,
+    "rerender_merge_mismatches": 5416,
+    "rerender_policy_tokens": 904497,
+    "tito_merge_mismatches": 0,
+    "tito_policy_tokens": 904497,
+    "trajectories": 300,
+    "trajectories_identical_to_rerender": 0,
+    "turns": 5716
+   },
+   "qwen3_no_think+patch": {
+    "merge_attempts": 5416,
+    "prompts_identical_to_rerender": 5716,
+    "rerender_merge_mismatches": 0,
+    "rerender_policy_tokens": 904497,
+    "tito_merge_mismatches": 0,
+    "tito_policy_tokens": 904497,
+    "trajectories": 300,
+    "trajectories_identical_to_rerender": 300,
+    "turns": 5716
+   }
+  },
+  "toucan_qwen3": {
+   "qwen2.5": {
+    "merge_attempts": 421,
+    "prompts_identical_to_rerender": 721,
+    "rerender_merge_mismatches": 0,
+    "rerender_policy_tokens": 115073,
+    "tito_merge_mismatches": 0,
+    "tito_policy_tokens": 115073,
+    "trajectories": 300,
+    "trajectories_identical_to_rerender": 300,
+    "turns": 721
+   },
+   "qwen3_no_think": {
+    "merge_attempts": 421,
+    "prompts_identical_to_rerender": 300,
+    "rerender_merge_mismatches": 421,
+    "rerender_policy_tokens": 115072,
+    "tito_merge_mismatches": 0,
+    "tito_policy_tokens": 115072,
+    "trajectories": 300,
+    "trajectories_identical_to_rerender": 0,
+    "turns": 721
+   },
+   "qwen3_no_think+patch": {
+    "merge_attempts": 421,
+    "prompts_identical_to_rerender": 721,
+    "rerender_merge_mismatches": 0,
+    "rerender_policy_tokens": 115072,
+    "tito_merge_mismatches": 0,
+    "tito_policy_tokens": 115072,
+    "trajectories": 300,
+    "trajectories_identical_to_rerender": 300,
+    "turns": 721
+   }
+  }
+ },
+ "schema_version": 1,
+ "settings": {
+  "max_turns": 50,
+  "samples_per_dataset": 300,
+  "seed": 0
+ }
+}

@@ -227,7 +227,21 @@ token-in-token-out（TITO）的做法是历史一律沿用已有的 token id，�
 - 数据集与 tokenizer 的 revision、抽样种子全部固定，样本 id 落盘，一条命令即可重跑；重复运行的合并与归因结果完全一致。
 - 归因次数与样本构建的不匹配计数逐条交叉校验。
 - 默认离线测试 + 可选真实 tokenizer 测试；ruff + pyright 静态检查；GitHub Actions 在 Python 3.12 / 3.13 上做持续集成。
-- 完整的实验报告与结果数据将在项目完成后整理发布；每个实验都可以用下方的命令在本地重跑，结果写入各实验目录下的 `results/`。
+- 每个实验的完整报告和结果数据都在对应目录中：
+
+  | 实验 | 报告 | 结果数据 |
+  |---|---|---|
+  | 1. 模板前缀诊断 | [REPORT](experiments/template_prefix/REPORT.md)（数据说明见 [DATA.md](experiments/template_prefix/DATA.md)） | [`results/`](experiments/template_prefix/results/) |
+  | 2. 真实采样（CPU） | [REPORT](experiments/real_sampling/REPORT.md) | [`results/`](experiments/real_sampling/results/) |
+  | 2. 真实 vLLM 采样（GPU） | [REPORT](experiments/vllm_sampling/REPORT.md) | [`results/`](experiments/vllm_sampling/results/) |
+  | 3. 模板补丁 | [REPORT](experiments/template_patch/REPORT.md) | [`results/`](experiments/template_patch/results/)（v1）、[`results_v2/`](experiments/template_patch/results_v2/) |
+  | 4. TITO 离线验证 | — | [`results/`](experiments/tito/results/) |
+  | 4. TITO 真实 vLLM 验证 | [REPORT](experiments/tito_vllm/REPORT.md) | [`results/`](experiments/tito_vllm/results/) |
+  | 5. 训练成本（P3-A） | [REPORT](experiments/train_cost/REPORT.md) | [`results/`](experiments/train_cost/results/) |
+  | 6. 截断 | [REPORT](experiments/truncation/REPORT.md) | [`results/`](experiments/truncation/results/) |
+  | 7. GRPO（P3-B） | [REPORT](experiments/grpo/REPORT.md) | [`results/`](experiments/grpo/results/) |
+
+  CPU 实验可以用下方的命令在本地重跑；GPU 实验的结果来自 Kaggle T4，提交用的驱动脚本不在仓库中。结果中含有来自 SWE-smith（MIT）、Toucan（Apache-2.0）和 nebius SWE-agent（CC-BY-4.0，署名 Nebius）的轨迹片段，以及模型在这些轨迹上生成的文本。
 
 ## 局限
 
