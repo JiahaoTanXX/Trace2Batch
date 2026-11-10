@@ -1,13 +1,16 @@
 # Copyright (c) 2026 Jiahao Tan
 
-"""P3-B: 按事先固定的规则汇总 4 次 GRPO 运行 (TITO 和重渲染, 各 2 个种子)。
+"""P3-B: 按事先固定的规则汇总 GRPO 运行 (TITO、重渲染, 以及有结果时的 D 组文本日志, 各 2 个种子)。
 
 只读取 results/<driver>_seed<k>/ 下的 steps.jsonl 和 evals.jsonl, 只用标准库:
 
 - 学习效果: 第 60 步相对第 0 步的 held-out 成功率提升, 按评测任务 bootstrap 95% 置信区间, 总体和按答案类型;
 - Q2 成本: 训练行数、参与更新的 token、训练更新与 rollout 的耗时;
 - Q3: 每轮非规范切分率对步数的斜率; 两个 TITO 种子的斜率都 > 0 且都大于两个重渲染种子时, 判定为"强化";
-- Q1: 每次梯度对照中, 逐轮与合并表示的耗时比和 token 比。
+- Q1: 每次梯度对照中, 逐轮与合并表示的耗时比和 token 比;
+- Q4 (D 组): 每个种子第 60 步 "D - C" 的成功率差, 按评测任务配对 bootstrap; 两个种子的 CI 上界都 < 0 判定为
+  "伤害学习", 下界都 > 0 判定为"有帮助", 否则"没有检测到差异";
+- Q6 (D 组): D 两个种子的非规范切分率斜率都小于 C 两个种子时, 判定为 "D 下下降得更快"。
 
     python -m experiments.grpo.analyze --results experiments/grpo/results --out experiments/grpo/results/summary.json
 """
@@ -24,6 +27,7 @@ from typing import Any
 from experiments.grpo.run import eval_tasks
 
 DRIVERS = ("tito", "rerender")
+OPTIONAL_DRIVERS = ("textlog",)
 SEEDS = (0, 1)
 BOOTSTRAP_SAMPLES = 10_000
 
@@ -99,12 +103,35 @@ def run_summary(directory: Path) -> dict[str, Any]:
             "median_of_step_medians": statistics.median(r["logprob_gap"]["median"] for r in steps),
             "max": max(r["logprob_gap"]["max"] for r in steps),
         },
+        **({"textlog": _textlog(steps)} if any("textlog" in r for r in steps) else {}),
+    }
+
+
+def _textlog(steps: list[dict[str, Any]]) -> dict[str, Any]:
+    """D 组: 训练 token 与采样 token 不一致的规模, 以及不一致轮的整轮 logprob 差。"""
+    causes: dict[str, int] = {}
+    for record in steps:
+        for cause, count in record["textlog"]["causes"].items():
+            causes[cause] = causes.get(cause, 0) + count
+    turns = sum(causes.values())
+    tokens = sum(r["textlog"]["tokens"] for r in steps)
+    gaps = [r["logprob_gap_mismatched_turns"] for r in steps if r.get("logprob_gap_mismatched_turns", {}).get("n")]
+    return {
+        "causes": causes,
+        "mismatched_turn_fraction": (turns - causes.get("match", 0)) / turns if turns else None,
+        "differing_token_fraction": sum(r["textlog"]["differing_tokens"] for r in steps) / tokens if tokens else None,
+        "mismatched_turn_logprob_gap": {
+            "turns": sum(g["n"] for g in gaps),
+            "median_of_step_medians": statistics.median(g["median"] for g in gaps) if gaps else None,
+            "max": max((g["max"] for g in gaps), default=None),
+        },
     }
 
 
 def summarize(results: Path) -> dict[str, Any]:
+    drivers = [*DRIVERS, *(d for d in OPTIONAL_DRIVERS if all((results / f"{d}_seed{s}").is_dir() for s in SEEDS))]
     runs = {
-        f"{driver}_seed{seed}": run_summary(results / f"{driver}_seed{seed}") for driver in DRIVERS for seed in SEEDS
+        f"{driver}_seed{seed}": run_summary(results / f"{driver}_seed{seed}") for driver in drivers for seed in SEEDS
     }
     tito = [runs[f"tito_seed{seed}"]["self_retoken"]["slope_per_step"] for seed in SEEDS]
     rerender = [runs[f"rerender_seed{seed}"]["self_retoken"]["slope_per_step"] for seed in SEEDS]
@@ -113,15 +140,40 @@ def summarize(results: Path) -> dict[str, Any]:
         name: {kind: run["learning"][kind]["ci95"][0] > 0 for kind in ("all", "total", "insufficient")}
         for name, run in runs.items()
     }
+    rules: dict[str, Any] = {
+        "learning_ci_above_zero": learned,
+        "q3_slopes": {"tito": tito, "rerender": rerender},
+        "q3_verdict": "TITO reinforces non-canonical splits during training"
+        if reinforced
+        else "no reinforcement observed within 60 steps",
+    }
+    if "textlog" in drivers:
+        rules.update(_textlog_rules(results, runs, rerender))
+    return {"runs": runs, "rules": rules}
+
+
+def _textlog_rules(results: Path, runs: dict[str, Any], rerender_slopes: list[float]) -> dict[str, Any]:
+    differences = {}
+    for seed in SEEDS:
+        final = {d: _read_jsonl(results / f"{d}_seed{seed}" / "evals.jsonl")[-1] for d in ("rerender", "textlog")}
+        if final["rerender"]["step"] != final["textlog"]["step"]:
+            raise ValueError("the final evaluations of C and D must be at the same step")
+        differences[f"seed{seed}"] = bootstrap_gain(final["rerender"]["rewards"], final["textlog"]["rewards"])
+    upper = [d["ci95"][1] for d in differences.values()]
+    lower = [d["ci95"][0] for d in differences.values()]
+    if all(value < 0 for value in upper):
+        q4 = "text-log retokenization hurts learning"
+    elif all(value > 0 for value in lower):
+        q4 = "text-log retokenization helps learning"
+    else:
+        q4 = "no detectable difference within 60 steps"
+    textlog_slopes = [runs[f"textlog_seed{seed}"]["self_retoken"]["slope_per_step"] for seed in SEEDS]
+    faster = max(textlog_slopes) < min(rerender_slopes)
     return {
-        "runs": runs,
-        "rules": {
-            "learning_ci_above_zero": learned,
-            "q3_slopes": {"tito": tito, "rerender": rerender},
-            "q3_verdict": "TITO reinforces non-canonical splits during training"
-            if reinforced
-            else "no reinforcement observed within 60 steps",
-        },
+        "q4_final_success_d_minus_c": differences,
+        "q4_verdict": q4,
+        "q6_slopes": {"textlog": textlog_slopes, "rerender": rerender_slopes},
+        "q6_verdict": "non-canonical splits fall faster under D" if faster else "no difference",
     }
 
 

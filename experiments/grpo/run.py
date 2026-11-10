@@ -65,6 +65,43 @@ def flat_logprob_gaps(
     return [round(abs(a - b), 6) for a, b in zip(left, right, strict=True)]
 
 
+def textlog_logprob_gaps(
+    training: Sequence[float], turns: Sequence[dict[str, Any]], sampled: Sequence[Sequence[float] | None]
+) -> tuple[list[float], list[float]] | None:
+    """D 组: 按轮切分训练端 logprob; 训练 token 与采样 token 相同的轮逐 token 比较, 不同的轮比较整轮之和。
+
+    训练行的 policy token 依次是各轮的 response(见 textlog_events), 所以按每轮的 token 数切分即可; 总数对不上
+    时返回 None。采样端少了补上的停止 token 时(没有对应的 logprob), 这一轮只比较共同的部分。
+    """
+    lengths = [turn["textlog"]["tokens"] for turn in turns]
+    if sum(lengths) != len(training) or len(sampled) != len(turns):
+        return None
+    matched: list[float] = []
+    mismatched: list[float] = []
+    start = 0
+    for turn, length, values in zip(turns, lengths, sampled, strict=True):
+        chunk = training[start : start + length]
+        start += length
+        if values is None:
+            continue
+        if turn["textlog"]["cause"] == "match":
+            matched += [round(abs(a - b), 6) for a, b in zip(chunk, values, strict=False)]
+        else:
+            mismatched.append(round(abs(sum(chunk) - sum(values)), 6))
+    return matched, mismatched
+
+
+def _textlog_summary(turns: Sequence[dict[str, Any]]) -> dict[str, Any] | None:
+    checks = [turn["textlog"] for turn in turns if "textlog" in turn]
+    if not checks:
+        return None
+    return {
+        "causes": dict(Counter(check["cause"] for check in checks)),
+        "tokens": sum(check["tokens"] for check in checks),
+        "differing_tokens": sum(check["differing_tokens"] for check in checks),
+    }
+
+
 def _gap_summary(gaps: list[float]) -> dict[str, Any]:
     if not gaps:
         return {"n": 0}
@@ -113,6 +150,7 @@ def _step_record(step: int, rollouts: list[dict[str, Any]], rows: list[WeightedR
         "rows": len(rows),
         "row_tokens": sum(len(w.row.prompt_token_ids) + len(w.row.response_token_ids) for w in rows),
         "policy_tokens": sum(sum(w.row.response_mask) for w in rows),
+        **({"textlog": summary} if (summary := _textlog_summary(turns)) is not None else {}),
     }
 
 
@@ -163,12 +201,22 @@ def run_training(
             any(a != 0 for a in advantages[i * group_size : (i + 1) * group_size]) for i in range(len(tasks))
         )
         gaps: list[float] = []
+        turn_gaps: list[float] = []
         for r in rollouts[:logprob_rollouts]:
             own = [WeightedRow(row, 1.0) for row in rollout_rows(r["events"], "trajectory")]
+            if r.get("driver") == "textlog":
+                split = textlog_logprob_gaps(trainer.logprobs(own), r["turns"], r["sampled_logprobs"])
+                if split is not None:
+                    gaps += split[0]
+                    turn_gaps += split[1]
+                continue
             values = flat_logprob_gaps([trainer.logprobs(own)], [[v for t in r["sampled_logprobs"] for v in t or []]])
             if values is not None:
                 gaps += values
         record["logprob_gap"] = _gap_summary(gaps)
+        if any(r.get("driver") == "textlog" for r in rollouts):
+            # 训练 token 与采样 token 不同的轮: 整轮 log π 之和的差。
+            record["logprob_gap_mismatched_turns"] = _gap_summary(turn_gaps)
         if step % compare_every == 0:
             record["compare"] = trainer.compare(rows, weighted_rows(events, advantages, "transition"))
         record["update"] = trainer.update(rows)
@@ -317,6 +365,7 @@ def _evaluate_fn(rollout: Callable[[Task, int, str], dict[str, Any]], tasks: lis
             "rewards": [r["reward"] for r in results],
             "self_retoken_rate": round(sum(t["self_retoken"] for t in turns) / len(turns), 6) if turns else None,
             "stop_reasons": dict(Counter(r["stop_reason"].split(":")[0] for r in results)),
+            **({"textlog": summary} if (summary := _textlog_summary(turns)) is not None else {}),
             "seconds": round(time.perf_counter() - started, 1),
         }
 
@@ -328,7 +377,7 @@ def main(argv: Sequence[str] | None = None) -> None:
     parser.add_argument("mode", choices=("baseline", "train"))
     parser.add_argument("--model", default="qwen3-0.6b")
     parser.add_argument("--base-url", default="http://127.0.0.1:8000")
-    parser.add_argument("--driver", choices=("tito", "rerender"), default="tito")
+    parser.add_argument("--driver", choices=("tito", "rerender", "textlog"), default="tito")
     parser.add_argument("--difficulties", type=int, nargs="+", default=[1, 2, 3, 4])
     parser.add_argument("--baseline-tasks", type=int, default=50, help="baseline 模式下每个难度的任务数")
     parser.add_argument("--choose-from", type=Path, default=None, help="按 baseline 结果和事先固定的规则选择难度")

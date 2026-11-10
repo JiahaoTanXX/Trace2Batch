@@ -141,3 +141,61 @@ def test_missing_answer_unfinished_turn_and_turn_limit_all_score_zero() -> None:
 def test_wrong_answer_scores_zero() -> None:
     wrong = run("tito", [[*pieces(LOOKUP), "<|im_end|>"], [*pieces("ANSWER: 0.01"), "<|im_end|>"]])
     assert wrong["reward"] == 0.0 and wrong["answer"] == "0.01"
+
+
+# ---- textlog(D 组): 采样与 rerender 相同, 训练 token 来自文本日志的重新分词
+
+
+def _responses(result: dict) -> list[list[int]]:
+    return [event["data"]["response_token_ids"] for event in result["events"]]
+
+
+def test_textlog_matches_rerender_rows_when_samples_are_canonical() -> None:
+    calls: list[tuple[str, dict]] = []
+    textlog = run("textlog", SOLVED, calls=calls)
+    rerender = run("rerender", SOLVED)
+    assert textlog["reward"] == rerender["reward"] == 1.0
+    assert [t["textlog"]["cause"] for t in textlog["turns"]] == ["match", "match"]
+    assert textlog["events"] == rerender["events"]
+    # 每条助手消息渲染一次; 采样请求与 rerender 完全相同。
+    assert [path for path, _ in calls].count("/tokenize") == 2
+    assert [path for path, _ in calls].count("/v1/chat/completions") == 2
+    # response 截到 <|im_end|> 为止, 其后的换行属于下一条消息。
+    assert all(response[-1] == STOP[0] for response in _responses(textlog))
+
+
+def test_textlog_retokenizes_non_canonical_splits_and_still_merges() -> None:
+    # 正文按规范格式以换行结尾, 所以只有切分不同("o" + "k"), 文本完全相同。
+    samples = [
+        [*pieces(LOOKUP), "<|im_end|>"],
+        ["o", "k", *pieces("\n"), *pieces(LOOKUP), "<|im_end|>"],
+        [*pieces(f"ANSWER: {TASK.answer}"), "<|im_end|>"],
+    ]
+    textlog = run("textlog", samples)
+    checks = [t["textlog"] for t in textlog["turns"]]
+    assert [c["cause"] for c in checks] == ["match", "retoken", "match"]
+    assert checks[1]["differing_tokens"] > 0 and checks[0]["differing_tokens"] == 0
+    # 训练 token 是规范切分, 不是采样的 "o" + "k"; 文本相同。
+    sampled = [TOK.id(piece) for piece in samples[1]]
+    assert _responses(textlog)[1] != sampled and TOK.decode(_responses(textlog)[1]) == TOK.decode(sampled)
+    # 文本日志天然合并为 1 行, 而 rerender 在同一处拆行。
+    assert len(rollout_rows(textlog["events"], "trajectory")) == 1
+    assert len(rollout_rows(run("rerender", samples)["events"], "trajectory")) == 2
+
+
+def test_textlog_detects_text_rewritten_by_the_tool_parser() -> None:
+    spaced = f'<tool_call>{{"name": "lookup", "arguments": {{"item": "{ITEM}"}}}}</tool_call>'
+    samples = [[*pieces(spaced), "<|im_end|>"], [*pieces(f"ANSWER: {TASK.answer}"), "<|im_end|>"]]
+    textlog = run("textlog", samples)
+    assert [t["textlog"]["cause"] for t in textlog["turns"]] == ["text", "match"]
+    # 训练文本是服务端解析后重新序列化的紧凑 JSON, 不是模型生成的文本。
+    assert LOOKUP in TOK.decode(_responses(textlog)[0]) and spaced not in TOK.decode(_responses(textlog)[0])
+
+
+def test_textlog_unfinished_turn_is_retokenized_without_a_stop_token() -> None:
+    samples = [[*pieces(LOOKUP), "<|im_end|>"], ["o", "k"]]
+    textlog = run("textlog", samples, finish=["stop", "length"])
+    assert textlog["stop_reason"] == "unfinished"
+    last = textlog["turns"][-1]["textlog"]
+    assert last["cause"] == "retoken"
+    assert STOP[0] not in _responses(textlog)[-1] and TOK.decode(_responses(textlog)[-1]) == "ok"

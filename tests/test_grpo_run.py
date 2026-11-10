@@ -182,3 +182,64 @@ def test_time_budget_stop_still_runs_the_final_evaluation() -> None:
     assert "stopped" in kinds and kinds[-1] == "eval"
     final = logs[-1][1]
     assert final["model"] == f"step{final['step']}" and final["step"] < 10
+
+
+def test_textlog_logprob_gaps_split_by_turn_and_compare_mismatched_turns_by_sum() -> None:
+    from experiments.grpo.run import textlog_logprob_gaps
+
+    turns = [
+        {"textlog": {"cause": "match", "tokens": 2}},
+        {"textlog": {"cause": "retoken", "tokens": 1}},  # 训练 1 个 token, 采样时是 2 个 token
+    ]
+    split = textlog_logprob_gaps([-0.5, -1.0, -2.0], turns, [[-0.4, -1.0], [-0.7, -0.6]])
+    assert split is not None
+    matched, mismatched = split
+    assert matched == [0.1, 0.0] and mismatched == [0.7]
+    assert textlog_logprob_gaps([-0.5], turns, [[-0.4, -1.0], [-0.7]]) is None
+
+
+def test_textlog_rollouts_log_mismatch_causes_and_turn_level_gaps() -> None:
+    logs: list[tuple[str, dict]] = []
+
+    def rollout(task, seed: int, model: str) -> dict[str, Any]:
+        win = seed % 2 == 0
+        return {
+            "task_id": task.task_id,
+            "driver": "textlog",
+            "reward": float(win),
+            "stop_reason": "answered",
+            "turns": [
+                {
+                    "self_retoken": False,
+                    "tool_calls": 1,
+                    "textlog": {"cause": "match", "tokens": 2, "differing_tokens": 0},
+                },
+                {
+                    "self_retoken": True,
+                    "tool_calls": 0,
+                    "textlog": {"cause": "retoken", "tokens": 1, "differing_tokens": 2},
+                },
+            ],
+            "events": EVENTS,
+            "sampled_logprobs": [[-0.1, -0.1], [-0.05, -0.05]],
+        }
+
+    run_training(
+        steps=1,
+        tasks_for_step=lambda step: [make_task(1, 1)],
+        rollout=rollout,
+        trainer=FakeTrainer(),
+        publish=lambda step: f"step{step}",
+        evaluate=lambda model, step: {"success": 0.0},
+        log=lambda kind, record: logs.append((kind, record)),
+        base_model="base",
+        group_size=2,
+        concurrency=1,
+        eval_every=100,
+        compare_every=100,
+        logprob_rollouts=2,
+    )
+    step = next(record for kind, record in logs if kind == "step")
+    assert step["textlog"] == {"causes": {"match": 2, "retoken": 2}, "tokens": 6, "differing_tokens": 4}
+    # 一致的轮逐 token 比较(|-0.1 - -0.1| = 0); 不一致的轮比较整轮之和(|-0.1 - -0.1| = 0)。
+    assert step["logprob_gap"]["n"] == 4 and step["logprob_gap_mismatched_turns"]["n"] == 2

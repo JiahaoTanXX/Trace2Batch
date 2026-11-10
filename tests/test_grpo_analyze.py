@@ -36,13 +36,17 @@ def _step(step: int, rate: float) -> dict:
     }
 
 
-def _write_run(directory: Path, rates: list[float]) -> None:
+def _write_run(directory: Path, rates: list[float], final: float = 1.0, textlog: bool = False) -> None:
     directory.mkdir(parents=True)
     steps = [_step(i, rate) for i, rate in enumerate(rates)]
+    if textlog:
+        for step in steps:
+            step["textlog"] = {"causes": {"match": 9, "retoken": 1}, "tokens": 100, "differing_tokens": 2}
+            step["logprob_gap_mismatched_turns"] = {"n": 1, "median": 0.5, "max": 0.5}
     (directory / "steps.jsonl").write_text("".join(json.dumps(s) + "\n" for s in steps))
     evals = [
         {"step": 0, "success": 0.0, "success_by_kind": {}, "rewards": [0.0] * 6, "tasks_by_kind": {}},
-        {"step": len(rates), "success": 1.0, "success_by_kind": {}, "rewards": [1.0] * 6, "tasks_by_kind": {}},
+        {"step": len(rates), "success": final, "success_by_kind": {}, "rewards": [final] * 6, "tasks_by_kind": {}},
     ]
     (directory / "evals.jsonl").write_text("".join(json.dumps(e) + "\n" for e in evals))
 
@@ -78,3 +82,35 @@ def test_q3_rule_needs_both_tito_slopes_positive_and_above_rerender(
     run = summary["runs"]["tito_seed0"]
     assert run["learning"]["all"]["gain"] == 1.0 and run["cost"]["rows_per_rollout"] == 1.0
     assert run["gradient_compare"][0]["time_ratio"] == 2.0 and run["gradient_compare"][0]["token_ratio"] == 3.0
+
+
+@pytest.mark.parametrize(
+    ("final", "verdict"),
+    [
+        (0.0, "text-log retokenization hurts learning"),
+        (1.0, "no detectable difference within 60 steps"),
+    ],
+)
+def test_arm_d_rules_compare_final_success_with_c_and_split_rate_slopes(
+    tmp_path: Path, final: float, verdict: str
+) -> None:
+    for seed in (0, 1):
+        _write_run(tmp_path / f"tito_seed{seed}", [0.1] * 12)
+        _write_run(tmp_path / f"rerender_seed{seed}", [0.1] * 12)
+        _write_run(tmp_path / f"textlog_seed{seed}", [0.1 - 0.005 * i for i in range(12)], final, textlog=True)
+    summary = summarize(tmp_path)
+    assert summary["rules"]["q4_verdict"] == verdict
+    assert summary["rules"]["q6_verdict"] == "non-canonical splits fall faster under D"
+    textlog = summary["runs"]["textlog_seed0"]["textlog"]
+    assert textlog["mismatched_turn_fraction"] == pytest.approx(0.1)
+    assert textlog["differing_token_fraction"] == pytest.approx(0.02)
+    assert textlog["mismatched_turn_logprob_gap"]["turns"] == 12
+
+
+def test_arm_d_rules_are_skipped_until_both_seeds_exist(tmp_path: Path) -> None:
+    for seed in (0, 1):
+        _write_run(tmp_path / f"tito_seed{seed}", [0.1] * 12)
+        _write_run(tmp_path / f"rerender_seed{seed}", [0.1] * 12)
+    _write_run(tmp_path / "textlog_seed0", [0.1] * 12, textlog=True)
+    summary = summarize(tmp_path)
+    assert "q4_verdict" not in summary["rules"] and "textlog_seed0" not in summary["runs"]
