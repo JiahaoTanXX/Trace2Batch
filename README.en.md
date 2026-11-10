@@ -21,7 +21,7 @@ Common training frameworks (agent-lightning, for example) report only *how many*
 | 🩹 **Template patches** | Prefix-stable patches take merging from **0% → 100%** on canonical outputs. Patch v2 removes every stacked-newline failure on a real vLLM server, lifting prefix retention from 74.4% to **94.7%** |
 | ✅ **TITO** | In multi-turn rollouts on a real vLLM server, token-in-token-out keeps **528 / 528** trajectories fully mergeable; server re-rendering manages 63.6% / 77.3% |
 | 🔬 **New finding** | TITO is not free: the model continues its own non-canonical splits from context. Once a trajectory has had one, later turns repeat it **10.5 / 24.8 points** more often than under re-render-driven rollouts (both 95% CIs above 0) |
-| 🎯 **Real GRPO** | In multi-turn tool-use GRPO with live vLLM rollouts and a LoRA adapter hot-loaded every step (4 runs, 15,360 rollouts), both collection paths lift held-out success from 3–7% to about **78%** (all 95% CIs above 0). Re-rendering splits each rollout into **2.05–2.07** rows and spends **1.24–1.71×** the update time. Within 60 steps, non-canonical splits were not reinforced; they fell in all 4 runs |
+| 🎯 **Real GRPO** | In multi-turn tool-use GRPO with live vLLM rollouts and a LoRA adapter hot-loaded every step (4 runs, 15,360 rollouts), both collection paths lift held-out success from 3–7% to about **78%** (all 95% CIs above 0). Re-rendering splits each rollout into **2.05–2.07** rows and spends **1.24–1.71×** the update time. Within 60 steps, non-canonical splits were not reinforced; they fell in all 4 runs. In an added text-log arm, about **31%** of turns train on tokens the model did not sample, yet learning shows no detectable difference from re-rendering |
 | ⏱️ **Training cost** | In a real LoRA training loop, failed merges make training **1.5–4.2×** slower, reaching **4.0–5.2×** at 8 turns. The gap is almost entirely explained by token inflation (r = 0.987). With memory-efficient attention the benchmark extends to **16k** context on a single T4 (peak memory < 8 GiB), where 8-turn SWE-smith trajectories are still **4.1–4.6×** slower |
 | ✂️ **Truncation** | At the same per-row length, dynamic budget allocation raises policy-token retention from 26.3% to **54.6%** |
 | 🌐 **Upstream** | Reported as microsoft/agent-lightning issue [#645](https://github.com/microsoft/agent-lightning/issues/645); the maintainer confirmed seeing the same phenomenon in their own experiments |
@@ -200,6 +200,22 @@ The decision rules were fixed before the runs. Results:
   - only the total-cost tasks were learned (0.04–0.09 → 0.98–0.99); the shortage tasks (42 of the 200 held-out tasks) stayed at 0 throughout, as the policy converged on the majority answer type;
   - TITO's advantage is on the training side only. In this implementation TITO makes one extra `/tokenize` request per turn, so its rollouts are slower, and end-to-end time over 60 steps was faster for one seed and slower for the other.
 
+### A third option: keep only text logs (arm D)
+
+Many training stacks store conversation text rather than tokens, and re-render and re-tokenize it with the chat template at training time. Every trajectory then merges into one row for free, but the training tokens are not necessarily the tokens the model sampled. Arm D uses exactly the same rollouts as the re-render arm and only replaces the training rows with ones rebuilt from the text log, again with 2 seeds and pre-registered rules (`--driver textlog`).
+
+| | Arm D s0 / s1 | Re-render s0 / s1 |
+|---|---|---|
+| Held-out success (step 60) | 0.78 / 0.78 | 0.78 / 0.775 |
+| Step 60, D − re-render [95% CI] | 0.000 [−0.015, +0.015] / +0.005 [0.000, +0.015] | — |
+| Training rows per rollout | 1.00 / 1.00 | 2.07 / 2.05 |
+| Tokens in the updates | 0.56M / 0.45M | 1.23M / 0.99M |
+| Turns whose training tokens ≠ sampled tokens | **30.9% / 32.1%** | — |
+
+- **Train/inference mismatch is far more common than non-canonical splits.** About 31% of turns train on tokens the model did not sample. Only 8 / 11 of those turns differ in tokenization alone; the rest have rewritten text. The model often keeps writing after its tool calls, the Hermes parser keeps only the tool calls, and that trailing text disappears on re-rendering.
+- **No harm to learning within 60 steps**: the difference from the re-render arm is close to 0 for both seeds, and both CIs include 0. Arm D trains on one row per trajectory and puts 54–55% fewer tokens through the updates than re-rendering, making it the cheapest of the three to train.
+- Exploratory: arm D's mismatch rate falls during training (44–46% → 16–24%) while the re-render arm's row splits stay flat, possibly because the model learns to stop after its tool calls. This was not pre-registered and is only a hypothesis.
+
 ## Upstream
 
 Building on Section 1, we filed issue [#645](https://github.com/microsoft/agent-lightning/issues/645) on [microsoft/agent-lightning](https://github.com/microsoft/agent-lightning). It points out that the mismatch-cause fields are always `False`, and includes reproduction data and an attribution scheme. The maintainer replied that they had seen the same phenomenon in their early experiments, and that this is why they ship a dedicated chat template in their coding-agent example.
@@ -254,7 +270,7 @@ Building on Section 1, we filed issue [#645](https://github.com/microsoft/agent-
 - In the multi-turn rollouts, tool observations come from the dataset and are therefore off-policy. The clustering comparison is observational, because the two drivers' samples stop being paired after their first divergence. Qwen3's re-render-driven run completed only 64 SWE-smith trajectories.
 - The patches deliberately depart from Qwen3's official advice not to keep reasoning in history; their effect on model quality has not been evaluated.
 - The training-cost benchmark is a masked-CE + LoRA reference loop, not full-parameter training. The truncation study is a data-level comparison. The 16k extension uses a different compute path, so its speed ratios are compared only within that study; it has 6 rollouts per cell and one seed, and only SWE-smith reaches 12–16k.
-- The GRPO study uses a small purpose-built environment and a 0.6B model, so its conclusions are limited to that environment. It has 2 seeds per arm, 60 steps, no KL term, and fp16 on T4. The shortage tasks were not learned.
+- The GRPO study uses a small purpose-built environment and a 0.6B model, so its conclusions are limited to that environment. It has 2 seeds per arm, 60 steps, no KL term, and fp16 on T4. The shortage tasks were not learned. Arm D's mismatch comes mostly from the Hermes parser dropping trailing text, so it does not carry over directly to other parsers or templates.
 
 ## Quick start
 
